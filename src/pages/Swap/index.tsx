@@ -36,10 +36,6 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from 'components/Loader'
 
-const CribaInuToken = '0xF6F2B7850a63bE9f1A15251C4De636fa3BC2aBe3'.toLowerCase()
-const MiniCribaToken = '0x8907E693D36463DdC967632ECb9e2C97620f19a4'.toLowerCase()
-const TOKENS_WITH_SLIPPAGE_ISSUE = [CribaInuToken, MiniCribaToken]
-
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -82,7 +78,7 @@ export default function Swap() {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   // swap state
-  const { independentField, typedValue, recipient, INPUT, OUTPUT } = useSwapState()
+  const { independentField, typedValue, recipient } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
   const {
     wrapType,
@@ -251,22 +247,6 @@ export default function Swap() {
     // eslint-disable-next-line
   }, [])
 
-  const [displaySlippageNotice, setDisplaySlippageNotice] = useState(false)
-
-  useEffect(() => {
-    const match =
-      TOKENS_WITH_SLIPPAGE_ISSUE.includes(INPUT?.currencyId?.toLowerCase() || '') ||
-      TOKENS_WITH_SLIPPAGE_ISSUE.includes(OUTPUT?.currencyId?.toLowerCase() || '')
-
-    setDisplaySlippageNotice(match)
-  }, [INPUT, OUTPUT])
-
-  const [recomendedSlippagePercent, setRecomendedSlippagePercent] = useState<number | undefined>(undefined)
-
-  useEffect(() => {
-    setRecomendedSlippagePercent(15)
-  }, [])
-
   return (
     <>
       <TokenWarningModal
@@ -371,13 +351,6 @@ export default function Swap() {
                       {allowedSlippage / 100}%
                     </ClickableText>
                   </RowBetween>
-                  {displaySlippageNotice && recomendedSlippagePercent !== undefined && (
-                    <RowBetween align="center">
-                      <TYPE.primary2 mb="4px" fontSize={2}>
-                        {t('forSuccessfulExchangeRecommendedToIncreaseSlippageTo')} ~{recomendedSlippagePercent}%
-                      </TYPE.primary2>
-                    </RowBetween>
-                  )}
                 </AutoColumn>
               </Card>
             )}

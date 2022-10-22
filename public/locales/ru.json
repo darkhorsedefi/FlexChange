@@ -245,7 +245,6 @@
   "itWillNotWorkIfYouPasteWrongAddress": "Это не будет работать, если адрес указан неверно или список токенов не содержит этого адреса",
   "inputToken": "Входной токен",
   "outputToken": "Выходной токен",
-  "disableSourceCopyright": "Отключить авторское право источника",
   "backgroundUrl": "URL фонового изображения",
   "storageNetwork": "Сеть хранения данных",
   "contractsNetwork": "Сеть контрактов",
