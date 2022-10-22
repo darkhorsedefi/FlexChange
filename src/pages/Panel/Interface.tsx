@@ -10,7 +10,6 @@ import { TokenLists } from './TokenLists'
 import Accordion from 'components/Accordion'
 import Input from 'components/Input'
 import InputPanel from 'components/InputPanel'
-import Toggle from 'components/Toggle'
 import ListFactory from 'components/ListFactory'
 import MenuLinksFactory, { LinkItem } from 'components/MenuLinksFactory'
 import ColorSelector from 'components/ColorSelector'
@@ -55,7 +54,6 @@ export default function Interface(props: any) {
     socialLinks: stateSocialLinks,
     addressesOfTokenLists: stateAddressesOfTokenLists,
     tokenListsByChain: stateTokenListsByChain,
-    disableSourceCopyright: stateDisableSourceCopyright,
     defaultSwapCurrency,
   } = useAppState()
 
@@ -136,7 +134,6 @@ export default function Interface(props: any) {
   const [socialLinks, setSocialLinks] = useState<string[]>(stateSocialLinks)
   const [addressesOfTokenLists, setAddressesOfTokenLists] = useState<string[]>(stateAddressesOfTokenLists)
   const [tokenLists, setTokenLists] = useState<any>(stateTokenListsByChain)
-  const [disableSourceCopyright, setDisableSourceCopyright] = useState<boolean>(stateDisableSourceCopyright)
   const [swapInputCurrency, setSwapInputCurrency] = useState(defaultSwapCurrency.input || '')
   const [swapOutputCurrency, setSwapOutputCurrency] = useState(defaultSwapCurrency.output || '')
 
@@ -150,7 +147,6 @@ export default function Interface(props: any) {
     menuLinks: stateMenuLinks,
     socialLinks: stateSocialLinks,
     addressesOfTokenLists: stateAddressesOfTokenLists,
-    disableSourceCopyright: stateDisableSourceCopyright,
     swapInputCurrency: defaultSwapCurrency.input,
     swapOutputCurrency: defaultSwapCurrency.output,
     backgroundColorDark: stateBackgroundColorDark,
@@ -172,7 +168,6 @@ export default function Interface(props: any) {
       menuLinks,
       socialLinks,
       addressesOfTokenLists,
-      disableSourceCopyright,
       swapInputCurrency,
       swapOutputCurrency,
       backgroundColorDark,
@@ -193,7 +188,6 @@ export default function Interface(props: any) {
     menuLinks,
     socialLinks,
     addressesOfTokenLists,
-    disableSourceCopyright,
     swapInputCurrency,
     swapOutputCurrency,
     backgroundColorDark,
@@ -207,11 +201,11 @@ export default function Interface(props: any) {
   useEffect(() => {
     setCannotSaveSettings(
       chainId !== STORAGE_NETWORK_ID ||
-        !settingsChanged ||
-        !isValidLogo ||
-        !isValidFavicon ||
-        !isValidBackground ||
-        !areColorsValid
+      !settingsChanged ||
+      !isValidLogo ||
+      !isValidFavicon ||
+      !isValidBackground ||
+      !areColorsValid
     )
   }, [settingsChanged, isValidLogo, isValidFavicon, isValidBackground, areColorsValid, chainId])
 
@@ -229,7 +223,6 @@ export default function Interface(props: any) {
         menuLinks,
         socialLinks,
         addressesOfTokenLists,
-        disableSourceCopyright,
         defaultSwapCurrency: {
           input: swapInputCurrency,
           output: swapOutputCurrency,
@@ -316,14 +309,6 @@ export default function Interface(props: any) {
             value={backgroundUrl}
             onChange={setBackgroundUrl}
             error={!isValidBackground}
-          />
-        </OptionWrapper>
-
-        <OptionWrapper flex>
-          {t('disableSourceCopyright')}
-          <Toggle
-            isActive={disableSourceCopyright}
-            toggle={() => setDisableSourceCopyright((prevState) => !prevState)}
           />
         </OptionWrapper>
 

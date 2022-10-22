@@ -246,7 +246,6 @@
   "itWillNotWorkIfYouPasteWrongAddress": "No funcionará si la dirección es incorrecta o la lista de fichas no contiene esta dirección",
   "inputToken": "Input token",
   "outputToken": "Output token",
-  "disableSourceCopyright": "Desactivar los derechos de autor de la fuente",
   "backgroundUrl": "URL de fondo",
   "storageNetwork": "Red de almacenamiento",
   "contractsNetwork": "Red de contratos",
