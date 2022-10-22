@@ -7,6 +7,8 @@ import TempLogo from 'assets/images/templogo.png'
 import { RiArrowRightUpLine } from 'react-icons/ri'
 import { useActiveWeb3React } from 'hooks'
 import { useAppState } from 'state/application/hooks'
+import { getCurrentDomain } from 'utils/app'
+import { PROJECT_TOKEN, PROJECT_LINKS } from '../../constants'
 import Menu from '../Menu'
 import { LightCard } from '../Card'
 import { CURRENCY } from 'assets/images'
@@ -16,26 +18,18 @@ import networks from 'networks.json'
 
 const HeaderFrame = styled.header`
   width: 100vw;
-  margin: 0.4rem auto;
-  padding: 0.4rem 1.6rem;
+  margin: 0.8rem auto;
+  padding: 0.8rem 1.6rem;
   z-index: 2;
   display: grid;
-  grid-template-columns: 120px 1fr 120px;
+  grid-template-columns: 1fr 120px 1fr 120px;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
 
-  ${({ theme }) => theme.mediaWidth.upToLarge`
-    grid-template-columns: 60px 1fr 120px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    grid-template-columns: 60px 1fr 1fr;
   `};
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    grid-template-columns: 60px 1fr;
-  `};
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    padding: 0.5rem 1rem;
-  `}
 `
 
 const HeaderControls = styled.div`
@@ -69,6 +63,13 @@ const HeaderRow = styled(RowFixed)`
     width: 100%;
   `};
 `
+
+const ExternalLinks = styled.div`
+  // they will be displayed in the menu
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    display: none;
+  `};
+`;
 
 const NavlLinks = styled(Row)`
   width: auto;
@@ -257,6 +258,63 @@ const StyledExternalLink = styled.a`
   `};
 `
 
+const StyledButtonLink = styled.a`
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
+    rgba(0, 0, 0, 0.01) 0px 24px 32px;
+  text-decoration: none;
+  background-color: ${({ theme }) => theme.bg1};
+  color: ${({ theme }) => theme.primary3};
+
+  // hide this button. It will be in the menu list
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    display: none;
+  `};
+`;
+
+const currentDomain = getCurrentDomain()
+const projectToken = PROJECT_TOKEN[currentDomain as keyof typeof PROJECT_TOKEN]
+const leftLinks = PROJECT_LINKS[currentDomain]?.left;
+const rightLinks = PROJECT_LINKS[currentDomain]?.right;
+
+const LeftLinks = () => {
+  if (leftLinks?.length) {
+    return <>
+      {
+        leftLinks.map(({ name, link }) => (
+          <StyledButtonLink href={link} target="_blank" key={name}>
+            {name}
+          </StyledButtonLink>
+        ))
+      }
+    </>
+  }
+
+  return null
+}
+
+const RightLinks = () => {
+  if (rightLinks?.length) {
+    return <>
+      {
+        rightLinks.map(({ name, link }) => (
+          <StyledButtonLink href={link} target="_blank" key={name}>
+            {name}
+          </StyledButtonLink>
+        ))
+      }
+      {projectToken && (
+        <StyledButtonLink href={projectToken.link} target="_blank">
+          {projectToken.name}
+        </StyledButtonLink>
+      )}
+    </>
+  }
+
+  return null
+}
+
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -288,6 +346,10 @@ export default function Header() {
         </Title>
       </HeaderRow>
 
+      <ExternalLinks>
+        <LeftLinks />
+      </ExternalLinks>
+
       <NavlLinks>
         <StyledNavLink id="header-swap-nav-link" to={'/swap'}>
           {t('swap')}
@@ -316,7 +378,10 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>{NetworkInfo()}</HideSmall>
+          <RightLinks />
+          <HideSmall>
+            {NetworkInfo()}
+          </HideSmall>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             <Web3Status />
           </AccountElement>

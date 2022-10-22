@@ -9,18 +9,9 @@
     <meta name="theme-color" content="#000" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Exchange</title>
+    <title>!!! REPLACE ME !!!</title>
     <script>
       const { hostname, protocol, href } = window.location
-      const domain = hostname || document.location.host
-      const DOMAIN_TITLES = {
-        'internethedgefund.com': 'IHF Swap',
-        'eeecex.net': 'eeecEx',
-      }
-
-      if (!!DOMAIN_TITLES[domain]) {
-        document.title = DOMAIN_TITLES[domain]
-      }
 
       if (hostname !== 'localhost' && protocol !== 'https:') {
         location.replace(`https:${href.substring(protocol.length)}`)
@@ -38,6 +29,7 @@
       }
 
       const faviconUrl = localStorage.getItem('faviconUrl')
+
       if (faviconUrl) {
         favicon.href = faviconUrl
       }

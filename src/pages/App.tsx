@@ -9,7 +9,7 @@ import { ZERO_ADDRESS } from 'sdk'
 import useWordpressInfo from 'hooks/useWordpressInfo'
 import { useAppState } from 'state/application/hooks'
 import { retrieveDomainData } from 'state/application/actions'
-import { fetchDomainData, getCurrentDomain } from 'utils/app'
+import { fetchDomainData } from 'utils/app'
 import { useStorageContract } from 'hooks/useContract'
 import { SUPPORTED_CHAIN_IDS } from '../connectors'
 import { STORAGE_NETWORK_ID } from '../constants'
@@ -95,7 +95,7 @@ export default function App() {
   const wordpressData = useWordpressInfo()
   const storage = useStorageContract()
   const [domainData, setDomainData] = useState<any>(null)
-  const { admin, factory, router, projectName, background, pairHash } = useAppState()
+  const { admin, factory, router, background, pairHash } = useAppState()
   const [domainDataTrigger, setDomainDataTrigger] = useState<boolean>(false)
 
   useEffect(() => {
@@ -128,8 +128,8 @@ export default function App() {
       const appAdmin = wordpressData?.wpAdmin
         ? wordpressData?.wpAdmin?.toLowerCase() === lowerAcc
         : admin && admin !== ZERO_ADDRESS
-        ? admin.toLowerCase() === lowerAcc
-        : true
+          ? admin.toLowerCase() === lowerAcc
+          : true
 
       const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 
@@ -171,17 +171,11 @@ export default function App() {
     (state) => state.application.appManagement
   )
 
-  const domain = getCurrentDomain()
-  const DOMAIN_TITLES: { [domain: string]: string } = {
-    'internethedgefund.com': 'IHF Swap',
-    'eeecex.net': 'eeecEx',
-  }
-
   return (
     <Suspense fallback={null}>
       <HelmetProvider>
         <Helmet>
-          <title>{!!DOMAIN_TITLES[domain] ? DOMAIN_TITLES[domain] : projectName || document.title}</title>
+          <title>{document.title}</title>
         </Helmet>
 
         <Route component={DarkModeQueryParamReader} />

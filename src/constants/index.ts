@@ -7,6 +7,91 @@ export const DEV_FEE_ADMIN = '0x80c007E00ad54645fB5f8Fb76106620C3Ce69d6c'
 
 export type NETWORKS_ID = keyof typeof networks
 
+export const PROJECT_TOKEN: {
+  [domain: string]: {
+    name: string
+    address: string
+    link: string
+  }
+} = {
+  'app.min.i.ng': {
+    name: 'MINING',
+    address: '',
+    link: 'https://www.miningtaxi.com/token',
+  },
+  'swap.premium.coffee': {
+    name: 'COFFEE',
+    address: '',
+    link: '',
+  },
+}
+
+export const PROJECT_LINKS: {
+  [domain: string]: {
+    left: {
+      name: string
+      link: string
+    }[]
+    right: {
+      name: string
+      link: string
+    }[]
+  }
+} = {
+  'app.min.i.ng': {
+    left: [
+      {
+        name: 'Driver',
+        link: 'https://www.miningtaxi.com/driver',
+      },
+      {
+        name: 'Rider',
+        link: 'https://www.miningtaxi.com/rider',
+      },
+      {
+        name: 'Community',
+        link: 'https://www.miningtaxi.com/community',
+      },
+    ],
+    right: [
+      {
+        name: 'Airdrop',
+        link: 'https://www.miningtaxi.com/airdrop',
+      },
+      {
+        name: 'Listing',
+        link: 'https://www.miningtaxi.com/listing',
+      },
+    ],
+  },
+  'swap.premium.coffee': {
+    left: [
+      {
+        name: 'Coffe House',
+        link: 'https://t.me/PremiumCoffee_Bot',
+      },
+      {
+        name: 'Visitor',
+        link: 'https://staking.premium.coffee/',
+      },
+      {
+        name: 'Community',
+        link: 'https://farming.premium.coffee/',
+      },
+    ],
+    right: [
+      {
+        name: 'Staking',
+        link: 'https://account.premium.coffee/accounts/login/?next=/profile/',
+      },
+      {
+        name: 'Farming',
+        link: 'https://account.premium.coffee/accounts/login/?next=/profile/',
+      },
+    ],
+  },
+}
+
 const BSC_ID = 56
 const GOERLI_ID = 5
 
