@@ -246,7 +246,6 @@
   "itWillNotWorkIfYouPasteWrongAddress": "地址错误或token列表中不包含该地址将无法使用",
   "inputToken": "输入令牌",
   "outputToken": "输出令牌",
-  "disableSourceCopyright": "禁用源版权",
   "backgroundUrl": "背景网址",
   "storageNetwork": "存储网络",
   "contractsNetwork": "合约网络",

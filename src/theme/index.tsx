@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { transparentize } from 'polished'
 import styled, { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle, css } from 'styled-components'
 import { useThemeColors } from '../hooks/useColor'
 import { useIsDarkMode } from '../state/user/hooks'
@@ -202,10 +201,5 @@ body {
   min-height: 100vh;
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: ${({ theme }) =>
-    `radial-gradient(100% 100% at 50% 0%, ${transparentize(0.8, theme.primary1)} 0%, ${transparentize(
-      1,
-      theme.bg1
-    )} 100%)`};
 }
 `

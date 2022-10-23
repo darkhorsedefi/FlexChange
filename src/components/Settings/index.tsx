@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Settings, X } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { ThemeContext, keyframes } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { ApplicationModal } from 'state/application/actions'
@@ -21,16 +21,28 @@ import { RowBetween, RowFixed } from '../Row'
 import Toggle from '../Toggle'
 import TransactionSettings from '../TransactionSettings'
 
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`
+
 const StyledMenuIcon = styled(Settings)`
-  height: 20px;
-  width: 20px;
+  height: 35px;
+  width: 35px;
+  padding: 0.4rem;
+  border-radius: 50%;
 
   > * {
     stroke: ${({ theme }) => theme.text1};
   }
 
   :hover {
-    opacity: 0.7;
+    background-color: ${({ theme }) => theme.bg2};
+    animation: ${rotate} 2s linear infinite;
   }
 `
 
@@ -49,15 +61,12 @@ const StyledCloseIcon = styled(X)`
 const StyledMenuButton = styled.button`
   position: relative;
   width: 100%;
-  height: 100%;
   border: none;
-  background-color: transparent;
   margin: 0;
   padding: 0;
   height: 35px;
-
-  padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
+  background-color: transparent;
 
   :hover,
   :focus {
@@ -141,6 +150,16 @@ export default function SettingsTab() {
 
   useOnClickOutside(node, open ? toggle : undefined)
 
+  const enableExpertMode = () => {
+    toggle()
+    setShowConfirmation(true)
+  }
+
+  const disableExpertMode = () => {
+    toggleExpertMode()
+    setShowConfirmation(false)
+  }
+
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
@@ -165,10 +184,7 @@ export default function SettingsTab() {
               <ButtonError
                 error={true}
                 padding={'12px'}
-                onClick={() => {
-                  toggleExpertMode()
-                  setShowConfirmation(false)
-                }}
+                onClick={disableExpertMode}
               >
                 <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
                   {t('turnOnExpertMode')}
@@ -216,11 +232,9 @@ export default function SettingsTab() {
                 isActive={expertMode}
                 toggle={() => {
                   if (expertMode) {
-                    toggleExpertMode()
-                    setShowConfirmation(false)
+                    disableExpertMode()
                   } else {
-                    toggle()
-                    setShowConfirmation(true)
+                    enableExpertMode()
                   }
                 }}
               />

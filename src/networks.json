@@ -91,24 +91,6 @@
       "symbol": "WMATIC"
     }
   },
-  "180": {
-    "name": "AME Chain",
-    "rpc": "https://node1.amechain.io/",
-    "chainId": 180,
-    "explorer": "https://amescan.io/",
-    "color": "#ff0500",
-    "multicall": "0x1763d5e86452Ed9C13b874fDe60A0669D11C5d40",
-    "baseCurrency": {
-      "decimals": 18,
-      "name": "AME",
-      "symbol": "AME"
-    },
-    "wrappedToken": {
-      "address": "0xCc9bD40124EfedF6F198B8b5b50697dC635FaaC4",
-      "name": "Wrapped AME",
-      "symbol": "WAME"
-    }
-  },
   "43114": {
     "name": "Avalanche",
     "rpc": "https://api.avax.network/ext/bc/C/rpc",
@@ -235,24 +217,6 @@
       "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
       "name": "Wrapped Ether",
       "symbol": "WETH"
-    }
-  },
-  "19845": {
-    "name": "BTCIX Network",
-    "rpc": "https://seed.btcix.org/rpc",
-    "chainId": 19845,
-    "explorer": "https://btcixscan.com",
-    "color": "#91ac14",
-    "multicall": "0xcd8F23091F5379cf355F365dBa8C48A2C721C1e5",
-    "baseCurrency": {
-      "decimals": 18,
-      "name": "BITCOLOJIX",
-      "symbol": "BTCIX"
-    },
-    "wrappedToken": {
-      "address": "0x1763d5e86452Ed9C13b874fDe60A0669D11C5d40",
-      "name": "Wrapped BITCOLOJIX",
-      "symbol": "WBTCIX"
     }
   }
 }

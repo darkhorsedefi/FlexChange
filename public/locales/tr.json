@@ -253,7 +253,6 @@
   "itWillNotWorkIfYouPasteWrongAddress": "Adres yanlışsa veya belirteç listesi bu adresi içermiyorsa çalışmaz.",
   "inputToken": "Giriş belirteci",
   "outputToken": "Çıkış jetonu",
-  "disableSourceCopyright": "Kaynak telif hakkını devre dışı bırak",
   "backgroundUrl": "Arka plan URL'si",
   "storageNetwork": "Depolama ağı",
   "contractsNetwork": "Sözleşmeler ağı",

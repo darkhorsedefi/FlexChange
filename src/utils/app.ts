@@ -2,6 +2,7 @@ import { ZERO_ADDRESS, ZERO_HASH } from '../sdk/constants'
 import FACTORY from 'contracts/build/Factory.json'
 import { StorageState } from 'state/application/reducer'
 import { getContractInstance } from 'utils/contract'
+import { Log, consoleLog } from 'utils/logs'
 import { isValidColor } from 'utils/color'
 import { filterTokenLists } from 'utils/list'
 import { STORAGE_APP_KEY } from '../constants'
@@ -40,9 +41,26 @@ const defaultSettings = (): StorageState => ({
   menuLinks: [],
   socialLinks: [],
   addressesOfTokenLists: [],
-  disableSourceCopyright: false,
   defaultSwapCurrency: { input: '', output: '' },
 })
+
+export const getLocalSettings = async (): Promise<unknown | undefined> => {
+  try {
+    // @ts-ignore
+    const module = await import('../config.json')
+
+    if (module?.default && Object.keys(module?.default).length) {
+      return {
+        ...defaultSettings(),
+        ...module.default,
+      }
+    }
+
+    return
+  } catch (error) {
+    return
+  }
+}
 
 const parseSettings = (settings: string, chainId: number): StorageState => {
   const appSettings = defaultSettings()
@@ -81,7 +99,6 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
       socialLinks,
       tokenLists,
       addressesOfTokenLists,
-      disableSourceCopyright,
       defaultSwapCurrency,
     } = parsedSettings
 
@@ -108,7 +125,6 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
     if (backgroundUrl) appSettings.background = backgroundUrl
     if (logoUrl) appSettings.logo = logoUrl
     if (faviconUrl) appSettings.favicon = faviconUrl
-    if (Boolean(disableSourceCopyright)) appSettings.disableSourceCopyright = disableSourceCopyright
 
     if (validArray(navigationLinks)) appSettings.navigationLinks = navigationLinks
     if (validArray(menuLinks)) appSettings.menuLinks = menuLinks
@@ -130,10 +146,14 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
       if (output) appSettings.defaultSwapCurrency.output = output
     }
   } catch (error) {
-    console.group('%c Storage settings', 'color: red')
-    console.error(error)
-    console.log('source settings: ', settings)
-    console.groupEnd()
+    consoleLog({
+      value: {
+        error,
+        'source settings': settings,
+      },
+      title: 'Storage settings',
+      type: Log.error,
+    })
   }
 
   return appSettings
@@ -142,28 +162,27 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
 export const fetchDomainData = async (
   chainId: undefined | number,
   library: any,
-  storage: any,
-  trigger?: boolean
+  storage: any
 ): Promise<StorageState | null> => {
   let fullData = defaultSettings()
 
   try {
-    let currentDomain = getCurrentDomain()
+    const currentDomain = getCurrentDomain()
+    const localSettings = await getLocalSettings()
 
-    if (currentDomain === 'eeecex.net') {
-      currentDomain = 'eeecEx.net'
+    if (localSettings) {
+      // @ts-ignore
+      fullData = { ...localSettings }
+    } else {
+      const { info, owner } = await storage.methods.getData(currentDomain).call()
+      const settings = parseSettings(info || '{}', chainId || 0)
+
+      fullData = { ...settings, admin: owner === ZERO_ADDRESS ? '' : owner }
     }
 
-    const { info, owner } = await storage.methods.getData(currentDomain).call()
-
-    const settings = parseSettings(info || '{}', chainId || 0)
-    const { factory } = settings
-
-    fullData = { ...settings, admin: owner === ZERO_ADDRESS ? '' : owner }
-
-    if (factory) {
+    if (fullData?.factory) {
       try {
-        //@ts-ignore
+        const { factory } = fullData
         const factoryContract = getContractInstance(library.provider, factory, FACTORY.abi)
         const factoryInfo = await factoryContract.methods.allInfo().call()
 
@@ -172,7 +191,7 @@ export const fetchDomainData = async (
           feeTo,
           totalFee,
           allFeeToProtocol,
-          totalSwaps,
+          totalSwaps = undefined,
           POSSIBLE_PROTOCOL_PERCENT,
           INIT_CODE_PAIR_HASH,
         } = factoryInfo
@@ -185,20 +204,16 @@ export const fetchDomainData = async (
           totalFee,
           allFeeToProtocol,
           possibleProtocolPercent: validArray(POSSIBLE_PROTOCOL_PERCENT) ? POSSIBLE_PROTOCOL_PERCENT.map(Number) : [],
-          totalSwaps: totalSwaps || undefined,
+          totalSwaps,
         }
       } catch (error) {
-        console.group('%c Factory info', 'color: red;')
-        console.error(error)
-        console.groupEnd()
+        consoleLog({ value: error, title: 'Factory info', type: Log.error })
       }
     }
 
     return fullData
   } catch (error) {
-    console.group('%c Domain data request', 'color: red;')
-    console.error(error)
-    console.groupEnd()
+    consoleLog({ value: error, title: 'Domain data request', type: Log.error })
     return null
   }
 }
