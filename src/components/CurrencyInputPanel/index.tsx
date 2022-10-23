@@ -27,7 +27,7 @@ const CurrencySelect = styled.button`
   font-size: 20px;
   font-weight: 500;
   border: none;
-  background-color: ${({ theme }) => theme.bg3};
+  background-color: ${({ theme }) => theme.bg2};
   color: ${({ theme }) => theme.text1};
   border-radius: 12px;
   outline: none;
@@ -83,7 +83,6 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
   border: 1px solid ${({ theme }) => theme.bg3};
-  background-color: ${({ theme }) => theme.bg2};
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
@@ -91,30 +90,6 @@ const StyledTokenName = styled.span<{ active?: boolean }>`
   font-size:  ${({ active }) => (active ? '20px' : '16px')};
 `
 
-const StyledBalanceMax = styled.button`
-  padding: 0.5rem;
-  background-color: ${({ theme }) => theme.bg3};
-  border: 1px solid ${({ theme }) => theme.bg3};
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  transition: 0.2s;
-
-  font-weight: 500;
-  cursor: pointer;
-  margin-right: 0.5rem;
-  color: ${({ theme }) => theme.primaryText1};
-
-  :hover {
-    background-color: ${({ theme }) => theme.primary3};
-  }
-  :focus {
-    outline: none;
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin-right: 0.5rem;
-  `};
-`
 
 interface CurrencyInputPanelProps {
   value: string
@@ -191,13 +166,8 @@ export default function CurrencyInputPanel({
               <NumericalInput
                 className="token-amount-input"
                 value={value}
-                onUserInput={(val) => {
-                  onUserInput(val)
-                }}
+                onUserInput={onUserInput}
               />
-              {account && currency && showMaxButton && label !== 'To' && (
-                <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
-              )}
             </>
           )}
           <CurrencySelect
@@ -222,8 +192,8 @@ export default function CurrencyInputPanel({
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? currency.symbol.slice(0, 4) +
-                      '...' +
-                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                    '...' +
+                    currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
                     : currency?.symbol) || t('token')}
                 </StyledTokenName>
               )}
