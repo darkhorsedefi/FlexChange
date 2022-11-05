@@ -19,19 +19,9 @@ const HeaderFrame = styled.header`
   margin: 0.4rem auto;
   padding: 0.4rem 1.6rem;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 120px 1fr 120px;
-  justify-content: space-between;
+  display: flex;
   align-items: center;
-  flex-direction: row;
-
-  ${({ theme }) => theme.mediaWidth.upToLarge`
-    grid-template-columns: 60px 1fr 120px;
-  `};
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    grid-template-columns: 60px 1fr;
-  `};
+  justify-content: space-between;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     padding: 0.5rem 1rem;
@@ -72,14 +62,8 @@ const HeaderRow = styled(RowFixed)`
 
 const NavlLinks = styled(Row)`
   width: auto;
-  margin: 0 auto;
   padding: 0.3rem;
-  flex-wrap: wrap;
   justify-content: center;
-  border-radius: 0.8rem;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
-  background-color: ${({ theme }) => theme.bg1};
 
   ${({ theme }) => theme.mediaWidth.upToLarge`
     margin: 0;
@@ -152,13 +136,11 @@ const Title = styled.a`
   align-items: center;
   pointer-events: auto;
   justify-self: flex-start;
-  margin-right: 12px;
+  margin-right: 1rem;
+
   ${({ theme }) => theme.mediaWidth.upToSmall`
     justify-self: center;
   `};
-  :hover {
-    cursor: pointer;
-  }
 `
 
 const Icon = styled.div`
@@ -180,12 +162,10 @@ const StyledNavLink = styled(NavLink).attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
-  border-radius: 12px;
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.text2};
-  font-size: 0.9rem;
+  color: var(--color-notice);
   width: fit-content;
   padding: 0.3rem 0.6rem;
   font-weight: 500;
@@ -195,13 +175,9 @@ const StyledNavLink = styled(NavLink).attrs({
     margin-right: 0.16rem;
   }
 
-  &:hover {
-    color: ${({ theme }) => theme.text1};
-  }
-
+  &:hover,
   &.${activeClassName} {
-    color: ${({ theme }) => theme.white1};
-    background-color: ${({ theme }) => theme.primary2};
+    color: ${({ theme }) => theme.text1};
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -223,20 +199,20 @@ const StyledExternalLink = styled.a`
   justify-content: space-between;
   text-decoration: none;
   font-size: 0.9rem;
-  border-radius: 12px;
   width: fit-content;
   padding: 0.3rem 0.5rem;
   font-weight: 500;
-  color: ${({ theme }) => theme.text2};
-  transition: 0.2s;
+  color: var(--color-notice);
+  transition: 0.12s;
   word-break: keep-all;
   white-space: nowrap;
 
   &:not(:last-child) {
-    margin-right: 0.14rem;
+    margin-right: 0.16rem;
   }
 
-  &:hover {
+  &:hover,
+  &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
   }
 
@@ -286,33 +262,32 @@ export default function Header() {
             <LogoImage src={logoUrl || TempLogo} alt="logo" />
           </Icon>
         </Title>
+        <NavlLinks>
+          <StyledNavLink id="header-swap-nav-link" to={'/swap'}>
+            {t('swap')}
+          </StyledNavLink>
+          <StyledNavLink
+            id="header-pool-nav-link"
+            to="/pool"
+            isActive={(match, { pathname }) =>
+              Boolean(match) ||
+              pathname.startsWith('/add') ||
+              pathname.startsWith('/remove') ||
+              pathname.startsWith('/create') ||
+              pathname.startsWith('/find')
+            }
+          >
+            {t('pool')}
+          </StyledNavLink>
+
+          {Boolean(navigationLinks.length) &&
+            navigationLinks.map((item: { source: string; name: string }, index) => (
+              <StyledExternalLink href={item.source} key={index} target="_blank">
+                <span className="name">{item.name}</span> <RiArrowRightUpLine />
+              </StyledExternalLink>
+            ))}
+        </NavlLinks>
       </HeaderRow>
-
-      <NavlLinks>
-        <StyledNavLink id="header-swap-nav-link" to={'/swap'}>
-          {t('swap')}
-        </StyledNavLink>
-        <StyledNavLink
-          id="header-pool-nav-link"
-          to="/pool"
-          isActive={(match, { pathname }) =>
-            Boolean(match) ||
-            pathname.startsWith('/add') ||
-            pathname.startsWith('/remove') ||
-            pathname.startsWith('/create') ||
-            pathname.startsWith('/find')
-          }
-        >
-          {t('pool')}
-        </StyledNavLink>
-
-        {Boolean(navigationLinks.length) &&
-          navigationLinks.map((item: { source: string; name: string }, index) => (
-            <StyledExternalLink href={item.source} key={index} target="_blank">
-              <span className="name">{item.name}</span> <RiArrowRightUpLine />
-            </StyledExternalLink>
-          ))}
-      </NavlLinks>
 
       <HeaderControls>
         <HeaderElement>

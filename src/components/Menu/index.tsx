@@ -25,15 +25,13 @@ const StyledMenuIcon = styled(MenuIcon)`
 export const StyledMenuButton = styled.button`
   width: 100%;
   border: none;
-  background-color: transparent;
   margin: 0;
   height: 35px;
-  background-color: ${({ theme }) => theme.bg1};
-  transition: 0.2s;
+  transition: 0.12s;
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
+  box-shadow: var(--box-shadow); 
+  background-color: var(--color-background-elements);
 
   :hover,
   :focus {
@@ -56,16 +54,15 @@ const StyledMenu = styled.div`
   border: none;
   text-align: left;
   border-radius: 0.5rem;
-  background-color: ${({ theme }) => theme.bg1};
-  transition: 0.2s;
+  background-color: var(--color-background-elements);
+  transition: 0.12s;
 `
 
 const MenuFlyout = styled.span`
   min-width: 8.6rem;
   background-color: ${({ theme }) => theme.bg1};
   border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
+  box-shadow: var(--box-shadow); 
   padding: 0.6rem 0.9rem;
   display: flex;
   flex-direction: column;
@@ -157,17 +154,13 @@ export const ClickableMenuItem = styled.a<{ active: boolean }>`
 `
 
 const ReturnButton = styled.button`
+  cursor: pointer;
   padding: 0 0 0 0.4rem;
   border: none;
   text-align: left;
   font-size: 1.4rem;
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
-
-  :hover,
-  :focus {
-    cursor: pointer;
-  }
 `
 
 function LanguageMenu({ close }: { close: () => void }) {
