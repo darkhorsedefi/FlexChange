@@ -28,18 +28,19 @@ const CurrencySelect = styled.button`
   font-weight: 500;
   border: none;
   background-color: ${({ theme }) => theme.bg2};
-  color: ${({ theme }) => theme.text1};
-  border-radius: 12px;
+  color: var(--color);
+  border-radius: 0.5rem;
   outline: none;
   cursor: pointer;
   user-select: none;
   border: none;
   padding: 0 0.5rem;
-  transition: 0.2s;
+  transition: 0.12s;
 
   :focus,
   :hover {
-    background-color: ${({ theme }) => theme.bg4};
+    background-color: var(--color-brand);
+    color: var(--color-f-brightest);
   }
 `
 
@@ -89,7 +90,6 @@ const StyledTokenName = styled.span<{ active?: boolean }>`
   ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
   font-size:  ${({ active }) => (active ? '20px' : '16px')};
 `
-
 
 interface CurrencyInputPanelProps {
   value: string
@@ -163,11 +163,7 @@ export default function CurrencyInputPanel({
         <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={disableCurrencySelect}>
           {!hideInput && (
             <>
-              <NumericalInput
-                className="token-amount-input"
-                value={value}
-                onUserInput={onUserInput}
-              />
+              <NumericalInput className="token-amount-input" value={value} onUserInput={onUserInput} />
             </>
           )}
           <CurrencySelect
@@ -192,8 +188,8 @@ export default function CurrencyInputPanel({
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? currency.symbol.slice(0, 4) +
-                    '...' +
-                    currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                      '...' +
+                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
                     : currency?.symbol) || t('token')}
                 </StyledTokenName>
               )}

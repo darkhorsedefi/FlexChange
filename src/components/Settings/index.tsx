@@ -181,11 +181,7 @@ export default function SettingsTab() {
               <Text fontWeight={600} fontSize={20}>
                 {t('expertModeWarning')}
               </Text>
-              <ButtonError
-                error={true}
-                padding={'12px'}
-                onClick={disableExpertMode}
-              >
+              <ButtonError error={true} padding={'12px'} onClick={disableExpertMode}>
                 <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
                   {t('turnOnExpertMode')}
                 </Text>

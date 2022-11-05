@@ -7,12 +7,10 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import { useAddPopup, useAppState } from 'state/application/hooks'
 import { ButtonPrimary } from 'components/Button'
 import { TokenLists } from './TokenLists'
-import Accordion from 'components/Accordion'
 import Input from 'components/Input'
 import InputPanel from 'components/InputPanel'
 import ListFactory from 'components/ListFactory'
 import MenuLinksFactory, { LinkItem } from 'components/MenuLinksFactory'
-import ColorSelector from 'components/ColorSelector'
 import TextBlock from 'components/TextBlock'
 import NetworkRelatedSettings from './NetworkRelatedSettings'
 import { OptionWrapper } from './index'
@@ -43,12 +41,6 @@ export default function Interface(props: any) {
     projectName: stateProjectName,
     logo: stateLogo,
     favicon: stateFavicon,
-    background: stateBackground,
-    brandColor: stateBrandColor,
-    backgroundColorDark: stateBackgroundColorDark,
-    backgroundColorLight: stateBackgroundColorLight,
-    textColorDark: stateTextColorDark,
-    textColorLight: stateTextColorLight,
     navigationLinks: stateNavigationLinks,
     menuLinks: stateMenuLinks,
     socialLinks: stateSocialLinks,
@@ -71,64 +63,6 @@ export default function Interface(props: any) {
     setIsValidFavicon(faviconUrl ? Boolean(validUrl.isUri(faviconUrl)) : true)
   }, [faviconUrl])
 
-  const [backgroundUrl, setBackgroundUrl] = useState(stateBackground)
-  const [isValidBackground, setIsValidBackground] = useState(Boolean(validUrl.isUri(backgroundUrl)))
-
-  useEffect(() => {
-    setIsValidBackground(backgroundUrl ? Boolean(validUrl.isUri(backgroundUrl)) : true)
-  }, [backgroundUrl])
-
-  // TODO: how to reduce amount of states ?
-  const [brandColor, setBrandColor] = useState(stateBrandColor)
-  const [brandColorValid, setBrandColorValid] = useState(false)
-
-  const [backgroundColorDark, setBackgroundColorDark] = useState(stateBackgroundColorDark)
-  const [bgColorDarkValid, setBgColorDarkValid] = useState(false)
-
-  const [backgroundColorLight, setBackgroundColorLight] = useState(stateBackgroundColorLight)
-  const [bgColorLightValid, setBgColorLightValid] = useState(false)
-
-  const [textColorDark, setTextColorDark] = useState(stateTextColorDark)
-  const [textColorDarkValid, setTextColorDarkValid] = useState(false)
-
-  const [textColorLight, setTextColorLight] = useState(stateTextColorLight)
-  const [textColorLightValid, setTextColorLightValid] = useState(false)
-
-  enum ColorType {
-    BRAND,
-    BACKGROUND_LIGHT,
-    BACKGROUND_DARK,
-    TEXT_COLOR_LIGHT,
-    TEXT_COLOR_DARK,
-  }
-
-  const updateColor = (value: string, type: ColorType) => {
-    switch (type) {
-      case ColorType.BRAND:
-        setBrandColor(value)
-        break
-      case ColorType.BACKGROUND_LIGHT:
-        setBackgroundColorLight(value)
-        break
-      case ColorType.BACKGROUND_DARK:
-        setBackgroundColorDark(value)
-        break
-      case ColorType.TEXT_COLOR_LIGHT:
-        setTextColorLight(value)
-        break
-      case ColorType.TEXT_COLOR_DARK:
-        setTextColorDark(value)
-    }
-  }
-
-  const [areColorsValid, setAreColorsValid] = useState(false)
-
-  useEffect(() => {
-    setAreColorsValid(
-      brandColorValid && bgColorDarkValid && bgColorLightValid && textColorDarkValid && textColorLightValid
-    )
-  }, [brandColorValid, bgColorDarkValid, bgColorLightValid, textColorDarkValid, textColorLightValid])
-
   const [navigationLinks, setNavigationLinks] = useState<LinkItem[]>(stateNavigationLinks)
   const [menuLinks, setMenuLinks] = useState<LinkItem[]>(stateMenuLinks)
   const [socialLinks, setSocialLinks] = useState<string[]>(stateSocialLinks)
@@ -141,18 +75,12 @@ export default function Interface(props: any) {
     projectName: stateProjectName,
     logoUrl: stateLogo,
     faviconUrl: stateFavicon,
-    backgroundUrl: stateBackground,
-    brandColor: stateBrandColor,
     navigationLinks: stateNavigationLinks,
     menuLinks: stateMenuLinks,
     socialLinks: stateSocialLinks,
     addressesOfTokenLists: stateAddressesOfTokenLists,
     swapInputCurrency: defaultSwapCurrency.input,
     swapOutputCurrency: defaultSwapCurrency.output,
-    backgroundColorDark: stateBackgroundColorDark,
-    backgroundColorLight: stateBackgroundColorLight,
-    textColorDark: stateTextColorDark,
-    textColorLight: stateTextColorLight,
   })
 
   const [settingsChanged, setSettingsChanged] = useState(false)
@@ -162,18 +90,12 @@ export default function Interface(props: any) {
       projectName,
       logoUrl,
       faviconUrl,
-      backgroundUrl,
-      brandColor,
       navigationLinks,
       menuLinks,
       socialLinks,
       addressesOfTokenLists,
       swapInputCurrency,
       swapOutputCurrency,
-      backgroundColorDark,
-      backgroundColorLight,
-      textColorDark,
-      textColorLight,
     })
 
     setSettingsChanged(newStrSettings !== currentStrSettings)
@@ -182,32 +104,19 @@ export default function Interface(props: any) {
     projectName,
     logoUrl,
     faviconUrl,
-    backgroundUrl,
-    brandColor,
     navigationLinks,
     menuLinks,
     socialLinks,
     addressesOfTokenLists,
     swapInputCurrency,
     swapOutputCurrency,
-    backgroundColorDark,
-    backgroundColorLight,
-    textColorDark,
-    textColorLight,
   ])
 
   const [cannotSaveSettings, setCannotSaveSettings] = useState(true)
 
   useEffect(() => {
-    setCannotSaveSettings(
-      chainId !== STORAGE_NETWORK_ID ||
-      !settingsChanged ||
-      !isValidLogo ||
-      !isValidFavicon ||
-      !isValidBackground ||
-      !areColorsValid
-    )
-  }, [settingsChanged, isValidLogo, isValidFavicon, isValidBackground, areColorsValid, chainId])
+    setCannotSaveSettings(chainId !== STORAGE_NETWORK_ID || !settingsChanged || !isValidLogo || !isValidFavicon)
+  }, [settingsChanged, isValidLogo, isValidFavicon, chainId])
 
   const saveSettings = async () => {
     setPending(true)
@@ -217,20 +126,15 @@ export default function Interface(props: any) {
         projectName,
         logoUrl,
         faviconUrl,
-        backgroundUrl,
-        brandColor,
         navigationLinks,
         menuLinks,
         socialLinks,
         addressesOfTokenLists,
+        // @todo Take into account base coins, not only tokens
         defaultSwapCurrency: {
           input: swapInputCurrency,
           output: swapOutputCurrency,
         },
-        backgroundColorDark,
-        backgroundColorLight,
-        textColorDark,
-        textColorLight,
       }
 
       await saveAppData({
@@ -303,14 +207,6 @@ export default function Interface(props: any) {
             error={!isValidFavicon}
           />
         </OptionWrapper>
-        <OptionWrapper flex>
-          <InputPanel
-            label={`${t('backgroundUrl')}`}
-            value={backgroundUrl}
-            onChange={setBackgroundUrl}
-            error={!isValidBackground}
-          />
-        </OptionWrapper>
 
         <OptionWrapper>
           <MenuLinksFactory
@@ -355,59 +251,6 @@ export default function Interface(props: any) {
           onInputCurrency={setSwapInputCurrency}
           onOutputCurrency={setSwapOutputCurrency}
         />
-
-        <Accordion title={t('colors')} margin="0.5rem 0">
-          <OptionWrapper margin={0.4}>
-            <ColorSelector
-              name={t('primaryColor')}
-              defaultColor={stateBrandColor}
-              onColor={(color, valid) => {
-                setBrandColorValid(valid)
-                updateColor(color, ColorType.BRAND)
-              }}
-            />
-          </OptionWrapper>
-
-          <OptionWrapper margin={0.4}>
-            <h4>{t('backgroundColor')}</h4>
-            <ColorSelector
-              name={t('light')}
-              defaultColor={backgroundColorLight}
-              onColor={(color, valid) => {
-                setBgColorLightValid(valid)
-                updateColor(color, ColorType.BACKGROUND_LIGHT)
-              }}
-            />
-            <ColorSelector
-              name={t('dark')}
-              defaultColor={backgroundColorDark}
-              onColor={(color, valid) => {
-                setBgColorDarkValid(valid)
-                updateColor(color, ColorType.BACKGROUND_DARK)
-              }}
-            />
-          </OptionWrapper>
-
-          <OptionWrapper margin={0.5}>
-            <h4>{t('textColor')}</h4>
-            <ColorSelector
-              name={t('light')}
-              defaultColor={textColorLight}
-              onColor={(color, valid) => {
-                setTextColorLightValid(valid)
-                updateColor(color, ColorType.TEXT_COLOR_LIGHT)
-              }}
-            />
-            <ColorSelector
-              name={t('dark')}
-              defaultColor={textColorDark}
-              onColor={(color, valid) => {
-                setTextColorDarkValid(valid)
-                updateColor(color, ColorType.TEXT_COLOR_DARK)
-              }}
-            />
-          </OptionWrapper>
-        </Accordion>
 
         <Button onClick={saveSettings} disabled={cannotSaveSettings}>
           {t(chainId === STORAGE_NETWORK_ID ? 'saveSettings' : 'switchToNetwork', {

@@ -3,7 +3,6 @@ import FACTORY from 'contracts/build/Factory.json'
 import { StorageState } from 'state/application/reducer'
 import { getContractInstance } from 'utils/contract'
 import { Log, consoleLog } from 'utils/logs'
-import { isValidColor } from 'utils/color'
 import { filterTokenLists } from 'utils/list'
 import { STORAGE_APP_KEY } from '../constants'
 
@@ -27,14 +26,8 @@ const defaultSettings = (): StorageState => ({
   totalSwaps: undefined,
   domain: '',
   projectName: '',
-  brandColor: '',
-  backgroundColorDark: '',
-  backgroundColorLight: '',
-  textColorDark: '',
-  textColorLight: '',
   logo: '',
   favicon: '',
-  background: '',
   tokenListsByChain: {},
   tokenLists: [],
   navigationLinks: [],
@@ -86,14 +79,8 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
       feeRecipient,
       domain,
       projectName,
-      brandColor,
-      backgroundColorDark,
-      backgroundColorLight,
-      textColorDark,
-      textColorLight,
       logoUrl,
       faviconUrl,
-      backgroundUrl,
       navigationLinks,
       menuLinks,
       socialLinks,
@@ -116,13 +103,6 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
     if (domain) appSettings.domain = domain
     if (projectName) appSettings.projectName = projectName
 
-    if (isValidColor(brandColor)) appSettings.brandColor = brandColor
-    if (isValidColor(backgroundColorDark)) appSettings.backgroundColorDark = backgroundColorDark
-    if (isValidColor(backgroundColorLight)) appSettings.backgroundColorLight = backgroundColorLight
-    if (isValidColor(textColorDark)) appSettings.textColorDark = textColorDark
-    if (isValidColor(textColorLight)) appSettings.textColorLight = textColorLight
-
-    if (backgroundUrl) appSettings.background = backgroundUrl
     if (logoUrl) appSettings.logo = logoUrl
     if (faviconUrl) appSettings.favicon = faviconUrl
 
