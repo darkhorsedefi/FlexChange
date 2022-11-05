@@ -87,13 +87,12 @@ const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg2)};
-  border-radius: 0.7rem;
+  background-color: var(--color-background-elements);
+  border-radius: 0.5rem;
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
+  box-shadow: var(--box-shadow);
 
   :focus {
     border: 1px solid blue;
@@ -107,14 +106,14 @@ const HideSmall = styled.div`
 `
 
 const NetworkCard = styled(LightCard)`
-  border-radius: 0.7rem;
+  border-radius: 0.5rem;
   padding: 8px 12px;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
+  box-shadow: var(--box-shadow);
   word-break: keep-all;
   white-space: nowrap;
   display: flex;
   align-items: center;
+  background-color: var(--color-background-elements);
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
@@ -124,11 +123,6 @@ const NetworkCard = styled(LightCard)`
     text-overflow: ellipsis;
     flex-shrink: 1;
   `};
-
-  img {
-    max-width: 1.2rem;
-    margin-right: 1%;
-  }
 `
 
 const Title = styled.a`
@@ -233,26 +227,32 @@ const StyledExternalLink = styled.a`
   `};
 `
 
+const StyledNetworkImg = styled.img`
+  max-width: 1.2rem;
+  margin-right: 0.3rem;
+`
+
+const NetworkInfo = (chainId?: number) => {
+  if (!chainId) return null
+  // @ts-ignore
+  const networkConfig = networks[chainId]
+  // @ts-ignore
+  const networkImage = CURRENCY[chainId]
+
+  return (
+    networkConfig?.name && (
+      <NetworkCard title={`${networkImage.name} network`}>
+        {!!networkImage && <StyledNetworkImg src={networkImage} alt="network logo" />}
+        {networkConfig.name}
+      </NetworkCard>
+    )
+  )
+}
+
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const { logo: logoUrl, navigationLinks } = useAppState()
-
-  const NetworkInfo = () => {
-    if (!chainId) return
-    // @ts-ignore
-    const networkConfig = networks[chainId]
-    // @ts-ignore
-    const networkImage = CURRENCY[chainId]
-    return (
-      networkConfig?.name && (
-        <NetworkCard title={`${networkImage.name} network`}>
-          {!!networkImage && <img src={networkImage} style={{ marginRight: '0.4rem' }} alt="network logo" />}
-          {networkConfig.name}
-        </NetworkCard>
-      )
-    )
-  }
 
   return (
     <HeaderFrame>
@@ -291,7 +291,7 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>{NetworkInfo()}</HideSmall>
+          <HideSmall>{NetworkInfo(chainId)}</HideSmall>
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             <Web3Status />
           </AccountElement>

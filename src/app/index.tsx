@@ -98,9 +98,9 @@ export default function App() {
     const dataset = document.body.dataset
 
     if (darkMode) {
-      dataset.scheme = "dark"
+      dataset.scheme = 'dark'
     } else {
-      dataset.scheme = "default"
+      dataset.scheme = 'default'
     }
   }, [darkMode])
 
@@ -134,8 +134,8 @@ export default function App() {
       const appAdmin = wordpressData?.wpAdmin
         ? wordpressData?.wpAdmin?.toLowerCase() === lowerAcc
         : admin && admin !== ZERO_ADDRESS
-          ? admin.toLowerCase() === lowerAcc
-          : true
+        ? admin.toLowerCase() === lowerAcc
+        : true
 
       const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 

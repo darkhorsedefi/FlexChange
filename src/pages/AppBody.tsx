@@ -6,7 +6,7 @@ export const BodyWrapper = styled.div`
   max-width: 28rem;
   width: 100%;
   border-radius: var(--main-component-border-radius);
-  box-shadow: var(--box-shadow); 
+  box-shadow: var(--box-shadow);
   background-color: var(--color-background-elements);
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`

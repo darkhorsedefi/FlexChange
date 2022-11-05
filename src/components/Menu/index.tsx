@@ -30,7 +30,7 @@ export const StyledMenuButton = styled.button`
   transition: 0.12s;
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
-  box-shadow: var(--box-shadow); 
+  box-shadow: var(--box-shadow);
   background-color: var(--color-background-elements);
 
   :hover,
@@ -62,7 +62,7 @@ const MenuFlyout = styled.span`
   min-width: 8.6rem;
   background-color: ${({ theme }) => theme.bg1};
   border-radius: 0.5rem;
-  box-shadow: var(--box-shadow); 
+  box-shadow: var(--box-shadow);
   padding: 0.6rem 0.9rem;
   display: flex;
   flex-direction: column;

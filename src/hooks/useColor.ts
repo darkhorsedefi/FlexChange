@@ -24,7 +24,7 @@ export function useThemeColors(): {
   primary5: string
 } {
   const [darkMode] = useDarkModeManager()
- 
+
   let bg2 = darkMode ? '#222427' : '#f7f7f7'
   let bg1 = 'var(--color-background-elements)'
   let bg3 = darkMode ? '#3a3d47' : '#ededed'

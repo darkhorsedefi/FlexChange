@@ -2,7 +2,7 @@
 [data-scheme='default'] {
   --color-brand: #6144e5;
   --color-brand-hover: #7371ff;
-  --color-brand-background: #6144e51a;
+  --color-brand-background: #6043e62b;
   --color-page-background: #f7f7f7;
   --color: #000;
   --color-background: #f7f7f7;
@@ -36,7 +36,7 @@
 [data-scheme='dark'] {
   --color-brand: #6144e5;
   --color-brand-hover: #7371ff;
-  --color-brand-background: #6144e51a;
+  --color-brand-background: #6043e62b;
   --color-page-background: #222427;
   --color: #fff;
   --color-background: #222427;

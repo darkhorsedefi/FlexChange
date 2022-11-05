@@ -63,7 +63,6 @@ export default function Interface(props: any) {
     setIsValidFavicon(faviconUrl ? Boolean(validUrl.isUri(faviconUrl)) : true)
   }, [faviconUrl])
 
-
   const [navigationLinks, setNavigationLinks] = useState<LinkItem[]>(stateNavigationLinks)
   const [menuLinks, setMenuLinks] = useState<LinkItem[]>(stateMenuLinks)
   const [socialLinks, setSocialLinks] = useState<string[]>(stateSocialLinks)
@@ -116,12 +115,7 @@ export default function Interface(props: any) {
   const [cannotSaveSettings, setCannotSaveSettings] = useState(true)
 
   useEffect(() => {
-    setCannotSaveSettings(
-      chainId !== STORAGE_NETWORK_ID ||
-      !settingsChanged ||
-      !isValidLogo ||
-      !isValidFavicon
-    )
+    setCannotSaveSettings(chainId !== STORAGE_NETWORK_ID || !settingsChanged || !isValidLogo || !isValidFavicon)
   }, [settingsChanged, isValidLogo, isValidFavicon, chainId])
 
   const saveSettings = async () => {
