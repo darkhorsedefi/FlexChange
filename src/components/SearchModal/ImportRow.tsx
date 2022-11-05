@@ -50,7 +50,7 @@ export default function ImportRow({
   token: Token
   style?: CSSProperties
   dim?: boolean
-  showImportView: () => void
+  showImportView: VoidFunction
   setImportToken: (token: Token) => void
 }) {
   // gloabls

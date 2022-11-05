@@ -42,10 +42,10 @@ export default function ConfirmSwapModal({
   txHash: string | undefined
   recipient: string | null
   allowedSlippage: number
-  onAcceptChanges: () => void
-  onConfirm: () => void
+  onAcceptChanges: VoidFunction
+  onConfirm: VoidFunction
   swapErrorMessage: string | undefined
-  onDismiss: () => void
+  onDismiss: VoidFunction
 }) {
   const showAcceptChanges = useMemo(
     () => Boolean(trade && originalTrade && tradeMeaningfullyDiffers(trade, originalTrade)),

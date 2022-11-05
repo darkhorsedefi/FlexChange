@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 interface ImportProps {
   listURL: string
   list: TokenList
-  onDismiss: () => void
+  onDismiss: VoidFunction
   setModalView: (view: CurrencyModalView) => void
 }
 

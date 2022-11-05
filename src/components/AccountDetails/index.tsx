@@ -210,11 +210,11 @@ function renderTransactions(transactions: string[]) {
 }
 
 interface AccountDetailsProps {
-  toggleWalletModal: () => void
+  toggleWalletModal: VoidFunction
   pendingTransactions: string[]
   confirmedTransactions: string[]
   ENSName?: string
-  openOptions: () => void
+  openOptions: VoidFunction
 }
 
 export default function AccountDetails({

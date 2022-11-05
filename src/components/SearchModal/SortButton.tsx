@@ -21,7 +21,7 @@ export default function SortButton({
   toggleSortOrder,
   ascending,
 }: {
-  toggleSortOrder: () => void
+  toggleSortOrder: VoidFunction
   ascending: boolean
 }) {
   return (

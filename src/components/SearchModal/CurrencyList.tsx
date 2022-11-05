@@ -95,7 +95,7 @@ function CurrencyRow({
   style,
 }: {
   currency: Currency
-  onSelect: () => void
+  onSelect: VoidFunction
   isSelected: boolean
   otherSelected: boolean
   style: CSSProperties
@@ -152,7 +152,7 @@ export default function CurrencyList({
   otherCurrency?: Currency | null
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
-  showImportView: () => void
+  showImportView: VoidFunction
   setImportToken: (token: Token) => void
 }) {
   const { chainId } = useActiveWeb3React()

@@ -163,7 +163,7 @@ const ReturnButton = styled.button`
   color: ${({ theme }) => theme.text1};
 `
 
-function LanguageMenu({ close }: { close: () => void }) {
+function LanguageMenu({ close }: { close: VoidFunction }) {
   return (
     <MenuFlyout>
       <ReturnButton onClick={close}>

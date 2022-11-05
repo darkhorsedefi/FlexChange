@@ -30,7 +30,7 @@ export default function SwapModalFooter({
 }: {
   trade: Trade
   allowedSlippage: number
-  onConfirm: () => void
+  onConfirm: VoidFunction
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {

@@ -10,7 +10,7 @@ export default function TokenWarningModal({
 }: {
   isOpen: boolean
   tokens: Token[]
-  onConfirm: () => void
+  onConfirm: VoidFunction
 }) {
   const handleDismiss = useCallback(() => null, [])
 

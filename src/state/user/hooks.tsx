@@ -54,7 +54,7 @@ export function useIsDarkMode(): boolean {
   return userDarkMode === null ? matchesDarkMode : userDarkMode
 }
 
-export function useDarkModeManager(): [boolean, () => void] {
+export function useDarkModeManager(): [boolean, VoidFunction] {
   const dispatch = useDispatch<AppDispatch>()
   const darkMode = useIsDarkMode()
 
@@ -69,7 +69,7 @@ export function useIsExpertMode(): boolean {
   return useSelector<AppState, AppState['user']['userExpertMode']>((state) => state.user.userExpertMode)
 }
 
-export function useExpertModeManager(): [boolean, () => void] {
+export function useExpertModeManager(): [boolean, VoidFunction] {
   const dispatch = useDispatch<AppDispatch>()
   const expertMode = useIsExpertMode()
 

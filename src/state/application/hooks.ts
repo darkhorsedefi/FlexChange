@@ -20,27 +20,27 @@ export function useModalOpen(modal: ApplicationModal): boolean {
   return openModal === modal
 }
 
-export function useToggleModal(modal: ApplicationModal): () => void {
+export function useToggleModal(modal: ApplicationModal): VoidFunction {
   const open = useModalOpen(modal)
   const dispatch = useDispatch<AppDispatch>()
   return useCallback(() => dispatch(setOpenModal(open ? null : modal)), [dispatch, modal, open])
 }
 
-export function useOpenModal(modal: ApplicationModal): () => void {
+export function useOpenModal(modal: ApplicationModal): VoidFunction {
   const dispatch = useDispatch<AppDispatch>()
   return useCallback(() => dispatch(setOpenModal(modal)), [dispatch, modal])
 }
 
-export function useCloseModals(): () => void {
+export function useCloseModals(): VoidFunction {
   const dispatch = useDispatch<AppDispatch>()
   return useCallback(() => dispatch(setOpenModal(null)), [dispatch])
 }
 
-export function useWalletModalToggle(): () => void {
+export function useWalletModalToggle(): VoidFunction {
   return useToggleModal(ApplicationModal.WALLET)
 }
 
-export function useToggleSettingsMenu(): () => void {
+export function useToggleSettingsMenu(): VoidFunction {
   return useToggleModal(ApplicationModal.SETTINGS)
 }
 
@@ -48,19 +48,19 @@ export function useShowClaimPopup(): boolean {
   return useModalOpen(ApplicationModal.CLAIM_POPUP)
 }
 
-export function useToggleShowClaimPopup(): () => void {
+export function useToggleShowClaimPopup(): VoidFunction {
   return useToggleModal(ApplicationModal.CLAIM_POPUP)
 }
 
-export function useToggleSelfClaimModal(): () => void {
+export function useToggleSelfClaimModal(): VoidFunction {
   return useToggleModal(ApplicationModal.SELF_CLAIM)
 }
 
-export function useToggleDelegateModal(): () => void {
+export function useToggleDelegateModal(): VoidFunction {
   return useToggleModal(ApplicationModal.DELEGATE)
 }
 
-export function useToggleVoteModal(): () => void {
+export function useToggleVoteModal(): VoidFunction {
   return useToggleModal(ApplicationModal.VOTE)
 }
 
