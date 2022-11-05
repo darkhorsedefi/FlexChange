@@ -29,20 +29,17 @@ const FancyButton = styled.button`
   border: 1px solid ${({ theme }) => theme.bg3};
   outline: none;
   background: ${({ theme }) => theme.bg1};
-  :hover {
-    border: 1px solid ${({ theme }) => theme.bg4};
-  }
+
+  :hover,
   :focus {
-    border: 1px solid ${({ theme }) => theme.primary1};
+    border: 1px solid ${({ theme }) => theme.bg4};
   }
 `
 
 const Option = styled(FancyButton)<{ active: boolean }>`
+  cursor: pointer;
   margin-right: 8px;
-  :hover {
-    cursor: pointer;
-  }
-  background-color: ${({ active, theme }) => active && theme.primary1};
+  background-color: ${({ active }) => active && 'var(--color-brand)'};
   color: ${({ active, theme }) => (active ? theme.white : theme.text1)};
 `
 
@@ -79,7 +76,7 @@ const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }
 `
 
 const SlippageEmojiContainer = styled.span`
-  color: #f3841e;
+  color: var(--color-warning);
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;  
   `}

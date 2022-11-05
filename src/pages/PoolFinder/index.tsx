@@ -30,7 +30,7 @@ enum Fields {
 }
 
 const ExtendedCard = styled(Card)`
-  border: 1px solid ${({ theme }) => theme.primary3};
+  border: 1px solid var(--color-brand);
 `
 
 export default function PoolFinder() {
@@ -95,7 +95,9 @@ export default function PoolFinder() {
       <AutoColumn style={{ padding: '1rem' }} gap="md">
         <ExtendedCard>
           <AutoColumn gap="10px">
-            <TYPE.link fontWeight={400}>{t('useThisToolToFindPairs')}</TYPE.link>
+            <TYPE.main fontWeight={400} color="var(--color-brand)">
+              {t('useThisToolToFindPairs')}
+            </TYPE.main>
           </AutoColumn>
         </ExtendedCard>
         <ButtonDropdownLight

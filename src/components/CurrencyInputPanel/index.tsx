@@ -26,7 +26,6 @@ const CurrencySelect = styled.button`
   height: 2.2rem;
   font-size: 20px;
   font-weight: 500;
-  border: none;
   background-color: ${({ theme }) => theme.bg2};
   color: var(--color);
   border-radius: 0.5rem;
@@ -95,7 +94,6 @@ interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
   onMax?: () => void
-  showMaxButton: boolean
   label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
@@ -112,7 +110,6 @@ export default function CurrencyInputPanel({
   value,
   onUserInput,
   onMax,
-  showMaxButton,
   label = 'Input',
   onCurrencySelect,
   currency,

@@ -189,7 +189,9 @@ function Web3StatusInner() {
         {!hasPendingTransactions && connector && <StatusIcon connector={connector} chainId={chainId} />}
       </Web3StatusConnected>
     )
-  } else if (error) {
+  }
+
+  if (error) {
     return (
       <>
         <Web3StatusError>
@@ -204,15 +206,13 @@ function Web3StatusInner() {
         <Web3StatusConnect onClick={disconnect}>{t('disconnect')}</Web3StatusConnect>
       </>
     )
-  } else {
-    // if (openModal === null) toggleWalletModal()
-
-    return (
-      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        <Text>{t('connectWallet')}</Text>
-      </Web3StatusConnect>
-    )
   }
+
+  return (
+    <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+      <Text>{t('connectWallet')}</Text>
+    </Web3StatusConnect>
+  )
 }
 
 export default function Web3Status() {

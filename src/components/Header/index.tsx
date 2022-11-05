@@ -93,6 +93,7 @@ const AccountElement = styled.div<{ active: boolean }>`
   width: 100%;
   cursor: pointer;
   box-shadow: var(--box-shadow);
+  pointer-events: auto;
 
   :focus {
     border: 1px solid blue;
@@ -114,6 +115,7 @@ const NetworkCard = styled(LightCard)`
   display: flex;
   align-items: center;
   background-color: var(--color-background-elements);
+  border: none;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
@@ -292,7 +294,7 @@ export default function Header() {
       <HeaderControls>
         <HeaderElement>
           <HideSmall>{NetworkInfo(chainId)}</HideSmall>
-          <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+          <AccountElement active={!!account}>
             <Web3Status />
           </AccountElement>
         </HeaderElement>
