@@ -140,7 +140,7 @@ export default function Option({
   link?: string | null
   clickable?: boolean
   size?: number | null
-  onClick?: null | (VoidFunction)
+  onClick?: null | VoidFunction
   color: string
   widthPercent?: number
   header: React.ReactNode
