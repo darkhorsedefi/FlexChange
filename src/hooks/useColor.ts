@@ -1,12 +1,10 @@
 import { useState, useLayoutEffect } from 'react'
 import { shade } from 'polished'
-import Color from 'color'
 import Vibrant from 'node-vibrant'
 import { hex } from 'wcag-contrast'
 import { Token } from 'sdk'
 import uriToHttp from 'utils/uriToHttp'
 import { useDarkModeManager } from '../state/user/hooks'
-import { useAppState } from '../state/application/hooks'
 
 export function useThemeColors(): {
   bg1: string
@@ -26,15 +24,14 @@ export function useThemeColors(): {
   primary5: string
 } {
   const [darkMode] = useDarkModeManager()
-  const { brandColor, backgroundColorDark, backgroundColorLight, textColorDark, textColorLight } = useAppState()
-
-  let bg2 = darkMode ? backgroundColorDark || '#27292e' : backgroundColorLight || '#f2f2f2'
-  let bg1 = darkMode ? '#1d1f24' : '#ffffff'
+ 
+  let bg2 = darkMode ? '#222427' : '#f7f7f7'
+  let bg1 = darkMode ? '#1d1f24' : 'var(--color-background-elements)'
   let bg3 = darkMode ? '#3a3d47' : '#ededed'
   let bg4 = darkMode ? '#4c4f5c' : '#CED0D9'
   let bg5 = darkMode ? '#6C7284' : '#888D9B'
 
-  let text1 = darkMode ? textColorDark || '#FFFFFF' : textColorLight || '#000000'
+  let text1 = darkMode ? '#FFFFFF' : '#000000'
 
   let text2 = darkMode ? '#C3C5CB' : '#444854'
   let text3 = darkMode ? '#6C7284' : '#727782'
@@ -46,16 +43,6 @@ export function useThemeColors(): {
   let primary3 = darkMode ? '#737373' : '#474747'
   let primary4 = darkMode ? '#5c5c5c' : '#575757'
   let primary5 = darkMode ? '#474747' : '#6b6b6b'
-
-  if (brandColor) {
-    const color = new Color(brandColor)
-
-    primary1 = color.hex().toString()
-    primary2 = color.rotate(-1).darken(0.1).toString()
-    primary3 = color.rotate(-2).darken(0.15).toString()
-    primary4 = color.rotate(-3).darken(0.2).saturate(0.03).toString()
-    primary5 = color.rotate(-4).darken(0.3).saturate(0.04).toString()
-  }
 
   return {
     bg1,

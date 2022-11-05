@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { NetworkContextName } from './constants'
 import './i18n'
-import App from './pages/App'
+import App from './app'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
@@ -20,7 +20,7 @@ import getLibrary from './utils/getLibrary'
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if ('ethereum' in window) {
-  ;(window.ethereum as any).autoRefreshOnNetworkChange = false
+  ; (window.ethereum as any).autoRefreshOnNetworkChange = false
 }
 
 function Updaters() {

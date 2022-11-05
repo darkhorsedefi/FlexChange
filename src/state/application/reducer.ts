@@ -41,14 +41,8 @@ export type StorageState = {
   totalSwaps: number | undefined
   domain: string
   projectName: string
-  brandColor: string
-  backgroundColorDark: string
-  backgroundColorLight: string
-  textColorDark: string
-  textColorLight: string
   logo: string
   favicon: string
-  background: string
   navigationLinks: { name: string; source: string }[]
   menuLinks: { name: string; source: string }[]
   socialLinks: string[]
@@ -80,14 +74,8 @@ const initialState: ApplicationState = {
   pools: [],
   domain: '',
   projectName: '',
-  brandColor: '',
-  backgroundColorDark: '',
-  backgroundColorLight: '',
-  textColorDark: '',
-  textColorLight: '',
   logo: '',
   favicon: '',
-  background: '',
   tokenListsByChain: {},
   tokenLists: [],
   navigationLinks: [],

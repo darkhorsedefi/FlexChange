@@ -6,35 +6,38 @@ import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import { AppState } from 'state'
 import { ZERO_ADDRESS } from 'sdk'
+import './index.css'
+
 import useWordpressInfo from 'hooks/useWordpressInfo'
 import { useAppState } from 'state/application/hooks'
+import { useDarkModeManager } from 'state/user/hooks'
 import { retrieveDomainData } from 'state/application/actions'
 import { fetchDomainData, getCurrentDomain } from 'utils/app'
 import { useStorageContract } from 'hooks/useContract'
 import { SUPPORTED_CHAIN_IDS } from '../connectors'
 import { STORAGE_NETWORK_ID } from '../constants'
 import Loader from 'components/Loader'
-import Panel from './Panel'
-import Connection from './Connection'
+import Panel from '../pages/Panel'
+import Connection from '../pages/Connection'
 import Header from 'components/Header'
 import Popups from 'components/Popups'
 import GreetingScreen from 'components/GreetingScreen'
 import Web3ReactManager from 'components/Web3ReactManager'
 import DarkModeQueryParamReader from 'theme/DarkModeQueryParamReader'
-import AddLiquidity from './AddLiquidity'
+import AddLiquidity from '../pages/AddLiquidity'
 import {
   RedirectDuplicateTokenIds,
   RedirectOldAddLiquidityPathStructure,
   RedirectToAddLiquidity,
-} from './AddLiquidity/redirects'
-import Pool from './Pool'
-import Pools from './Pools'
-import PoolFinder from './PoolFinder'
-import RemoveLiquidity from './RemoveLiquidity'
-import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
-import Swap from './Swap'
+} from '../pages/AddLiquidity/redirects'
+import Pool from '../pages/Pool'
+import Pools from '../pages/Pools'
+import PoolFinder from '../pages/PoolFinder'
+import RemoveLiquidity from '../pages/RemoveLiquidity'
+import { RedirectOldRemoveLiquidityPathStructure } from '../pages/RemoveLiquidity/redirects'
+import Swap from '../pages/Swap'
 import Footer from 'components/Footer'
-import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from './Swap/redirects'
+import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from '../pages/Swap/redirects'
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -49,21 +52,13 @@ const LoaderWrapper = styled.div`
   background-color: ${({ theme }) => theme.bg1};
 `
 
-const AppWrapper = styled.div<{ background?: string }>`
+const AppWrapper = styled.div`
   min-height: 100vh;
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: space-between;
   overflow-x: hidden;
-  ${({ background }) =>
-    background
-      ? `
-      background-size: cover;
-      background-position:center;
-      background-image: url(${background});
-    `
-      : ''}
 `
 
 const HeaderWrapper = styled.div`
@@ -95,8 +90,19 @@ export default function App() {
   const wordpressData = useWordpressInfo()
   const storage = useStorageContract()
   const [domainData, setDomainData] = useState<any>(null)
-  const { admin, factory, router, projectName, background, pairHash } = useAppState()
+  const { admin, factory, router, projectName, pairHash } = useAppState()
   const [domainDataTrigger, setDomainDataTrigger] = useState<boolean>(false)
+  const [darkMode] = useDarkModeManager()
+
+  useEffect(() => {
+    const dataset = document.body.dataset
+
+    if (darkMode) {
+      dataset.scheme = "dark"
+    } else {
+      dataset.scheme = "default"
+    }
+  }, [darkMode])
 
   useEffect(() => {
     setDomainDataTrigger((state) => !state)
@@ -128,8 +134,8 @@ export default function App() {
       const appAdmin = wordpressData?.wpAdmin
         ? wordpressData?.wpAdmin?.toLowerCase() === lowerAcc
         : admin && admin !== ZERO_ADDRESS
-        ? admin.toLowerCase() === lowerAcc
-        : true
+          ? admin.toLowerCase() === lowerAcc
+          : true
 
       const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 
@@ -199,7 +205,7 @@ export default function App() {
                   <Panel setDomainDataTrigger={setDomainDataTrigger} />
                 </BodyWrapper>
               ) : (
-                <AppWrapper background={background}>
+                <AppWrapper>
                   {/* addition tag for the flex layout */}
                   <div>
                     <HeaderWrapper>
