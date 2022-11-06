@@ -129,12 +129,9 @@ export const fetchDomainData = async (
   let fullData = defaultSettings()
 
   try {
-    // @todo Temp solution
-    const currentDomain = 'localhost' // getCurrentDomain()
+    const currentDomain = getCurrentDomain()
     const { info, owner } = await storage.methods.getData(currentDomain).call()
-    console.log("🚀 chainId", chainId)
     const settings = parseSettings(info || '{}', chainId || 0)
-    console.log("🚀 settings", settings)
 
     fullData = { ...settings, admin: owner === ZERO_ADDRESS ? '' : owner }
 
