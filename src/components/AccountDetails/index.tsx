@@ -182,15 +182,12 @@ const TransactionListWrapper = styled.div`
 `
 
 const WalletAction = styled(ButtonSecondary)`
+  cursor: pointer;
   width: fit-content;
   font-weight: 400;
   margin-left: 8px;
   font-size: 0.825rem;
   padding: 4px 6px;
-  :hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
 `
 
 const BalanceText = styled.p`
@@ -293,12 +290,7 @@ export default function AccountDetails({
                   >
                     {t('disconnect')}
                   </WalletAction>
-                  <WalletAction
-                    style={{ fontSize: '.825rem', fontWeight: 400 }}
-                    onClick={() => {
-                      openOptions()
-                    }}
-                  >
+                  <WalletAction style={{ fontSize: '.825rem', fontWeight: 400 }} onClick={openOptions}>
                     {t('change')}
                   </WalletAction>
                 </div>
