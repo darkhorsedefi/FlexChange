@@ -37,24 +37,6 @@ const defaultSettings = (): StorageState => ({
   defaultSwapCurrency: { input: '', output: '' },
 })
 
-export const getLocalSettings = async (): Promise<unknown | undefined> => {
-  try {
-    // @ts-ignore
-    const module = await import('../config.json')
-
-    if (module?.default && Object.keys(module?.default).length) {
-      return {
-        ...defaultSettings(),
-        ...module.default,
-      }
-    }
-
-    return
-  } catch (error) {
-    return
-  }
-}
-
 const parseSettings = (settings: string, chainId: number): StorageState => {
   const appSettings = defaultSettings()
 
@@ -148,17 +130,10 @@ export const fetchDomainData = async (
 
   try {
     const currentDomain = getCurrentDomain()
-    const localSettings = await getLocalSettings()
+    const { info, owner } = await storage.methods.getData(currentDomain).call()
+    const settings = parseSettings(info || '{}', chainId || 0)
 
-    if (localSettings) {
-      // @ts-ignore
-      fullData = { ...localSettings }
-    } else {
-      const { info, owner } = await storage.methods.getData(currentDomain).call()
-      const settings = parseSettings(info || '{}', chainId || 0)
-
-      fullData = { ...settings, admin: owner === ZERO_ADDRESS ? '' : owner }
-    }
+    fullData = { ...settings, admin: owner === ZERO_ADDRESS ? '' : owner }
 
     if (fullData?.factory) {
       try {
