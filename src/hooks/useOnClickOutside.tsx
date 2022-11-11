@@ -2,9 +2,9 @@ import { RefObject, useEffect, useRef } from 'react'
 
 export function useOnClickOutside<T extends HTMLElement>(
   node: RefObject<T | undefined>,
-  handler: undefined | (() => void)
+  handler: undefined | VoidFunction
 ) {
-  const handlerRef = useRef<undefined | (() => void)>(handler)
+  const handlerRef = useRef<undefined | VoidFunction>(handler)
   useEffect(() => {
     handlerRef.current = handler
   }, [handler])

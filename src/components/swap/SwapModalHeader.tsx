@@ -27,7 +27,7 @@ export default function SwapModalHeader({
   allowedSlippage: number
   recipient: string | null
   showAcceptChanges: boolean
-  onAcceptChanges: () => void
+  onAcceptChanges: VoidFunction
 }) {
   const { t } = useTranslation()
   const { totalFee } = useAppState()

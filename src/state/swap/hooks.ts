@@ -24,7 +24,7 @@ export function useSwapState(): AppState['swap'] {
 
 export function useSwapActionHandlers(): {
   onCurrencySelection: (field: Field, currency: Currency) => void
-  onSwitchTokens: () => void
+  onSwitchTokens: VoidFunction
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {

@@ -31,7 +31,7 @@ const ConfirmedIcon = styled(ColumnCenter)`
   padding: 60px 0;
 `
 
-function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: () => void; pendingText: string }) {
+function ConfirmationPendingContent({ onDismiss, pendingText }: { onDismiss: VoidFunction; pendingText: string }) {
   const { t } = useTranslation()
 
   return (
@@ -67,7 +67,7 @@ function TransactionSubmittedContent({
   chainId,
   hash,
 }: {
-  onDismiss: () => void
+  onDismiss: VoidFunction
   hash: string | undefined
   chainId: number
 }) {
@@ -113,7 +113,7 @@ export function ConfirmationModalContent({
   topContent,
 }: {
   title: string
-  onDismiss: () => void
+  onDismiss: VoidFunction
   topContent: () => React.ReactNode
   bottomContent: () => React.ReactNode
 }) {
@@ -133,7 +133,7 @@ export function ConfirmationModalContent({
   )
 }
 
-export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
+export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: VoidFunction }) {
   const theme = useContext(ThemeContext)
   const { t } = useTranslation()
 
@@ -162,7 +162,7 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
 
 interface ConfirmationModalProps {
   isOpen: boolean
-  onDismiss: () => void
+  onDismiss: VoidFunction
   hash: string | undefined
   content: () => React.ReactNode
   attemptingTxn: boolean

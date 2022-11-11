@@ -37,7 +37,7 @@ const ModalContentWrapper = styled.div`
 
 interface ComponentProps {
   isOpen: boolean
-  onDismiss: () => void
+  onDismiss: VoidFunction
   content: () => JSX.Element
 }
 

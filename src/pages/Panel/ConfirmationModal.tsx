@@ -6,8 +6,8 @@ import { ButtonPrimary } from 'components/Button'
 
 export default function ConfirmationModal(props: {
   open: boolean
-  onDismiss: () => void
-  onDeployment: () => void
+  onDismiss: VoidFunction
+  onDeployment: VoidFunction
   txHash: string
   attemptingTxn: boolean
   titleId: string

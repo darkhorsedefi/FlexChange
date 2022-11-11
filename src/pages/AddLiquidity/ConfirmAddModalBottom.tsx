@@ -20,7 +20,7 @@ export function ConfirmAddModalBottom({
   currencies: { [field in Field]?: Currency }
   parsedAmounts: { [field in Field]?: CurrencyAmount }
   poolTokenPercentage?: Percent
-  onAdd: () => void
+  onAdd: VoidFunction
 }) {
   return (
     <>

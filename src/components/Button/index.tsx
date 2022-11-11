@@ -71,20 +71,21 @@ export const ButtonSecondary = styled(Base)`
   border: 1px solid ${({ theme }) => theme.primary4};
   color: ${({ theme }) => theme.primary1};
   background-color: transparent;
-  font-size: 16px;
-  border-radius: 12px;
+  font-size: 1rem;
+  border-radius: var(--main-component-border-radius);
   padding: ${({ padding }) => (padding ? padding : '10px')};
 
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid var(--color-brand);
   }
   &:hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid var(--color-brand);
+    background-color: var(--color-brand-background);
   }
   &:active {
     box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid var(--color-brand);
   }
   &:disabled {
     opacity: 50%;
@@ -96,7 +97,7 @@ export const ButtonSecondary = styled(Base)`
 `
 
 export const ButtonOutlined = styled(Base)`
-  border: 1px solid ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.bg3};
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
 
@@ -181,7 +182,7 @@ const ButtonAddStyle = styled(CleanButton)<{ disabled?: boolean }>`
   ${({ disabled }) => (disabled ? `pointer-events: none; opacity: .6;` : '')}
 `
 
-export function ButtonAdd({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
+export function ButtonAdd({ onClick, disabled }: { onClick: VoidFunction; disabled?: boolean }) {
   const { t } = useTranslation()
 
   return (

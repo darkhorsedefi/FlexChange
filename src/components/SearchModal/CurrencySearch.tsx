@@ -44,12 +44,12 @@ const Footer = styled.div`
 
 interface CurrencySearchProps {
   isOpen: boolean
-  onDismiss: () => void
+  onDismiss: VoidFunction
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency) => void
   otherSelectedCurrency?: Currency | null
-  showManageView: () => void
-  showImportView: () => void
+  showManageView: VoidFunction
+  showImportView: VoidFunction
   setImportToken: (token: Token) => void
 }
 

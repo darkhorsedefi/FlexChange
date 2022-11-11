@@ -41,8 +41,8 @@ const AddressText = styled(TYPE.blue)`
 
 interface ImportProps {
   tokens: Token[]
-  onBack?: () => void
-  onDismiss?: () => void
+  onBack?: VoidFunction
+  onDismiss?: VoidFunction
   handleCurrencySelect?: (currency: Currency) => void
 }
 

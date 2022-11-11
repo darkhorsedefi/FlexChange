@@ -11,7 +11,7 @@ import { ImportList } from './ImportList'
 
 interface CurrencySearchModalProps {
   isOpen: boolean
-  onDismiss: () => void
+  onDismiss: VoidFunction
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency) => void
   otherSelectedCurrency?: Currency | null

@@ -95,19 +95,19 @@ const StyledMenu = styled.div`
   text-align: left;
 `
 
-const MenuFlyout = styled.span`
+const MenuFlyout = styled.div`
   min-width: 20.125rem;
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: var(--color-background-elements);
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
-  border: 1px solid ${({ theme }) => theme.bg4};
-  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--main-component-border-radius);
   display: flex;
   flex-direction: column;
   font-size: 1rem;
   position: absolute;
-  top: 3rem;
-  right: 0rem;
+  top: 2.4rem;
+  right: 0.3rem;
   z-index: 100;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -185,22 +185,23 @@ export default function SettingsTab() {
                 <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
                   {t('turnOnExpertMode')}
                 </Text>
-                +
               </ButtonError>
             </AutoColumn>
           </AutoColumn>
         </ModalContentWrapper>
       </Modal>
+
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
         <StyledMenuIcon />
-        {expertMode ? (
+        {expertMode && (
           <EmojiWrapper>
             <span role="img" aria-label="wizard-icon">
               👨‍💻
             </span>
           </EmojiWrapper>
-        ) : null}
+        )}
       </StyledMenuButton>
+
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
