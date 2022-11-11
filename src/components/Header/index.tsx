@@ -3,7 +3,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import TempLogo from 'assets/images/templogo.png'
+import Logo from 'assets/images/logo.svg'
 import { RiArrowRightUpLine } from 'react-icons/ri'
 import { useActiveWeb3React } from 'hooks'
 import { useAppState } from 'state/application/hooks'
@@ -17,7 +17,7 @@ import networks from 'networks.json'
 const HeaderFrame = styled.header`
   width: 100vw;
   margin: 0.4rem auto;
-  padding: 0.4rem 1.6rem;
+  padding: 1rem 1.6rem;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -140,8 +140,12 @@ const Title = styled.a`
 `
 
 const Icon = styled.div`
-  width: 4rem;
+  width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s ease;
+
   :hover {
     transform: scale(1.1);
   }
@@ -254,14 +258,14 @@ const NetworkInfo = (chainId?: number) => {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-  const { logo: logoUrl, navigationLinks } = useAppState()
+  const { navigationLinks } = useAppState()
 
   return (
     <HeaderFrame>
       <HeaderRow>
         <Title href=".">
           <Icon>
-            <LogoImage src={logoUrl || TempLogo} alt="logo" />
+            <LogoImage src={Logo} alt="logo" />
           </Icon>
         </Title>
         <NavlLinks>

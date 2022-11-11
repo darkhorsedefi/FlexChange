@@ -5,6 +5,7 @@ import { getContractInstance } from 'utils/contract'
 import { Log, consoleLog } from 'utils/logs'
 import { filterTokenLists } from 'utils/list'
 import { STORAGE_APP_KEY } from '../constants'
+import networks from 'networks.json'
 
 export const getCurrentDomain = (): string => {
   return window.location.hostname || document.location.host || ''
@@ -98,6 +99,18 @@ const parseSettings = (settings: string, chainId: number): StorageState => {
 
       if (tokenLists[chainId]) {
         appSettings.tokenLists = filterTokenLists(chainId, tokenLists[chainId])
+      }
+    }
+
+    // @ts-ignore
+    if (networks[chainId]?.tokenList) {
+      if (!appSettings.tokenListsByChain) {
+        appSettings.tokenListsByChain = {}
+      }
+
+      appSettings.tokenListsByChain[chainId] = {
+        // @ts-ignore
+        [Math.random().toString(36).substring(2)]: networks[chainId].tokenList,
       }
     }
 

@@ -23,7 +23,7 @@ const MEDIA_WIDTHS = {
 
 const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } = Object.keys(MEDIA_WIDTHS).reduce(
   (accumulator, size) => {
-    ;(accumulator as any)[size] = (a: any, b: any, c: any) => css`
+    ; (accumulator as any)[size] = (a: any, b: any, c: any) => css`
       @media (max-width: ${(MEDIA_WIDTHS as any)[size]}px) {
         ${css(a, b, c)}
       }
@@ -102,7 +102,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   return <StyledComponentsThemeProvider theme={extendedTheme}>{children}</StyledComponentsThemeProvider>
 }
 
-const TextWrapper = styled(Text)<{ color: keyof Colors }>`
+const TextWrapper = styled(Text) <{ color: keyof Colors }>`
   color: ${({ color, theme }) => (theme as any)[color]};
 `
 
@@ -201,5 +201,6 @@ body {
   min-height: 100vh;
   background-position: 0 -30vh;
   background-repeat: no-repeat;
+  background-image: radial-gradient(50% 50% at 50% 50%, var(--color-brand-background) 0%, var(--color-page-background) 100%);
 }
 `

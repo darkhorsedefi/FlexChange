@@ -1,6 +1,5 @@
 import { Version } from '@uniswap/token-lists'
 import { DEFAULT_LIST_OF_LISTS } from './../constants/lists'
-import { returnValidList } from 'utils/getTokenList'
 
 // use ordering of default list of lists to assign priority
 export function sortByListPriority(urlA: string, urlB: string) {
@@ -38,10 +37,10 @@ export function filterTokenLists(chainId: number, lists: { [listId: string]: any
 
       if (!filteredTokens.length) return false
 
-      return returnValidList({
+      return {
         ...list,
         tokens: filteredTokens,
-      })
+      }
     } catch (error) {
       console.error(error)
       return false

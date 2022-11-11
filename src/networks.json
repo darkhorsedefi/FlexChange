@@ -71,6 +71,26 @@
       "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
       "name": "Wrapped BNB",
       "symbol": "WBNB"
+    },
+    "tokenList": {
+      "logoURI": "",
+      "name": "Premium coffe",
+      "timestamp": "2022-11-00T00:00:007Z",
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+      },
+      "tokens": [
+        {
+          "name": "PREMIUM",
+          "symbol": "PREMIUM",
+          "address": "0x3E7c0Dd4efC3b5d98f7f7c9bdfc85294e09c344f",
+          "chainId": 56,
+          "decimals": 18,
+          "logoURI": ""
+        }
+      ]
     }
   },
   "137": {
@@ -217,6 +237,26 @@
       "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
       "name": "Wrapped Ether",
       "symbol": "WETH"
+    },
+    "tokenList": {
+      "logoURI": "",
+      "name": "My token list",
+      "timestamp": "2022-11-00T00:00:007Z",
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0
+      },
+      "tokens": [
+        {
+          "chainId": 5,
+          "address": "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844",
+          "name": "Dai Stablecoin",
+          "decimals": 18,
+          "symbol": "DAI",
+          "logoURI": ""
+        }
+      ]
     }
   }
 }

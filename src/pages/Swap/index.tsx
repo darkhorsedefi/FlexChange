@@ -4,6 +4,7 @@ import { ArrowDown } from 'react-feather'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { useWeb3React } from '@web3-react/core'
 import AddressInputPanel from 'components/AddressInputPanel'
 import { ButtonError, ButtonPrimary, ButtonConfirmed } from 'components/Button'
 import Card, { GreyCard } from 'components/Card'
@@ -25,6 +26,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCall
 import { useSwapCallback } from 'hooks/useSwapCallback'
 import { useBaseCurrency } from 'hooks/useCurrency'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
+import { PROJECT_TOKEN } from '../../constants'
 import { useToggleSettingsMenu, useWalletModalToggle, useAppState } from 'state/application/hooks'
 import { Field } from 'state/swap/actions'
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks'
@@ -39,6 +41,7 @@ import Loader from 'components/Loader'
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
+  const { chainId } = useWeb3React()
   const { totalFee, defaultSwapCurrency } = useAppState()
   const baseCurrency = useBaseCurrency()
 
@@ -91,13 +94,13 @@ export default function Swap() {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
@@ -240,11 +243,13 @@ export default function Swap() {
       handleInputSelect(defaultTokens[input])
     }
 
-    if (output !== input && !!defaultTokens[output]) {
+    if (PROJECT_TOKEN && PROJECT_TOKEN.chainId === chainId) {
+      handleOutputSelect(PROJECT_TOKEN)
+    } else if (output !== input && !!defaultTokens[output]) {
       handleOutputSelect(defaultTokens[output])
     }
     // eslint-disable-next-line
-  }, [])
+  }, [chainId])
 
   return (
     <>
@@ -436,8 +441,8 @@ export default function Swap() {
                   {swapInputError
                     ? swapInputError
                     : priceImpactSeverity > 3 && !isExpertMode
-                    ? `Price Impact Too High`
-                    : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
+                      ? `Price Impact Too High`
+                      : `Swap${priceImpactSeverity > 2 ? ' Anyway' : ''}`}
                 </Text>
               </ButtonError>
             )}

@@ -1,15 +1,14 @@
 :root,
 [data-scheme='default'] {
-  --color-brand: #6144e5;
-  --color-brand-hover: #7371ff;
-  --color-brand-background: #6043e62b;
+  --color-brand: #ea8636;
+  --color-brand-hover: #f29952;
+  --color-brand-background: #f2995230;
   --color-page-background: #f7f7f7;
   --color: #000;
   --color-background: #f7f7f7;
   --color-background-elements: #fff;
   --color-read-only: #e9e9e9;
   --color-inactive: #e5e1ff;
-  --color-need-to-rename: #1f2d48;
 
   --color-border: #7774;
   --color-inactive-border: #8e9aa329;
@@ -34,9 +33,9 @@
 }
 
 [data-scheme='dark'] {
-  --color-brand: #7a5dff;
-  --color-brand-hover: #a18efb;
-  --color-brand-background: #6043e62b;
+  --color-brand: #ea8636;
+  --color-brand-hover: #f29952;
+  --color-brand-background: #f2995220;
   --color-page-background: #222427;
   --color: #fff;
   --color-background: #222427;

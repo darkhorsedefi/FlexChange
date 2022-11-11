@@ -78,10 +78,12 @@ export default function Updater(): null {
   }, [chainId, contracts, dispatch])
 
   useEffect(() => {
-    if (chainId && tokenListsByChain[chainId]) {
-      const tokenLists = filterTokenLists(chainId, tokenListsByChain[chainId])
+    if (chainId) {
+      if (tokenListsByChain[chainId]) {
+        const tokenLists = filterTokenLists(chainId, tokenListsByChain[chainId])
 
-      dispatch(updateAppOptions([{ key: 'tokenLists', value: tokenLists }]))
+        dispatch(updateAppOptions([{ key: 'tokenLists', value: tokenLists }]))
+      }
     }
   }, [chainId, tokenListsByChain, dispatch])
 

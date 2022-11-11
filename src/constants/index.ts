@@ -17,6 +17,20 @@ export const STORAGE = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].st
 // through this key we get/set this app settings (we use the storage contract for many apps)
 export const STORAGE_APP_KEY = 'definance'
 
+export const PROJECT_TOKEN: {
+  name: string
+  symbol: string
+  address: string
+  chainId: number
+  decimals: number
+} = {
+  name: 'PREMIUM',
+  symbol: 'PREMIUM',
+  address: '0x3E7c0Dd4efC3b5d98f7f7c9bdfc85294e09c344f',
+  chainId: 56,
+  decimals: 18,
+}
+
 export enum StorageMethod {
   getData = 'getData',
   allKeys = 'allKeys',
