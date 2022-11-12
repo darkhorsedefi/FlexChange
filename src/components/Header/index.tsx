@@ -73,6 +73,7 @@ const NavlLinks = styled(Row)`
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     position: fixed;
+    flex-wrap: wrap;
     margin-left: 0;
     bottom: 0;
     padding: 0.6rem;
@@ -80,6 +81,8 @@ const NavlLinks = styled(Row)`
     left: 0%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    box-shadow: var(--box-shadow);
+    background-color: var(--color-background-elements);
   `};
 `
 
@@ -285,6 +288,16 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
+
+          <StyledExternalLink href="https://t.me/PremiumCoffee_Bot" target="_blank">
+            <span className="name">Airdrop</span> <RiArrowRightUpLine />
+          </StyledExternalLink>
+          <StyledExternalLink href="https://staking.premium.coffee" target="_blank">
+            <span className="name">Стэйкинг</span> <RiArrowRightUpLine />
+          </StyledExternalLink>
+          <StyledExternalLink href="https://farming.premium.coffee" target="_blank">
+            <span className="name">Фарминг</span> <RiArrowRightUpLine />
+          </StyledExternalLink>
 
           {Boolean(navigationLinks.length) &&
             navigationLinks.map((item: { source: string; name: string }, index) => (

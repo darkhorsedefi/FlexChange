@@ -8,7 +8,7 @@ import { STORAGE_APP_KEY } from '../constants'
 import networks from 'networks.json'
 
 export const getCurrentDomain = (): string => {
-  return window.location.hostname || document.location.host || ''
+  return process.env.REACT_APP_LOCAL_DOMAIN || window.location.hostname || document.location.host || ''
 }
 
 const validArray = (arr: any[]) => Array.isArray(arr) && !!arr.length
