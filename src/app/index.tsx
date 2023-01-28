@@ -69,7 +69,7 @@ const HeaderWrapper = styled.div`
 
 const BodyWrapper = styled.div`
   width: 100%;
-  padding: 3rem 0;
+  padding: 68px 8px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,8 +134,8 @@ export default function App() {
       const appAdmin = wordpressData?.wpAdmin
         ? wordpressData?.wpAdmin?.toLowerCase() === lowerAcc
         : admin && admin !== ZERO_ADDRESS
-          ? admin.toLowerCase() === lowerAcc
-          : true
+        ? admin.toLowerCase() === lowerAcc
+        : true
 
       const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 

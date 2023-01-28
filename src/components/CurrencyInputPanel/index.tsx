@@ -18,7 +18,7 @@ import useTheme from 'hooks/useTheme'
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  padding: ${({ selected }) => (selected ? '0.8rem 0.6rem 0.8rem 1.1rem' : '0.8rem 0.8rem 0.8rem 1.1rem')};
+  padding: 16px;
 `
 
 const CurrencySelect = styled.button`
@@ -73,16 +73,43 @@ const StyledDropDown = styled(DropDown)`
 `
 
 const InputPanel = styled.div<{ hideInput?: boolean }>`
-  ${({ theme }) => theme.flexColumnNoWrap}
-  position: relative;
-  border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  background-color: ${({ theme }) => theme.bg1};
   z-index: 1;
+  position: relative;
+  background-color: var(--color-background-module);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+
+  &:before {
+    box-sizing: border-box;
+    background-size: 100%;
+    border-radius: inherit;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: '';
+    border: 1px solid var(--color-background-module);
+  }
+
+  &:hover:before {
+    border-color: var(--color-state-overlay-hover);
+  }
+
+  &:focus-within:before {
+    border-color: var(--color-state-overlay-pressed);
+  }
 `
 
 const Container = styled.div<{ hideInput: boolean }>`
-  border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  border: 1px solid ${({ theme }) => theme.bg3};
+  border-radius: 12px;
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
@@ -94,7 +121,6 @@ interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
   onMax?: VoidFunction
-  label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
@@ -110,7 +136,6 @@ export default function CurrencyInputPanel({
   value,
   onUserInput,
   onMax,
-  label = 'Input',
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
@@ -138,9 +163,6 @@ export default function CurrencyInputPanel({
         {!hideInput && (
           <LabelRow>
             <RowBetween>
-              <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
-                {label}
-              </TYPE.body>
               {account && (
                 <TYPE.body
                   onClick={onMax}

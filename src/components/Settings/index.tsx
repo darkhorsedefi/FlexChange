@@ -35,14 +35,15 @@ const StyledMenuIcon = styled(Settings)`
   width: 35px;
   padding: 0.4rem;
   border-radius: 50%;
+  opacity: 0.6;
 
   > * {
     stroke: ${({ theme }) => theme.text1};
   }
 
   :hover {
-    background-color: ${({ theme }) => theme.bg2};
-    animation: ${rotate} 2s linear infinite;
+    /* animation: ${rotate} 2s linear infinite; */
+    opacity: 0.3;
   }
 `
 

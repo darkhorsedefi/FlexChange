@@ -148,10 +148,6 @@ const Icon = styled.div`
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease;
-
-  :hover {
-    transform: scale(1.1);
-  }
 `
 
 const LogoImage = styled.img`

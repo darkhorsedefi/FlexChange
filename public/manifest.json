@@ -1,6 +1,8 @@
 {
-  "short_name": "unifactory",
-  "name": "unifactory",
+  "background_color": "#fff",
+  "display": "Premium.Coffee",
+  "short_name": "Premium.Coffee",
+  "name": "Premium.Coffee",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -16,7 +18,7 @@
     }
   ],
   "orientation": "portrait",
-  "display": "standalone",
-  "theme_color": "#000",
-  "background_color": "#fff"
+  "description": "Swap or provide liquidity on the Premium.Coffee",
+  "theme_color": "#ea8636",
+  "start_url": "."
 }

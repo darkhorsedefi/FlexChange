@@ -57,7 +57,11 @@ export const ButtonPrimary = styled(Base)`
 
   &:disabled {
     background-color: ${({ theme, altDisabledStyle, disabled }) =>
-      altDisabledStyle ? (disabled ? theme.bg3 : theme.primary1) : theme.bg3};
+      altDisabledStyle
+        ? disabled
+          ? 'var(--color-background-interactive)'
+          : theme.primary1
+        : 'var(--color-background-interactive)'};
     color: ${({ theme, altDisabledStyle, disabled }) =>
       altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
     cursor: auto;
@@ -97,7 +101,7 @@ export const ButtonSecondary = styled(Base)`
 `
 
 export const ButtonOutlined = styled(Base)`
-  border: 1px solid ${({ theme }) => theme.bg3};
+  border: 1px solid var(--color-background-interactive);
   background-color: transparent;
   color: ${({ theme }) => theme.text1};
 

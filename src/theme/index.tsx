@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import styled, { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle, css } from 'styled-components'
+import { Text, TextProps } from 'rebass'
 import { useThemeColors } from '../hooks/useColor'
 import { useIsDarkMode } from '../state/user/hooks'
-import { Text, TextProps } from 'rebass'
+import { darkTheme, lightTheme } from './colors'
 import { Colors } from './styled'
 
 export * from './components'
@@ -23,7 +24,7 @@ const MEDIA_WIDTHS = {
 
 const mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } = Object.keys(MEDIA_WIDTHS).reduce(
   (accumulator, size) => {
-    ; (accumulator as any)[size] = (a: any, b: any, c: any) => css`
+    ;(accumulator as any)[size] = (a: any, b: any, c: any) => css`
       @media (max-width: ${(MEDIA_WIDTHS as any)[size]}px) {
         ${css(a, b, c)}
       }
@@ -88,6 +89,73 @@ export function theme(darkMode: boolean) {
   }
 }
 
+const fonts = {
+  code: 'courier, courier new, serif',
+}
+
+const deprecated_mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } = Object.keys(
+  MEDIA_WIDTHS
+).reduce((acc, size) => {
+  acc[size] = (a: any, b: any, c: any) => css`
+    @media (max-width: ${(MEDIA_WIDTHS as any)[size]}px) {
+      ${css(a, b, c)}
+    }
+  `
+  return acc
+}, {} as any)
+
+export const BREAKPOINTS = {
+  xs: 396,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  xxl: 1536,
+  xxxl: 1920,
+}
+
+const opacities = {
+  hover: 0.6,
+  click: 0.4,
+  disabled: 0.5,
+  enabled: 1,
+}
+
+function getSettings(darkMode: boolean) {
+  return {
+    grids: {
+      xs: '4px',
+      sm: '8px',
+      md: '12px',
+      lg: '24px',
+      xl: '32px',
+    },
+    fonts,
+
+    // shadows
+    shadow1: darkMode ? '#000' : '#2F80ED',
+
+    // media queries
+    deprecated_mediaWidth: deprecated_mediaWidthTemplates,
+
+    navHeight: 72,
+    mobileBottomBarHeight: 52,
+
+    // deprecated - please use hardcoded exported values instead of
+    // adding to the theme object
+    breakpoint: BREAKPOINTS,
+    opacity: opacities,
+  }
+}
+
+export function getTheme(darkMode: boolean) {
+  return {
+    darkMode,
+    ...(darkMode ? darkTheme : lightTheme),
+    ...getSettings(darkMode),
+  }
+}
+
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useIsDarkMode()
   // move all colors which are requested from the outside in a hook
@@ -99,10 +167,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     ...dynamicColors,
   }
 
+  // @ts-ignore
   return <StyledComponentsThemeProvider theme={extendedTheme}>{children}</StyledComponentsThemeProvider>
 }
 
-const TextWrapper = styled(Text) <{ color: keyof Colors }>`
+const TextWrapper = styled(Text)<{ color: keyof Colors }>`
   color: ${({ color, theme }) => (theme as any)[color]};
 `
 

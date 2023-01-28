@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import validUrl from 'valid-url'
 import { useAppState } from 'state/application/hooks'
-import Polling from '../Header/Polling'
 import { TiSocialInstagram } from 'react-icons/ti'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { BsQuestionCircle } from 'react-icons/bs'
@@ -108,8 +107,6 @@ export default function Footer() {
           </SocialLinksWrapper>
         ) : null}
       </Content>
-
-      <Polling />
     </FooterWrapper>
   )
 }

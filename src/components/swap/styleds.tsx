@@ -7,21 +7,33 @@ import { AutoColumn } from '../Column'
 
 export const Wrapper = styled.div`
   position: relative;
-  padding: 1rem;
 `
 
-export const ArrowWrapper = styled.div<{ clickable: boolean }>`
-  padding: 2px;
+export const ArrowWrapper = styled.div<{ clickable?: boolean }>`
+  border-radius: 12px;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  margin-top: -18px;
+  margin-bottom: -18px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--color-background-interactive);
+  border: 4px solid;
+  border-color: var(--color-background-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  z-index: 2;
   ${({ clickable }) =>
-    clickable
-      ? css`
-          :hover {
-            cursor: pointer;
-            opacity: 0.8;
-          }
-        `
-      : null}
+    clickable &&
+    css`
+      :hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    `}
 `
 
 export const SectionBreak = styled.div`
@@ -31,7 +43,7 @@ export const SectionBreak = styled.div`
 `
 
 export const BottomGrouping = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 `
 
 export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
