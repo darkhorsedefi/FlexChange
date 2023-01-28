@@ -270,6 +270,6 @@ body {
   min-height: 100vh;
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: radial-gradient(50% 50% at 50% 50%, var(--color-brand-background) 0%, var(--color-page-background) 100%);
+  background-image: linear-gradient(180deg, var(--color-brand-background) 0%, rgba(255, 255, 255, 0) 100%);
 }
 `

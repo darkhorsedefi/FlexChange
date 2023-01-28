@@ -8,6 +8,7 @@ import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { RowBetween } from '../Row'
 import { TYPE } from 'theme'
+import { ButtonGray } from '../Button'
 import { Input as NumericalInput } from '../NumericalInput'
 import { ReactComponent as DropDown } from 'assets/images/dropdown.svg'
 
@@ -21,25 +22,28 @@ const InputRow = styled.div<{ selected: boolean }>`
   padding: 16px;
 `
 
-const CurrencySelect = styled.button`
+const CurrencySelect = styled(ButtonGray)`
   align-items: center;
-  height: 2.2rem;
-  font-size: 20px;
-  font-weight: 500;
-  background-color: ${({ theme }) => theme.bg2};
-  color: var(--color);
-  border-radius: 0.5rem;
-  outline: none;
+  background-color: var(--color-background-interactive);
+  opacity: ${({ disabled }) => (!disabled ? 1 : 0.5)};
+  color: var(--color-text-primary);
   cursor: pointer;
+  outline: none;
   user-select: none;
   border: none;
-  padding: 0 0.5rem;
-  transition: 0.12s;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 500;
+  height: unset;
+  width: initial;
+  padding: 4px 8px 4px 4px;
+  justify-content: space-between;
+  margin-left: 12px;
 
   :focus,
   :hover {
-    background-color: var(--color-brand);
-    color: var(--color-f-brightest);
+    background-color: var(--color-deprecated_bg3);
+    opacity: 1;
   }
 `
 
@@ -82,6 +86,8 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   font-size: 14px;
   line-height: 20px;
   font-weight: 500;
+  transition: height 1s ease;
+  will-change: height;
 
   &:before {
     box-sizing: border-box;
@@ -112,9 +118,8 @@ const Container = styled.div<{ hideInput: boolean }>`
   border-radius: 12px;
 `
 
-const StyledTokenName = styled.span<{ active?: boolean }>`
-  ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
-  font-size:  ${({ active }) => (active ? '20px' : '16px')};
+const StyledTokenName = styled.span`
+  margin: 0 0.25rem;
 `
 
 interface CurrencyInputPanelProps {
@@ -204,12 +209,12 @@ export default function CurrencyInputPanel({
                   {pair?.token0.symbol}:{pair?.token1.symbol}
                 </StyledTokenName>
               ) : (
-                <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
+                <StyledTokenName className="token-symbol-container">
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? currency.symbol.slice(0, 4) +
                       '...' +
                       currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                    : currency?.symbol) || t('token')}
+                    : currency?.symbol) || t('selectToken')}
                 </StyledTokenName>
               )}
               {!disableCurrencySelect && <StyledDropDown />}

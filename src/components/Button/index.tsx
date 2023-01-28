@@ -120,6 +120,22 @@ export const ButtonOutlined = styled(Base)`
   }
 `
 
+export const ButtonGray = styled(Base)`
+  background-color: deprecated_bg1;
+  color: textSecondary;
+  font-size: 16px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--color-background-interactive);
+    opacity: ${({ disabled }) => !disabled && '0.5'};
+  }
+  &:active {
+    background-color: var(--color-background-interactive);
+    opacity: ${({ disabled }) => !disabled && '0.1'};
+  }
+`
+
 export const ButtonEmpty = styled(Base)`
   background-color: transparent;
   color: ${({ theme }) => theme.text1};

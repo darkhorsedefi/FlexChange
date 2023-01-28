@@ -16,16 +16,14 @@ import networks from 'networks.json'
 
 const HeaderFrame = styled.header`
   width: 100vw;
-  margin: 0.4rem auto;
-  padding: 1rem 1.6rem;
-  z-index: 2;
+  height: 72px;
+  padding: 20px 12px;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    padding: 0.5rem 1rem;
-  `}
+  position: fixed;
+  top: 0;
 `
 
 const HeaderControls = styled.div`
@@ -166,7 +164,10 @@ const StyledNavLink = styled(NavLink).attrs({
   text-decoration: none;
   color: var(--color-notice);
   width: fit-content;
-  padding: 0.3rem 0.6rem;
+  margin: 4px 0;
+  padding: 8px 16px;
+  line-height: 24px;
+  border-radius: 12px;
   font-weight: 500;
   transition: 0.12s;
 
@@ -174,9 +175,13 @@ const StyledNavLink = styled(NavLink).attrs({
     margin-right: 0.16rem;
   }
 
-  &:hover,
+  &:hover {
+    background-color: var(--color-nav-link-background-hover);
+  }
+
   &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
+    background-color: var(--color-nav-link-background-hover);
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -199,20 +204,27 @@ const StyledExternalLink = styled.a`
   text-decoration: none;
   font-size: 0.9rem;
   width: fit-content;
-  padding: 0.3rem 0.5rem;
   font-weight: 500;
   color: var(--color-notice);
   transition: 0.12s;
   word-break: keep-all;
   white-space: nowrap;
+  margin: 4px 0;
+  padding: 8px 16px;
+  line-height: 24px;
+  border-radius: 12px;
 
   &:not(:last-child) {
     margin-right: 0.16rem;
   }
 
-  &:hover,
+  &:hover {
+    background-color: var(--color-nav-link-background-hover);
+  }
+
   &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
+    background-color: var(--color-nav-link-background-hover);
   }
 
   .name {

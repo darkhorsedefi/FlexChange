@@ -91,7 +91,7 @@
 
   --color-brand: #ea8636;
   --color-brand-hover: #f29952;
-  --color-brand-background: #f2995230;
+  --color-brand-background: #f29a5224;
   --color-page-background: #f7f7f7;
   --color: #000;
   --color-background: #f7f7f7;
@@ -121,6 +121,9 @@
   --color-text-secondary: #7780a0;
   --color-state-overlay-hover: #98a1c02e;
   --color-state-overlay-pressed: #b8c0dc48;
+  --color-text-primary: #0d111c;
+  --color-deprecated_bg3: #d8def2;
+  --color-nav-link-background-hover: rgba(153, 161, 189, 0.114);
 
   /* 
     white: colors.white,
@@ -203,8 +206,8 @@
 [data-scheme='dark'] {
   --color-brand: #ea8636;
   --color-brand-hover: #f29952;
-  --color-brand-background: #f2995220;
-  --color-page-background: #222427;
+  --color-brand-background: #f29a5229;
+  --color-page-background: #070816;
   --color: #fff;
   --color-background: #222427;
   --color-background-elements: #222325;
@@ -213,13 +216,14 @@
   --color-inactive: #3c3c3c;
   --color-background-outline: #1b2236;
   --color-background-surface: #0d111c;
-  
   --color-background-interactive: #293249;
-
   --color-background-module: #131a2a;
   --color-text-secondary: #7780a0;
   --color-state-overlay-hover: #98a1c02e;
   --color-state-overlay-pressed: #b8c0dc48;
+  --color-text-primary: #ffffff;
+  --color-deprecated_bg3: #333c55;
+  --color-nav-link-background-hover: rgba(153, 161, 189, 0.114);
 
   --box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.49), 0px 1px 4px rgba(13, 13, 13, 0.06);
 }

@@ -36,7 +36,6 @@ import PoolFinder from '../pages/PoolFinder'
 import RemoveLiquidity from '../pages/RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from '../pages/RemoveLiquidity/redirects'
 import Swap from '../pages/Swap'
-import Footer from 'components/Footer'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from '../pages/Swap/redirects'
 
 const LoaderWrapper = styled.div`
@@ -54,10 +53,6 @@ const LoaderWrapper = styled.div`
 
 const AppWrapper = styled.div`
   min-height: 100vh;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-between;
   overflow-x: hidden;
 `
 
@@ -72,16 +67,9 @@ const BodyWrapper = styled.div`
   padding: 68px 8px 0px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 1;
-`
-
-const FooterWrapper = styled.footer`
-  width: 100%;
-  padding: 1rem 5%;
 `
 
 export default function App() {
@@ -200,41 +188,29 @@ export default function App() {
                 </BodyWrapper>
               ) : (
                 <AppWrapper>
-                  {/* addition tag for the flex layout */}
-                  <div>
-                    <HeaderWrapper>
-                      <Header />
-                    </HeaderWrapper>
+                  <HeaderWrapper>
+                    <Header />
+                  </HeaderWrapper>
 
-                    <BodyWrapper>
-                      <Switch>
-                        <Route exact strict path="/swap" component={Swap} />
-                        <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
-                        <Route exact strict path="/find" component={PoolFinder} />
-                        <Route exact strict path="/pool" component={Pool} />
-                        <Route exact strict path="/pools" component={Pools} />
-                        <Route exact strict path="/create" component={RedirectToAddLiquidity} />
-                        <Route exact path="/add" component={AddLiquidity} />
-                        <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-                        <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-                        <Route exact path="/create" component={AddLiquidity} />
-                        <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-                        <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-                        <Route
-                          exact
-                          strict
-                          path="/remove/:tokens"
-                          component={RedirectOldRemoveLiquidityPathStructure}
-                        />
-                        <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-                        <Route component={RedirectPathToSwapOnly} />
-                      </Switch>
-                    </BodyWrapper>
-                  </div>
-
-                  <FooterWrapper>
-                    <Footer />
-                  </FooterWrapper>
+                  <BodyWrapper>
+                    <Switch>
+                      <Route exact strict path="/swap" component={Swap} />
+                      <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
+                      <Route exact strict path="/find" component={PoolFinder} />
+                      <Route exact strict path="/pool" component={Pool} />
+                      <Route exact strict path="/pools" component={Pools} />
+                      <Route exact strict path="/create" component={RedirectToAddLiquidity} />
+                      <Route exact path="/add" component={AddLiquidity} />
+                      <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+                      <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+                      <Route exact path="/create" component={AddLiquidity} />
+                      <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+                      <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+                      <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
+                      <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+                      <Route component={RedirectPathToSwapOnly} />
+                    </Switch>
+                  </BodyWrapper>
                 </AppWrapper>
               )}
             </>
