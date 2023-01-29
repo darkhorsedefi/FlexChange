@@ -5,6 +5,7 @@
     "chainId": 1,
     "explorer": "https://etherscan.io",
     "color": "#627EEA",
+    "colorSoft": "#627EEA30",
     "multicall": "0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441",
     "ENSRegistry": "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e",
     "baseCurrency": {
@@ -24,6 +25,7 @@
     "chainId": 25,
     "explorer": "https://cronoscan.com/",
     "color": "#072D4C",
+    "colorSoft": "#072D4C30",
     "multicall": "0x79D5C019F2515Cbc0596170Da44FCd26412c4f83",
     "baseCurrency": {
       "decimals": 18,
@@ -42,6 +44,7 @@
     "chainId": 534,
     "explorer": "https://candleexplorer.com/",
     "color": "#000080",
+    "colorSoft": "#00008030",
     "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
     "baseCurrency": {
       "decimals": 18,
@@ -60,6 +63,7 @@
     "chainId": 56,
     "explorer": "https://bscscan.com",
     "color": "#CC9B00",
+    "colorSoft": "#CC9B0030",
     "storage": "0xa7472f384339D37EfE505a1A71619212495A973A",
     "multicall": "0x41263cBA59EB80dC200F3E2544eda4ed6A90E76C",
     "baseCurrency": {
@@ -98,8 +102,10 @@
     "rpc": "https://polygon-rpc.com/",
     "chainId": 137,
     "explorer": "https://polygonscan.com/",
-    "color": "#8247E5",
+    "color": "#A457FF",
+    "colorSoft": "#A457FF30",
     "multicall": "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507",
+    "bridge": "https://wallet.polygon.technology/login",
     "baseCurrency": {
       "decimals": 18,
       "name": "Matic",
@@ -117,6 +123,7 @@
     "chainId": 43114,
     "explorer": "https://snowtrace.io",
     "color": "#D64F4A",
+    "colorSoft": "#D64F4A30",
     "multicall": "0x04ad4Ce6015141F6f582A7451Cb7CD6866609298",
     "baseCurrency": {
       "decimals": 18,
@@ -135,6 +142,7 @@
     "chainId": 250,
     "explorer": "https://ftmscan.com",
     "color": "#0C30FF",
+    "colorSoft": "#0C30FF30",
     "multicall": "0x9664EC984D1c0d44dD22C161da1D06f7f72Ae092",
     "baseCurrency": {
       "decimals": 18,
@@ -153,6 +161,7 @@
     "chainId": 122,
     "explorer": "https://explorer.fuse.io/",
     "color": "#C6F9AC",
+    "colorSoft": "#C6F9AC30",
     "multicall": "0x0755ba6D3e0B799AC7Cd6707AddE7B72208DE08e",
     "baseCurrency": {
       "decimals": 18,
@@ -171,6 +180,7 @@
     "chainId": 1285,
     "explorer": "https://moonriver.moonscan.io/",
     "color": "#F2B705",
+    "colorSoft": "#F2B70530",
     "multicall": "0x9664EC984D1c0d44dD22C161da1D06f7f72Ae092",
     "baseCurrency": {
       "decimals": 18,
@@ -189,6 +199,7 @@
     "chainId": 1666600000,
     "explorer": "https://explorer.harmony.one/",
     "color": "#66DEDD",
+    "colorSoft": "#66DEDD30",
     "multicall": "0x79D5C019F2515Cbc0596170Da44FCd26412c4f83",
     "baseCurrency": {
       "decimals": 18,
@@ -207,6 +218,7 @@
     "chainId": 1313161554,
     "explorer": "https://aurorascan.dev/",
     "color": "#81D957",
+    "colorSoft": "#81D95730",
     "multicall": "0x79d5c019f2515cbc0596170da44fcd26412c4f83",
     "baseCurrency": {
       "decimals": 18,
@@ -225,6 +237,7 @@
     "chainId": 5,
     "explorer": "https://goerli.etherscan.io",
     "color": "#f6c343",
+    "colorSoft": "#f6c34330",
     "storage": "0x171a664f12672a61E4e948BC7Fd38eB34b64a15b",
     "multicall": "0xFD4e092227e876dD8F2d036FA8fEB23F8A7F94ca",
     "ENSRegistry": "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e",

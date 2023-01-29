@@ -7,12 +7,9 @@ import Logo from 'assets/images/logo.svg'
 import { RiArrowRightUpLine } from 'react-icons/ri'
 import { useActiveWeb3React } from 'hooks'
 import { useAppState } from 'state/application/hooks'
-import Menu from '../Menu'
-import { LightCard } from '../Card'
-import { CURRENCY } from 'assets/images'
 import Row, { RowFixed } from '../Row'
-import Web3Status from '../Web3Status'
-import networks from 'networks.json'
+import Menu from 'components/Menu'
+import NetworkSelector from './NetworkSelector'
 
 const HeaderFrame = styled.header`
   width: 100vw;
@@ -42,11 +39,6 @@ const HeaderElement = styled.div`
     flex-direction: row-reverse;
     align-items: center;
   `};
-`
-
-const HeaderElementWrap = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const HeaderRow = styled(RowFixed)`
@@ -81,50 +73,6 @@ const NavlLinks = styled(Row)`
     border-bottom-right-radius: 0;
     box-shadow: var(--box-shadow);
     background-color: var(--color-background-elements);
-  `};
-`
-
-const AccountElement = styled.div<{ active: boolean }>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: var(--color-background-elements);
-  border-radius: 0.5rem;
-  white-space: nowrap;
-  width: 100%;
-  cursor: pointer;
-  box-shadow: var(--box-shadow);
-  pointer-events: auto;
-
-  :focus {
-    border: 1px solid blue;
-  }
-`
-
-const HideSmall = styled.div`
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `};
-`
-
-const NetworkCard = styled(LightCard)`
-  border-radius: 0.5rem;
-  padding: 8px 12px;
-  box-shadow: var(--box-shadow);
-  word-break: keep-all;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  background-color: var(--color-background-elements);
-  border: none;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin: 0;
-    margin-right: 0.5rem;
-    width: initial;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1;
   `};
 `
 
@@ -244,30 +192,8 @@ const StyledExternalLink = styled.a`
   `};
 `
 
-const StyledNetworkImg = styled.img`
-  max-width: 1.2rem;
-  margin-right: 0.3rem;
-`
-
-const NetworkInfo = (chainId?: number) => {
-  if (!chainId) return null
-  // @ts-ignore
-  const networkConfig = networks[chainId]
-  // @ts-ignore
-  const networkImage = CURRENCY[chainId]
-
-  return (
-    networkConfig?.name && (
-      <NetworkCard title={`${networkImage.name} network`}>
-        {!!networkImage && <StyledNetworkImg src={networkImage} alt="network logo" />}
-        {networkConfig.name}
-      </NetworkCard>
-    )
-  )
-}
-
 export default function Header() {
-  const { account, chainId } = useActiveWeb3React()
+  const { chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const { navigationLinks } = useAppState()
 
@@ -318,15 +244,9 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>{NetworkInfo(chainId)}</HideSmall>
-          <AccountElement active={!!account}>
-            <Web3Status />
-          </AccountElement>
-        </HeaderElement>
-
-        <HeaderElementWrap>
+          <NetworkSelector chainId={chainId} />
           <Menu />
-        </HeaderElementWrap>
+        </HeaderElement>
       </HeaderControls>
     </HeaderFrame>
   )

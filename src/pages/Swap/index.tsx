@@ -2,7 +2,7 @@ import { CurrencyAmount, JSBI, Token, Trade } from 'sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useWeb3React } from '@web3-react/core'
 import AddressInputPanel from 'components/AddressInputPanel'
@@ -13,6 +13,7 @@ import ConfirmSwapModal from 'components/swap/ConfirmSwapModal'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { SwapPoolTabs } from 'components/NavigationTabs'
 import { AutoRow, RowBetween } from 'components/Row'
+import NetworkAlert from 'components/NetworkAlert'
 import confirmPriceImpactWithoutFee from 'components/swap/confirmPriceImpactWithoutFee'
 import { ArrowWrapper, BottomGrouping, SwapCallbackError, Wrapper } from 'components/swap/styleds'
 import TradePrice from 'components/swap/TradePrice'
@@ -36,6 +37,11 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import AppBody from '../AppBody'
 import Loader from 'components/Loader'
+
+const NetworkAlertWrapper = styled.div`
+  max-width: 470px;
+  margin: 0 auto;
+`
 
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -446,6 +452,10 @@ export default function Swap() {
 
         {trade && <AdvancedSwapDetailsDropdown trade={trade} />}
       </AppBody>
+
+      <NetworkAlertWrapper>
+        <NetworkAlert />
+      </NetworkAlertWrapper>
     </>
   )
 }

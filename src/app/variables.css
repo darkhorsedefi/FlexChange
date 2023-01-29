@@ -116,6 +116,7 @@
   --color-link-hover: #3b95ff;
   --color-background-outline: #d2d9ee;
   --color-background-surface: #ffffff;
+  --color-background-surface-reversed: #0d111c;
   --color-background-interactive: #e8ecfb;
   --color-background-module: #f5f6fc;
   --color-text-secondary: #7780a0;
@@ -150,6 +151,7 @@
   --color-inactive: #3c3c3c;
   --color-background-outline: #1b2236;
   --color-background-surface: #0d111c;
+  --color-background-surface-reversed: #ffffff;
   --color-background-interactive: #293249;
   --color-background-module: #131a2a;
   --color-text-secondary: #7780a0;
