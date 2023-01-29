@@ -31,9 +31,9 @@ const rotate = keyframes`
 `
 
 const StyledMenuIcon = styled(Settings)`
-  height: 35px;
-  width: 35px;
-  padding: 0.4rem;
+  height: 30px;
+  width: 30px;
+  padding: 0.3rem;
   border-radius: 50%;
   opacity: 0.6;
 
@@ -65,7 +65,6 @@ const StyledMenuButton = styled.button`
   border: none;
   margin: 0;
   padding: 0;
-  height: 35px;
   border-radius: 0.5rem;
   background-color: transparent;
 
@@ -98,18 +97,20 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.div`
   min-width: 20.125rem;
-  background-color: var(--color-background-elements);
+  background-color: var(--color-background-surface);
+  border: 1px solid var(--color-background-outline);
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
-  border: 1px solid var(--color-border);
-  border-radius: var(--main-component-border-radius);
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   font-size: 1rem;
   position: absolute;
-  top: 2.4rem;
-  right: 0.3rem;
+  top: 2rem;
+  right: 4px;
   z-index: 100;
+  color: var(--color-text-primary);
+  user-select: none;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     min-width: 18.125rem;
@@ -161,6 +162,14 @@ export default function SettingsTab() {
     setShowConfirmation(false)
   }
 
+  const switchExpertMode = () => {
+    if (expertMode) {
+      disableExpertMode()
+    } else {
+      enableExpertMode()
+    }
+  }
+
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
@@ -197,7 +206,7 @@ export default function SettingsTab() {
         {expertMode && (
           <EmojiWrapper>
             <span role="img" aria-label="wizard-icon">
-              👨‍💻
+              🧙
             </span>
           </EmojiWrapper>
         )}
@@ -221,25 +230,6 @@ export default function SettingsTab() {
             <RowBetween>
               <RowFixed>
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  {t('toggleExpertMode')}
-                </TYPE.black>
-                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
-              </RowFixed>
-              <Toggle
-                id="toggle-expert-mode-button"
-                isActive={expertMode}
-                toggle={() => {
-                  if (expertMode) {
-                    disableExpertMode()
-                  } else {
-                    enableExpertMode()
-                  }
-                }}
-              />
-            </RowBetween>
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
                   {t('disableMultihops')}
                 </TYPE.black>
                 <QuestionHelper text="Restricts swaps to direct pairs only." />
@@ -249,6 +239,15 @@ export default function SettingsTab() {
                 isActive={singleHopOnly}
                 toggle={() => (singleHopOnly ? setSingleHopOnly(false) : setSingleHopOnly(true))}
               />
+            </RowBetween>
+            <RowBetween>
+              <RowFixed>
+                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
+                  {t('toggleExpertMode')}
+                </TYPE.black>
+                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
+              </RowFixed>
+              <Toggle id="toggle-expert-mode-button" isActive={expertMode} toggle={switchExpertMode} />
             </RowBetween>
           </AutoColumn>
         </MenuFlyout>

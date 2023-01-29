@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const turnOnToggle = keyframes`
@@ -23,9 +23,11 @@ const turnOffToggle = keyframes`
   }
 `
 
-const ToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean }>`
-  animation: 0.12s ${({ isActive }) => (isActive ? turnOnToggle : turnOffToggle)} ease-in;
-  background: ${({ theme, isActive }) => (isActive ? 'var(--color-brand)' : theme.bg3)};
+const ToggleElement = styled.span<{ isActive?: boolean; isOnSwitch?: boolean; isInitialToggleLoad?: boolean }>`
+  animation: 0.1s
+    ${({ isActive, isInitialToggleLoad }) => (isInitialToggleLoad ? 'none' : isActive ? turnOnToggle : turnOffToggle)}
+    ease-in;
+  background-color: ${({ theme, isActive }) => (isActive ? 'var(--color-brand)' : theme.bg3)};
   border-radius: 50%;
   height: 24px;
   width: 24px;
@@ -51,9 +53,16 @@ export interface ToggleProps {
 }
 
 export default function Toggle({ id, isActive, toggle }: ToggleProps) {
+  const [isInitialToggleLoad, setIsInitialToggleLoad] = useState(true)
+
+  const switchToggle = () => {
+    toggle()
+    if (isInitialToggleLoad) setIsInitialToggleLoad(false)
+  }
+
   return (
-    <StyledToggle id={id} isActive={isActive} onClick={toggle}>
-      <ToggleElement isActive={isActive} />
+    <StyledToggle id={id} isActive={isActive} onClick={switchToggle}>
+      <ToggleElement isActive={isActive} isInitialToggleLoad={isInitialToggleLoad} />
     </StyledToggle>
   )
 }

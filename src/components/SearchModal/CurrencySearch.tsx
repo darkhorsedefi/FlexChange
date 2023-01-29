@@ -5,10 +5,10 @@ import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useAllTokens, useToken, useIsUserAddedToken, useFoundOnInactiveList } from 'hooks/Tokens'
-import { CloseIcon, TYPE, ButtonText, IconWrapper } from 'theme'
+import { CloseIcon, TYPE } from 'theme'
 import { isAddress } from 'utils'
 import Column from '../Column'
-import Row, { RowBetween, RowFixed } from '../Row'
+import Row, { RowBetween /* RowFixed */ } from '../Row'
 import CurrencyList from './CurrencyList'
 import { filterTokens } from './filtering'
 import { useTokenComparator } from './sorting'
@@ -19,7 +19,6 @@ import { useBaseCurrency } from 'hooks/useCurrency'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import useTheme from 'hooks/useTheme'
 import ImportRow from './ImportRow'
-import { Edit } from 'react-feather'
 import { ButtonPrimary } from 'components/Button'
 
 const ContentWrapper = styled(Column)`
@@ -30,16 +29,6 @@ const ContentWrapper = styled(Column)`
 
 const CurrencyListWrapper = styled.div`
   flex: 1;
-`
-
-const Footer = styled.div`
-  width: 100%;
-  border-radius: 20px;
-  padding: 20px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  background-color: ${({ theme }) => theme.bg1};
-  border-top: 1px solid ${({ theme }) => theme.bg2};
 `
 
 interface CurrencySearchProps {
@@ -272,18 +261,6 @@ export function CurrencySearch({
             </ButtonPrimary>
           </Row>
         )}
-      <Footer>
-        <Row justify="center">
-          <ButtonText onClick={showManageView} color={theme.blue1} id="list-token-manage-button">
-            <RowFixed>
-              <IconWrapper size="16px" marginRight="6px">
-                <Edit />
-              </IconWrapper>
-              <TYPE.main color={theme.blue1}>{t('manage')}</TYPE.main>
-            </RowFixed>
-          </ButtonText>
-        </Row>
-      </Footer>
     </ContentWrapper>
   )
 }

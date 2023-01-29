@@ -28,7 +28,7 @@ const FancyButton = styled.button`
   min-width: 3.5rem;
   border: 1px solid ${({ theme }) => theme.bg3};
   outline: none;
-  background: ${({ theme }) => theme.bg1};
+  background: var(--color-bg1);
 
   :hover,
   :focus {
@@ -44,16 +44,20 @@ const Option = styled(FancyButton)<{ active: boolean }>`
 `
 
 const Input = styled.input`
-  background: ${({ theme }) => theme.bg1};
   font-size: 16px;
+  border-radius: 12px;
   width: auto;
+  background-color: transparent;
+  color: ${({ theme, color }) => (color === 'red' ? theme.red1 : theme.text1)};
+  text-align: right;
   outline: none;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
-  color: ${({ theme, color }) => (color === 'red' ? theme.red1 : theme.text1)};
-  text-align: right;
+  ::placeholder {
+    color: var(--color-text-tertiary);
+  }
 `
 
 const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }>`
@@ -61,6 +65,7 @@ const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }
   position: relative;
   padding: 0 0.75rem;
   flex: 1;
+  background-color: var(--color-bg1);
   border: ${({ theme, active, warning }) => active && `1px solid ${warning ? theme.red1 : theme.primary1}`};
   :hover {
     border: ${({ theme, active, warning }) =>
@@ -208,7 +213,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
             style={{
               fontSize: '14px',
               paddingTop: '7px',
-              color: slippageError === SlippageError.InvalidInput ? 'red' : '#F3841E',
+              color: slippageError === SlippageError.InvalidInput ? 'red' : '#c46e1c',
             }}
           >
             {slippageError === SlippageError.InvalidInput

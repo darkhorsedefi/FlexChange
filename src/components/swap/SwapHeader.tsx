@@ -6,7 +6,7 @@ import { RowBetween } from '../Row'
 import { TYPE } from 'theme'
 
 const StyledSwapHeader = styled.div`
-  padding: 8px 12px;
+  padding: 2px 12px;
   margin-bottom: 8px;
   width: 100%;
   color: ${({ theme }) => theme.text2};

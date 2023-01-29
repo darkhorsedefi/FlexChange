@@ -4,20 +4,17 @@ import { animated, useTransition, useSpring } from 'react-spring'
 import { DialogOverlay, DialogContent } from '@reach/dialog'
 import { isMobile } from 'react-device-detect'
 import '@reach/dialog/styles.css'
-import { transparentize } from 'polished'
 import { useGesture } from 'react-use-gesture'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
   &[data-reach-dialog-overlay] {
-    z-index: 2;
-    background-color: transparent;
+    z-index: 200;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background-color: ${({ theme }) => theme.modalBG};
+    background-color: var(--color-modal-overlay-background);
   }
 `
 
@@ -35,10 +32,11 @@ const StyledDialogContent = styled(
 
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
-    background-color: ${({ theme }) => theme.bg1};
-    box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
+    background-color: var(--color-background-surface);
+    border: 1px solid var(--color-background-outline);
+    box-shadow: var(--color-modal-shadow);
     padding: 0px;
-    width: 60vw;
+    width: 50vw;
     overflow-y: ${({ overflow, mobile }) => (overflow ? overflow : mobile ? 'scroll' : 'hidden')};
     align-self: center;
 
@@ -93,8 +91,8 @@ export default function Modal({
   isOpen,
   onDismiss,
   minHeight = false,
-  maxHeight = 90,
-  maxWidth = 500,
+  maxHeight = 70,
+  maxWidth = 420,
   isCentered,
   initialFocusRef,
   children,

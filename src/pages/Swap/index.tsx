@@ -249,6 +249,11 @@ export default function Swap() {
     // eslint-disable-next-line
   }, [chainId])
 
+  const handleArrowClick = () => {
+    setApprovalSubmitted(false) // reset 2 step UI for approvals
+    onSwitchTokens()
+  }
+
   return (
     <>
       <TokenWarningModal
@@ -286,13 +291,7 @@ export default function Swap() {
             />
             <AutoColumn justify="space-between">
               <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 0.8rem' }}>
-                <ArrowWrapper
-                  clickable
-                  onClick={() => {
-                    setApprovalSubmitted(false) // reset 2 step UI for approvals
-                    onSwitchTokens()
-                  }}
-                >
+                <ArrowWrapper clickable onClick={handleArrowClick}>
                   <ArrowDown
                     size="17"
                     color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? theme.primary1 : theme.text2}

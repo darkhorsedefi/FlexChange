@@ -1,6 +1,6 @@
 import { Currency, Pair } from 'sdk'
 import React, { useState, useCallback } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { darken } from 'polished'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
@@ -22,11 +22,9 @@ const InputRow = styled.div<{ selected: boolean }>`
   padding: 16px;
 `
 
-const CurrencySelect = styled(ButtonGray)`
+const CurrencySelect = styled(ButtonGray)<{ isCurrencySelected?: boolean }>`
   align-items: center;
-  background-color: var(--color-background-interactive);
   opacity: ${({ disabled }) => (!disabled ? 1 : 0.5)};
-  color: var(--color-text-primary);
   cursor: pointer;
   outline: none;
   user-select: none;
@@ -40,20 +38,38 @@ const CurrencySelect = styled(ButtonGray)`
   justify-content: space-between;
   margin-left: 12px;
 
-  :focus,
-  :hover {
-    background-color: var(--color-deprecated_bg3);
-    opacity: 1;
-  }
+  ${({ isCurrencySelected }) =>
+    isCurrencySelected
+      ? css`
+          background-color: var(--color-background-interactive);
+          color: var(--color-text-primary);
+
+          &:focus,
+          &:hover {
+            background-color: var(--color-deprecated_bg3);
+            opacity: 1;
+          }
+        `
+      : css`
+          background-color: var(--color-brand);
+          color: var(--color-f-brightest);
+
+          &:focus,
+          &:hover {
+            background-color: var(--color-brand);
+            opacity: 1;
+          }
+        `}
 `
 
 const LabelRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
-  align-items: center;
-  color: ${({ theme }) => theme.text1};
+  color: var(--color-text-secondary);
   font-size: 0.75rem;
   line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
+  min-height: 20px;
+  padding: 0 16px;
+
   span:hover {
     cursor: pointer;
     color: ${({ theme }) => darken(0.2, theme.text2)};
@@ -81,7 +97,7 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   position: relative;
   background-color: var(--color-background-module);
   border-radius: 12px;
-  padding: 16px;
+  padding: 8px 0;
   color: var(--color-text-secondary);
   font-size: 14px;
   line-height: 20px;
@@ -162,28 +178,14 @@ export default function CurrencyInputPanel({
     setModalOpen(false)
   }, [setModalOpen])
 
+  const selectedCurrencySymbol =
+    currency && currency.symbol && currency.symbol.length > 20
+      ? currency.symbol.slice(0, 4) + '...' + currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+      : currency?.symbol
+
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
-        {!hideInput && (
-          <LabelRow>
-            <RowBetween>
-              {account && (
-                <TYPE.body
-                  onClick={onMax}
-                  color={theme.text2}
-                  fontWeight={500}
-                  fontSize={14}
-                  style={{ display: 'inline', cursor: 'pointer' }}
-                >
-                  {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(6)
-                    : ' -'}
-                </TYPE.body>
-              )}
-            </RowBetween>
-          </LabelRow>
-        )}
         <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={disableCurrencySelect}>
           {!hideInput && (
             <>
@@ -192,6 +194,7 @@ export default function CurrencyInputPanel({
           )}
           <CurrencySelect
             id="open-currency-select-button"
+            isCurrencySelected={!!selectedCurrencySymbol}
             onClick={() => {
               if (!disableCurrencySelect) {
                 setModalOpen(true)
@@ -210,17 +213,31 @@ export default function CurrencyInputPanel({
                 </StyledTokenName>
               ) : (
                 <StyledTokenName className="token-symbol-container">
-                  {(currency && currency.symbol && currency.symbol.length > 20
-                    ? currency.symbol.slice(0, 4) +
-                      '...' +
-                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                    : currency?.symbol) || t('selectToken')}
+                  {selectedCurrencySymbol || t('selectToken')}
                 </StyledTokenName>
               )}
               {!disableCurrencySelect && <StyledDropDown />}
             </Aligner>
           </CurrencySelect>
         </InputRow>
+        {!hideInput && (
+          <LabelRow>
+            <RowBetween jc="flex-end">
+              {account && (
+                <TYPE.body
+                  onClick={onMax}
+                  color={theme.text2}
+                  fontSize={14}
+                  style={{ display: 'inline', cursor: 'pointer' }}
+                >
+                  {!hideBalance && !!currency && selectedCurrencyBalance
+                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(6)
+                    : ''}
+                </TYPE.body>
+              )}
+            </RowBetween>
+          </LabelRow>
+        )}
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal

@@ -64,10 +64,8 @@ const HeaderWrapper = styled.div`
 
 const BodyWrapper = styled.div`
   width: 100%;
-  padding: 68px 8px 0px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+  min-height: 100vh;
+  padding: 136px 8px 0px;
   overflow-x: hidden;
   z-index: 1;
 `
