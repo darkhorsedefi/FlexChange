@@ -1,6 +1,6 @@
 {
   "background_color": "#fff",
-  "display": "Premium.Coffee",
+  "display": "standalone",
   "short_name": "Premium.Coffee",
   "name": "Premium.Coffee",
   "icons": [

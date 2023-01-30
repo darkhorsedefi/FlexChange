@@ -131,6 +131,7 @@
   --color-modal-shadow: rgb(51 53 72 / 4%) 8px 12px 20px, rgb(51 53 72 / 2%) 4px 6px 12px,
     rgb(51 53 72 / 4%) 4px 4px 8px;
   --color-currency-search-item-hover: #b8c0dc14;
+  --color-accent-active: #4c82fb;
 
   --box-shadow: rgb(51 53 72 / 4%) 8px 12px 20px, rgb(51 53 72 / 2%) 4px 6px 12px, rgb(51 53 72 / 4%) 4px 4px 8px;
   --button-border-radius: 0.125rem;

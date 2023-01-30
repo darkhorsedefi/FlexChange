@@ -3,18 +3,20 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { RiArrowRightUpLine } from 'react-icons/ri'
-import { ChevronUp, ChevronDown, ChevronRight, ChevronLeft, Moon, Sun } from 'react-feather'
+import { ChevronUp, ChevronDown, ChevronRight, Moon, Sun } from 'react-feather'
+import i18n from '../../i18n'
 import Identicon from 'components/Identicon'
-import i18n, { availableLanguages, LANG_NAME } from '../../i18n'
 import { useDarkModeManager } from 'state/user/hooks'
-import { useETHBalances } from 'state/wallet/hooks'
 import { shortenAddress } from 'utils'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { ApplicationModal, setAppManagement } from 'state/application/actions'
 import { useModalOpen, useToggleModal, useAppState } from 'state/application/hooks'
 import { ExternalLink } from 'theme'
 import { useActiveWeb3React } from 'hooks'
-import networks from 'networks.json'
+import MenuHeader from './MenuHeader'
+import TransactionMenu from './TransactionMenu'
+import LangMenu from './LangMenu'
+import { MenuFlyout } from './styled'
 
 export const StyledMenuButton = styled.button`
   display: flex;
@@ -44,12 +46,6 @@ export const StyledMenuButton = styled.button`
   }
 `
 
-export const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-background-interactive);
-`
-
 const StyledMenu = styled.div`
   margin-left: 0.5rem;
   display: flex;
@@ -59,25 +55,6 @@ const StyledMenu = styled.div`
   border: none;
   text-align: left;
   transition: 0.12s;
-`
-
-const MenuFlyout = styled.span`
-  position: absolute;
-  top: 3rem;
-  right: 0rem;
-  z-index: 100;
-  transition: 0.12s;
-  border-radius: 12px;
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
-  top: 54px;
-  right: 6px;
-  background-color: var(--color-background-surface);
-  border: 1px solid var(--color-background-outline);
-  box-shadow: var(--color-modal-shadow);
-  padding: 16px;
 `
 
 const MenuButton = styled.button`
@@ -103,6 +80,15 @@ const MenuButton = styled.button`
     background-color: var(--color-background-module);
     transition: all 125ms ease-in 0s;
   }
+`
+
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const StyledLangIso = styled.span`
+  margin-right: 4px;
 `
 
 const MenuItem = styled(ExternalLink)`
@@ -137,53 +123,6 @@ const IconWrapper = styled.span`
   justify-content: center;
 `
 
-export const ClickableMenuItem = styled.a<{ active: boolean }>`
-  flex: 1;
-  padding: 0.5rem 0.5rem;
-  color: ${({ theme }) => theme.text2};
-  transition: 0.2s;
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => theme.text1};
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  > svg {
-    margin-right: 8px;
-  }
-`
-
-const ReturnButton = styled.button`
-  cursor: pointer;
-  padding: 0 0 0 0.4rem;
-  border: none;
-  text-align: left;
-  font-size: 1.4rem;
-  background-color: transparent;
-  color: ${({ theme }) => theme.text1};
-`
-
-function LanguageMenu({ close }: { close: VoidFunction }) {
-  return (
-    <MenuFlyout>
-      <div>
-        <ReturnButton onClick={close}>
-          <ChevronLeft size={20} color="var(--color-text-secondary)" />
-        </ReturnButton>
-        Language
-      </div>
-
-      {availableLanguages.map((lang) => (
-        <ClickableMenuItem active={i18n.language === lang} key={lang} onClick={() => i18n.changeLanguage(lang)}>
-          {LANG_NAME[lang] || lang.toUpperCase()}
-        </ClickableMenuItem>
-      ))}
-    </MenuFlyout>
-  )
-}
-
 const chevronProps = {
   size: 20,
   color: 'var(--color-text-secondary)',
@@ -195,13 +134,10 @@ const getChevron = (isActive: boolean) => {
 
 export default function Menu() {
   const { t } = useTranslation()
-  const { account, chainId } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const { admin, menuLinks } = useAppState()
   const dispatch = useDispatch()
 
-  // @ts-ignore
-  const networkConfig = networks[chainId]
-  const baseCoinBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isAdmin, setIsAdmin] = useState<boolean>(account?.toLowerCase() === admin?.toLowerCase())
 
   useEffect(() => {
@@ -214,21 +150,17 @@ export default function Menu() {
 
   const node = useRef<HTMLDivElement>()
   const [menu, setMenu] = useState<'main' | 'lang' | 'transaction'>('main')
+
+  const openMainMenu = () => setMenu('main')
+  const openTransactionMenu = () => setMenu('transaction')
+  const openLangMenu = () => setMenu('lang')
+
   const open = useModalOpen(ApplicationModal.MENU)
   const toggle = useToggleModal(ApplicationModal.MENU)
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
   useEffect(() => setMenu('main'), [open])
   useOnClickOutside(node, open ? toggle : undefined)
-
-  /* 
-  if !connected return 
-
-    connect | shavron
-    menu: connect
-          lang
-          theme
-  */
 
   return (
     <StyledMenu ref={node as any}>
@@ -248,36 +180,28 @@ export default function Menu() {
 
       {open && (
         <>
-          {menu === 'lang' ? (
-            <LanguageMenu close={() => setMenu('main')} />
-          ) : menu === 'transaction' ? (
-            <div>transactions</div>
+          {menu === 'transaction' ? (
+            <TransactionMenu close={openMainMenu} />
+          ) : menu === 'lang' ? (
+            <LangMenu close={openMainMenu} />
           ) : (
             <MenuFlyout>
-              {/* header: jazzi icon + address + copy + addr explorer + dissconnect */}
-              {account && baseCoinBalance && (
-                <>
-                  {t('balance')}
-                  {baseCoinBalance?.toSignificant(5)} {networkConfig?.baseCurrency?.symbol}
-                  {/* @todo: add fiat balance */}
-                  <Separator />
-                </>
-              )}
-              <MenuButton onClick={() => setMenu('transaction')}>
+              <MenuHeader />
+              <MenuButton onClick={openTransactionMenu}>
                 {t('transactions')}
                 {/* @todo add pending state */}
                 <IconWrapper>
                   <ChevronRight size={16} />
                 </IconWrapper>
               </MenuButton>
-              <MenuButton onClick={() => setMenu('lang')}>
+              <MenuButton onClick={openLangMenu}>
                 {t('language')}{' '}
-                <div>
-                  {/* @todo add current locale display */}
+                <StyledRow>
+                  <StyledLangIso>{i18n.language?.toLocaleUpperCase()}</StyledLangIso>
                   <IconWrapper>
                     <ChevronRight size={16} />
                   </IconWrapper>
-                </div>
+                </StyledRow>
               </MenuButton>
               <MenuButton onClick={toggleDarkMode}>
                 {darkMode ? (
