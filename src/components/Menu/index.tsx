@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { RiArrowRightUpLine } from 'react-icons/ri'
-import { ChevronUp, ChevronDown, ChevronRight, Moon, Sun } from 'react-feather'
+import { ChevronUp, ChevronDown, ChevronRight, Moon, Sun, Settings } from 'react-feather'
 import i18n from '../../i18n'
 import Identicon from 'components/Identicon'
 import { useDarkModeManager } from 'state/user/hooks'
@@ -226,7 +226,14 @@ export default function Menu() {
                     {item.name} <RiArrowRightUpLine />
                   </MenuItem>
                 ))}
-              {isAdmin && <MenuButton onClick={openSettings}>{t('manage')}</MenuButton>}
+              {isAdmin && (
+                <MenuButton onClick={openSettings}>
+                  {t('manage')}{' '}
+                  <IconWrapper>
+                    <Settings size={16} />
+                  </IconWrapper>
+                </MenuButton>
+              )}
             </MenuFlyout>
           )}
         </>

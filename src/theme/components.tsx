@@ -72,7 +72,6 @@ export const IconWrapper = styled.div<{ stroke?: string; size?: string; marginRi
   }
 `
 
-// A button that triggers some onClick result, but looks like a link.
 export const LinkStyledButton = styled.button<{ disabled?: boolean }>`
   border: none;
   text-decoration: none;

@@ -8,7 +8,6 @@ import { AppState } from 'state'
 import { ZERO_ADDRESS } from 'sdk'
 import './index.css'
 
-import useWordpressInfo from 'hooks/useWordpressInfo'
 import { useAppState } from 'state/application/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
 import { retrieveDomainData } from 'state/application/actions'
@@ -73,7 +72,6 @@ const BodyWrapper = styled.div`
 export default function App() {
   const dispatch = useDispatch()
   const { active, chainId, library, account } = useWeb3React()
-  const wordpressData = useWordpressInfo()
   const storage = useStorageContract()
   const [domainData, setDomainData] = useState<any>(null)
   const { admin, factory, router, projectName, pairHash } = useAppState()
@@ -117,20 +115,13 @@ export default function App() {
   useEffect(() => {
     if (chainId) {
       const lowerAcc = account?.toLowerCase()
-      const appAdmin = wordpressData?.wpAdmin
-        ? wordpressData?.wpAdmin?.toLowerCase() === lowerAcc
-        : admin && admin !== ZERO_ADDRESS
-        ? admin.toLowerCase() === lowerAcc
-        : true
+      const appAdmin = admin && admin !== ZERO_ADDRESS ? admin.toLowerCase() === lowerAcc : true
 
       const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 
-      const networkIsFine =
-        !wordpressData?.wpNetworkIds?.length || accessToStorageNetwork || wordpressData.wpNetworkIds.includes(chainId)
-
-      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && networkIsFine))
+      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && accessToStorageNetwork))
     }
-  }, [chainId, domainDataTrigger, wordpressData, admin, account])
+  }, [chainId, domainDataTrigger, admin, account])
 
   useEffect(() => {
     if (!storage) return

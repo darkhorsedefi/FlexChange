@@ -38,13 +38,15 @@ export const OptionWrapper = styled.div<{ margin?: number; flex?: boolean }>`
 
 const Wrapper = styled.section`
   position: relative;
-  max-width: 33.75rem;
+  max-width: 700px;
   width: 100%;
-  border-radius: 1.2rem;
-  padding: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px,
-    rgba(0, 0, 0, 0.01) 0px 24px 32px;
-  background-color: ${({ theme }) => theme.bg1};
+  margin-left: auto;
+  margin-right: auto;
+  padding: 8px;
+  border-radius: var(--main-component-border-radius);
+  border: 1px solid var(--color-background-outline);
+  background-color: var(--color-background-surface);
+  font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 90%;

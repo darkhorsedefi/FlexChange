@@ -1,5 +1,5 @@
-import React, { useContext, useCallback } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import React, { useCallback } from 'react'
+import styled from 'styled-components'
 import useENS from 'hooks/useENS'
 import { useActiveWeb3React } from 'hooks'
 import { ExternalLink, TYPE } from 'theme'
@@ -10,21 +10,45 @@ import { RowBetween } from '../Row'
 const InputPanel = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap}
   position: relative;
-  border-radius: 1.25rem;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: var(--color-background-module);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+  padding: 8px 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  transition: height 1s ease;
+  will-change: height;
   z-index: 1;
   width: 100%;
+
+  &:before {
+    box-sizing: border-box;
+    background-size: 100%;
+    border-radius: inherit;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: '';
+    border: 1px solid var(--color-background-module);
+  }
+
+  &:hover:before {
+    border-color: var(--color-state-overlay-hover);
+  }
+
+  &:focus-within:before {
+    border-color: var(--color-state-overlay-pressed);
+  }
 `
 
 const ContainerRow = styled.div<{ error: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1.25rem;
-  border: 1px solid ${({ error, theme }) => (error ? theme.red1 : theme.bg3)};
-  transition: border-color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')},
-    color 500ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  background-color: ${({ theme }) => theme.bg1};
+  border-radius: 12px;
 `
 
 const InputContainer = styled.div`
@@ -33,16 +57,15 @@ const InputContainer = styled.div`
 `
 
 const Input = styled.input<{ error?: boolean; disabled: boolean }>`
-  font-size: 1.25rem;
+  font-size: inherit;
   outline: none;
   border: none;
   flex: 1 1 auto;
-  background-color: ${({ theme }) => theme.bg1};
-  transition: color 300ms ${({ error }) => (error ? 'step-end' : 'step-start')};
-  color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
+  background-color: transparent;
+  color: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 500;
+  font-weight: inherit;
   width: 100%;
 
   ${({ disabled }) => (disabled ? 'opacity: 0.5' : '')};
@@ -83,8 +106,6 @@ export default function AddressInputPanel({
   onChange: (value: string) => void
 }) {
   const { chainId } = useActiveWeb3React()
-  const theme = useContext(ThemeContext)
-
   const { address, loading, name } = useENS(value)
 
   const handleInput = useCallback(
@@ -102,9 +123,9 @@ export default function AddressInputPanel({
     <InputPanel id={id}>
       <ContainerRow error={error}>
         <InputContainer>
-          <AutoColumn gap="md">
+          <AutoColumn gap="sm">
             <RowBetween>
-              <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
+              <TYPE.black color="var(--color-text-primary)" fontWeight={500} fontSize={14}>
                 {label || 'Recipient'}
               </TYPE.black>
               {address && chainId && (

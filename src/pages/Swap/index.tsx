@@ -43,6 +43,18 @@ const NetworkAlertWrapper = styled.div`
   margin: 0 auto;
 `
 
+const StyledRecipientWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const StyledRecipientButton = styled(LinkStyledButton)`
+  padding: 12px 4px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+`
+
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -296,18 +308,13 @@ export default function Swap() {
               id="swap-currency-input"
             />
             <AutoColumn justify="space-between">
-              <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 0.8rem' }}>
+              <AutoRow style={{ padding: '0 0.8rem' }}>
                 <ArrowWrapper clickable onClick={handleArrowClick}>
                   <ArrowDown
                     size="17"
                     color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? theme.primary1 : theme.text2}
                   />
                 </ArrowWrapper>
-                {recipient === null && !showWrap && isExpertMode ? (
-                  <LinkStyledButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
-                    + {t('addSend')}
-                  </LinkStyledButton>
-                ) : null}
               </AutoRow>
             </AutoColumn>
             <CurrencyInputPanel
@@ -319,19 +326,21 @@ export default function Swap() {
               id="swap-currency-output"
             />
 
-            {recipient !== null && !showWrap ? (
-              <>
-                <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
-                  <ArrowWrapper>
-                    <ArrowDown size="16" color={theme.text2} />
-                  </ArrowWrapper>
-                  <LinkStyledButton id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
-                    - {t('removeSend')}
-                  </LinkStyledButton>
-                </AutoRow>
-                <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
-              </>
-            ) : null}
+            <StyledRecipientWrapper>
+              {recipient === null && !showWrap && isExpertMode ? (
+                <StyledRecipientButton id="add-recipient-button" onClick={() => onChangeRecipient('')}>
+                  + {t('addRecipient')}
+                </StyledRecipientButton>
+              ) : null}
+              {recipient !== null && !showWrap ? (
+                <>
+                  <StyledRecipientButton id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
+                    - {t('removeRecipient')}
+                  </StyledRecipientButton>
+                  <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
+                </>
+              ) : null}
+            </StyledRecipientWrapper>
 
             {showWrap ? null : (
               <Card padding={showWrap ? '0.25rem 1rem 0 1rem' : '0px'} borderRadius={'20px'}>

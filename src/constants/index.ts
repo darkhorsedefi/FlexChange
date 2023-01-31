@@ -8,9 +8,9 @@ export const DEV_FEE_ADMIN = '0x80c007E00ad54645fB5f8Fb76106620C3Ce69d6c'
 export type NETWORKS_ID = keyof typeof networks
 
 const BSC_ID = 56
-const GOERLI_ID = 5
+const BSC_TESTNET_ID = 97
 
-export const STORAGE_NETWORK_ID = process.env.NODE_ENV === 'production' ? BSC_ID : GOERLI_ID
+export const STORAGE_NETWORK_ID = process.env.NODE_ENV === 'production' ? BSC_ID : BSC_TESTNET_ID
 export const STORAGE_NETWORK_NAME = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].name
 // @ts-ignore
 export const STORAGE = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].storage

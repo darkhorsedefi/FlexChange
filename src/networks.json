@@ -231,45 +231,24 @@
       "symbol": "WETH"
     }
   },
-  "5": {
-    "name": "Görli",
-    "rpc": "https://goerli.infura.io/v3/fc55ddb25b694fef8e2363f6b6c9341f",
-    "chainId": 5,
-    "explorer": "https://goerli.etherscan.io",
-    "color": "#f6c343",
-    "colorSoft": "#f6c34330",
-    "storage": "0x171a664f12672a61E4e948BC7Fd38eB34b64a15b",
-    "multicall": "0xFD4e092227e876dD8F2d036FA8fEB23F8A7F94ca",
-    "ENSRegistry": "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e",
+  "97": {
+    "name": "BSC testnet",
+    "rpc": "https://bsc-testnet.public.blastapi.io",
+    "chainId": 97,
+    "explorer": "https://testnet.bscscan.com",
+    "color": "#CC9B00",
+    "colorSoft": "#CC9B0030",
+    "storage": "0x91a0DCC7a78Da02244212D36eAFd9E0dBB3174B4",
+    "multicall": "0xAEd1D4cD398a21d8AdAf0203C1acb864D3553C50",
     "baseCurrency": {
       "decimals": 18,
-      "name": "ETH",
-      "symbol": "ETH"
+      "name": "BNB",
+      "symbol": "BNB"
     },
     "wrappedToken": {
-      "address": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-      "name": "Wrapped Ether",
-      "symbol": "WETH"
-    },
-    "tokenList": {
-      "logoURI": "",
-      "name": "My token list",
-      "timestamp": "2022-11-00T00:00:007Z",
-      "version": {
-        "major": 1,
-        "minor": 0,
-        "patch": 0
-      },
-      "tokens": [
-        {
-          "chainId": 5,
-          "address": "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844",
-          "name": "Dai Stablecoin",
-          "decimals": 18,
-          "symbol": "DAI",
-          "logoURI": ""
-        }
-      ]
+      "address": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+      "name": "Wrapped BNB",
+      "symbol": "WBNB"
     }
   }
 }

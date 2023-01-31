@@ -16,7 +16,8 @@ const MessageWrapper = styled.div`
 `
 
 const Message = styled.h2`
-  color: ${({ theme }) => theme.primary5};
+  max-width: 40rem;
+  color: var(--color-bad);
 `
 
 export default function Web3ReactManager({ children }: { children: JSX.Element | JSX.Element[] }) {
@@ -58,7 +59,10 @@ export default function Web3ReactManager({ children }: { children: JSX.Element |
   if (!active && networkError) {
     return (
       <MessageWrapper>
-        <Message>{t('unknownError')}</Message>
+        <Message>
+          {networkError?.toString().match(/unsupported chain id/i) ? t('unsupportedNetwork') : t('unknownError')}
+        </Message>
+        <Message />
       </MessageWrapper>
     )
   }
