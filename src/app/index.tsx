@@ -61,10 +61,10 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 
-const BodyWrapper = styled.div`
+const BodyWrapper = styled.div<{ padding?: string }>`
   width: 100%;
   min-height: 100vh;
-  padding: 136px 8px 0px;
+  padding: ${({ padding }) => padding || '136px 8px 0'};
   overflow-x: hidden;
   z-index: 1;
 `
@@ -172,7 +172,7 @@ export default function App() {
           ) : appIsReady && isAvailableNetwork ? (
             <>
               {appManagement ? (
-                <BodyWrapper>
+                <BodyWrapper padding="64px 8px 16px">
                   <Panel setDomainDataTrigger={setDomainDataTrigger} />
                 </BodyWrapper>
               ) : (

@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useActiveWeb3React } from 'hooks'
 import styled from 'styled-components'
-import { MdArrowBack } from 'react-icons/md'
-import { shortenAddress } from 'utils'
 import { getCurrentDomain } from 'utils/app'
 import { Text } from 'rebass'
 import networks from 'networks.json'
-import { useDispatch, useSelector } from 'react-redux'
 import { SUPPORTED_NETWORKS } from 'connectors'
-import { STORAGE_NETWORK_ID, STORAGE_NETWORK_NAME } from '../../constants'
+import { STORAGE_NETWORK_ID } from '../../constants'
 import { resetAppData } from 'utils/storage'
 import useWordpressInfo from 'hooks/useWordpressInfo'
-import { AppState } from 'state'
 import { useTranslation } from 'react-i18next'
-import { useAppState } from 'state/application/hooks'
-import { setAppManagement } from 'state/application/actions'
-import { CleanButton, ButtonError, ButtonSecondary } from 'components/Button'
+import { ButtonError } from 'components/Button'
 import ConfirmationModal from 'components/ConfirmationModal'
-import Wallet from './Wallet'
 import SwapContracts from './SwapContracts'
 import Interface from './Interface'
 import Migration from './Migration'
+import PanelHeader from './PanelHeader'
 
 export const PartitionWrapper = styled.div<{ highlighted?: boolean }>`
   margin-top: 1rem;
@@ -40,8 +34,7 @@ const Wrapper = styled.section`
   position: relative;
   max-width: 700px;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   padding: 8px;
   border-radius: var(--main-component-border-radius);
   border: 1px solid var(--color-background-outline);
@@ -51,29 +44,6 @@ const Wrapper = styled.section`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 90%;
   `}
-`
-
-const HeaderButtons = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const BackButton = styled(CleanButton)`
-  flex-basis: 14%;
-  margin-right: 2%;
-  padding: 11px;
-  border: 1px solid ${({ theme }) => theme.primary4};
-  border-radius: 12px;
-  color: ${({ theme }) => theme.primary1};
-`
-
-const NetworkInfo = styled.div`
-  .row {
-    margin: 0.6rem 0;
-    display: flex;
-    justify-content: space-between;
-  }
 `
 
 const Tabs = styled.div`
@@ -108,33 +78,16 @@ const Content = styled.div`
   border-radius: 1rem;
 `
 
-const Error = styled.span`
-  display: inline-block;
-  width: 100%;
-  margin: 0.6rem 0 0.2rem;
-  padding: 0.4rem;
-  overflow-x: auto;
-  border-radius: 0.4rem;
-  border: 1px solid ${({ theme }) => theme.red1};
-  color: ${({ theme }) => theme.red1};
-`
-
-const DangerZone = styled.div`
-  margin-top: 1rem;
-`
-
 interface ComponentProps {
   setDomainDataTrigger: (x: any) => void
 }
 
 export default function Panel({ setDomainDataTrigger }: ComponentProps) {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const [pending, setPending] = useState<boolean>(false)
   const { chainId, account, library } = useActiveWeb3React()
-  const { admin } = useAppState()
   const wordpressData = useWordpressInfo()
-  const [error, setError] = useState<any | false>(false)
+  const [error, setError] = useState<any>(false)
   const [domain] = useState(getCurrentDomain())
   const [activeNetworks, setActiveNetworks] = useState<any[]>([])
 
@@ -150,10 +103,6 @@ export default function Panel({ setDomainDataTrigger }: ComponentProps) {
     }
   }, [wordpressData])
 
-  const appManagement = useSelector<AppState, AppState['application']['appManagement']>(
-    (state) => state.application.appManagement
-  )
-
   const [wrappedToken, setWrappedToken] = useState('')
 
   useEffect(() => {
@@ -163,15 +112,8 @@ export default function Panel({ setDomainDataTrigger }: ComponentProps) {
     }
   }, [chainId])
 
-  const backToApp = () => {
-    dispatch(setAppManagement({ status: false }))
-  }
-
   const [tab, setTab] = useState('contracts')
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
-
-  //@ts-ignore
-  const accountPrefix = networks[chainId]?.name || t('account')
 
   const resetData = async () => {
     setShowConfirm(false)
@@ -218,37 +160,14 @@ export default function Panel({ setDomainDataTrigger }: ComponentProps) {
           </>
         )}
       />
-      <HeaderButtons>
-        {appManagement && (
-          <BackButton onClick={backToApp}>
-            <MdArrowBack />
-          </BackButton>
-        )}
-        <Wallet setPending={setPending} setError={setError} pending={pending} />
-      </HeaderButtons>
-
-      {account && (
-        <NetworkInfo>
-          <div className="row">
-            {/* @ts-ignore */}
-            {t('storageNetwork')}: <span>{STORAGE_NETWORK_NAME}</span>
-          </div>
-          <div className="row">
-            {accountPrefix ? `${accountPrefix}: ` : ' '}
-            <span className="monospace">{shortenAddress(account)}</span>
-          </div>
-        </NetworkInfo>
-      )}
-
-      {error && (
-        <Error>
-          {error?.code && error.code + ': '}
-          {error?.message}
-        </Error>
-      )}
-
+      <PanelHeader
+        setPending={setPending}
+        pending={pending}
+        setError={setError}
+        error={error}
+        setShowConfirm={setShowConfirm}
+      />
       <Tabs>{returnTabs()}</Tabs>
-
       <Content>
         {tab === 'contracts' && (
           <SwapContracts
@@ -270,14 +189,6 @@ export default function Panel({ setDomainDataTrigger }: ComponentProps) {
         )}
         {tab === 'migration' && <Migration />}
       </Content>
-
-      {Boolean(admin?.toLowerCase() === account?.toLowerCase() && chainId === STORAGE_NETWORK_ID) && (
-        <>
-          <DangerZone>
-            <ButtonSecondary onClick={() => setShowConfirm(true)}>{t('resetDomainData')}</ButtonSecondary>
-          </DangerZone>
-        </>
-      )}
     </Wrapper>
   )
 }

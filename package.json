@@ -100,7 +100,7 @@
     "test": "react-scripts test --env=jsdom",
     "test-add-liquidity": "jest test/e2e/addLiquidity.test.ts --detectOpenHandles",
     "eject": "react-scripts eject",
-    "prettier": "npx prettier src/* --write",
+    "format": "npx prettier src/* --write",
     "serve": "npx serve -s build",
     "minify-contracts-build": "npx minify-json ./src/contracts/build"
   },

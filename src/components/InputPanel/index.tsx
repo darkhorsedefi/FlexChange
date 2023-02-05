@@ -1,27 +1,55 @@
 import React, { useContext, useCallback } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { ThemeContext, css } from 'styled-components'
 import { TYPE } from '../../theme'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
 
-const InputPanel = styled.div`
+const InputPanel = styled.div<{ error?: boolean }>`
   ${({ theme }) => theme.flexColumnNoWrap}
   position: relative;
-  border-radius: 1.25rem;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: var(--color-background-module);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+  padding: 8px 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  transition: height 1s ease;
+  will-change: height;
   z-index: 1;
   width: 100%;
-`
 
-const ContainerRow = styled.div<{ error?: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1.25rem;
-  border: 1px solid ${({ theme }) => theme.bg3};
-  ${({ error, theme }) => (error ? `border-color: ${theme.red1}` : '')};
-  transition: border-color 300ms step-start, color 500ms step-start;
-  background-color: ${({ theme }) => theme.bg1};
+  &:before {
+    box-sizing: border-box;
+    background-size: 100%;
+    border-radius: inherit;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: '';
+    border: 1px solid var(--color-background-module);
+  }
+
+  &:hover:before {
+    border-color: var(--color-state-overlay-hover);
+  }
+
+  &:focus-within:before {
+    border-color: var(--color-state-overlay-pressed);
+  }
+
+  ${({ error }) =>
+    error &&
+    css`
+      &:before {
+        border: 1px solid var(--color-f-error);
+      }
+    `};
 `
 
 const InputContainer = styled.div`
@@ -35,7 +63,7 @@ const Input = styled.input<{ disabled: boolean }>`
   width: 100%;
   padding: 0px;
   flex: 1 1 auto;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: transparent;
   transition: color 300ms step-start;
   color: ${({ theme }) => theme.text1};
   overflow: hidden;
@@ -101,34 +129,32 @@ export default function AddressInputPanel({
   )
 
   return (
-    <InputPanel id={id}>
-      <ContainerRow error={error}>
-        <InputContainer>
-          <AutoColumn gap="md">
-            {label && (
-              <RowBetween>
-                <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
-                  {label}
-                </TYPE.black>
-              </RowBetween>
-            )}
-            <Input
-              disabled={disabled}
-              type={type}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
-              placeholder="..."
-              onChange={disabled ? () => {} : handleInput}
-              value={value}
-              min={min}
-              max={max}
-              step={step}
-            />
-          </AutoColumn>
-        </InputContainer>
-      </ContainerRow>
+    <InputPanel id={id} error={error}>
+      <InputContainer>
+        <AutoColumn gap="md">
+          {label && (
+            <RowBetween>
+              <TYPE.black color={theme.text2} fontWeight={500} fontSize={14}>
+                {label}
+              </TYPE.black>
+            </RowBetween>
+          )}
+          <Input
+            disabled={disabled}
+            type={type}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            placeholder="..."
+            onChange={disabled ? () => {} : handleInput}
+            value={value}
+            min={min}
+            max={max}
+            step={step}
+          />
+        </AutoColumn>
+      </InputContainer>
     </InputPanel>
   )
 }

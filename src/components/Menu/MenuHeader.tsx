@@ -7,7 +7,7 @@ import { useActiveWeb3React } from 'hooks'
 import useCopyClipboard from 'hooks/useCopyClipboard'
 import { shortenAddress } from 'utils'
 import Identicon from 'components/Identicon'
-import IconButton from './IconButton'
+import IconButton from 'components/IconButton'
 import networks from 'networks.json'
 
 const StyledMenuHeader = styled.div``
