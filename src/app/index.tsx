@@ -8,7 +8,7 @@ import { AppState } from 'state'
 import { ZERO_ADDRESS } from 'sdk'
 import './index.css'
 
-import { useAppState } from 'state/application/hooks'
+import { useAppState, useBlockNumber } from 'state/application/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
 import { retrieveDomainData } from 'state/application/actions'
 import { fetchDomainData } from 'utils/app'
@@ -36,6 +36,7 @@ import RemoveLiquidity from '../pages/RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from '../pages/RemoveLiquidity/redirects'
 import Swap from '../pages/Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from '../pages/Swap/redirects'
+import Polling from 'widgets/Polling'
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -77,6 +78,7 @@ export default function App() {
   const { admin, factory, router, projectName, pairHash } = useAppState()
   const [domainDataTrigger, setDomainDataTrigger] = useState<boolean>(false)
   const [darkMode] = useDarkModeManager()
+  const blockNumber = useBlockNumber()
 
   useEffect(() => {
     const dataset = document.body.dataset
@@ -200,6 +202,8 @@ export default function App() {
                       <Route component={RedirectPathToSwapOnly} />
                     </Switch>
                   </BodyWrapper>
+
+                  <Polling chainId={chainId} blockNumber={blockNumber} />
                 </AppWrapper>
               )}
             </>
