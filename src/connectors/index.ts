@@ -50,6 +50,9 @@ export const SUPPORTED_NETWORKS: { [chainId: string]: Network } = Object.values(
 }, {})
 
 export const SUPPORTED_CHAIN_IDS = Object.keys(SUPPORTED_NETWORKS).map((id) => Number(id))
+
+// export const AVAILABLE_FOR_SELECTION_CHAIN_IDS = []
+
 export const NETWORKS_RPC_BY_ID = Object.values(SUPPORTED_NETWORKS).reduce(
   (acc, { chainId, rpc }) => ({ ...acc, [chainId]: rpc }),
   {}

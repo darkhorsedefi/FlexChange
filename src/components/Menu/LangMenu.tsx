@@ -1,8 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronLeft, Check } from 'react-feather'
+import MenuFlyout from 'components/MenuFlyout'
 import i18n, { availableLanguages, LANG_NAME } from '../../i18n'
-import { MenuFlyout, StyledMenuHeader, ReturnButton, ClickableMenuItem } from './styled'
+import { StyledMenuHeader, ReturnButton, ClickableMenuItem } from './styled'
 
 export default function LangMenu({ close }: { close: VoidFunction }) {
   const { t } = useTranslation()

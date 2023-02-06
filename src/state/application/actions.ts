@@ -35,6 +35,8 @@ export enum ApplicationModal {
   DELEGATE,
   VOTE,
   LANGUAGE,
+  TRANSACTIONS,
+  NETWORKS,
 }
 
 export type StorageKeys = keyof StorageState

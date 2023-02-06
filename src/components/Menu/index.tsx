@@ -6,6 +6,7 @@ import { RiArrowRightUpLine } from 'react-icons/ri'
 import { ChevronUp, ChevronDown, ChevronRight, Moon, Sun, Settings } from 'react-feather'
 import i18n from '../../i18n'
 import Identicon from 'components/Identicon'
+import MenuFlyout from 'components/MenuFlyout'
 import { useDarkModeManager } from 'state/user/hooks'
 import { shortenAddress } from 'utils'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
@@ -16,7 +17,6 @@ import { useActiveWeb3React } from 'hooks'
 import MenuHeader from './MenuHeader'
 import TransactionMenu from './TransactionMenu'
 import LangMenu from './LangMenu'
-import { MenuFlyout } from './styled'
 
 export const StyledMenuButton = styled.button`
   display: flex;
@@ -155,30 +155,28 @@ export default function Menu() {
   const openTransactionMenu = () => setMenu('transaction')
   const openLangMenu = () => setMenu('lang')
 
-  const open = useModalOpen(ApplicationModal.MENU)
+  const isMenuOpen = useModalOpen(ApplicationModal.MENU)
   const toggle = useToggleModal(ApplicationModal.MENU)
   const [darkMode, toggleDarkMode] = useDarkModeManager()
 
-  useEffect(() => setMenu('main'), [open])
-  useOnClickOutside(node, open ? toggle : undefined)
+  useEffect(() => setMenu('main'), [isMenuOpen])
+  useOnClickOutside(node, isMenuOpen ? toggle : undefined)
 
   return (
     <StyledMenu ref={node as any}>
       <StyledMenuButton onClick={toggle}>
         {!!account ? (
           <>
-            <Identicon />
-            {shortenAddress(account)}
-            {getChevron(open)}
+            <Identicon /> {shortenAddress(account)} {getChevron(isMenuOpen)}
           </>
         ) : (
           <>
-            {t('connect')} | {getChevron(open)}
+            {t('connect')} | {getChevron(isMenuOpen)}
           </>
         )}
       </StyledMenuButton>
 
-      {open && (
+      {isMenuOpen && (
         <>
           {menu === 'transaction' ? (
             <TransactionMenu close={openMainMenu} />

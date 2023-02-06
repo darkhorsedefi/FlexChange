@@ -129,7 +129,6 @@ const StyledNavLink = styled(NavLink).attrs({
 
   &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
-    background-color: var(--color-nav-link-background-hover);
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -244,7 +243,7 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <NetworkSelector chainId={chainId} />
+          <NetworkSelector currentChainId={chainId} />
           <Menu />
         </HeaderElement>
       </HeaderControls>
