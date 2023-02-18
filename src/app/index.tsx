@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import { AppState } from 'state'
-import { ZERO_ADDRESS } from 'sdk'
 import './index.css'
 
 import { useAppState, useBlockNumber } from 'state/application/hooks'
@@ -13,8 +12,7 @@ import { useDarkModeManager } from 'state/user/hooks'
 import { retrieveDomainData } from 'state/application/actions'
 import { fetchDomainData } from 'utils/app'
 import { useStorageContract } from 'hooks/useContract'
-import { SUPPORTED_CHAIN_IDS } from '../connectors'
-import { STORAGE_NETWORK_ID } from '../constants'
+import { EVM_ADDRESS_REGEXP, SUPPORTED_CHAIN_IDS } from '../connectors'
 import Loader from 'components/Loader'
 import Panel from '../pages/Panel'
 import Connection from '../pages/Connection'
@@ -37,6 +35,8 @@ import { RedirectOldRemoveLiquidityPathStructure } from '../pages/RemoveLiquidit
 import Swap from '../pages/Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from '../pages/Swap/redirects'
 import Polling from 'widgets/Polling'
+
+const validateAddress = (v?: string) => v && v.match(EVM_ADDRESS_REGEXP)
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -96,8 +96,7 @@ export default function App() {
 
   const [isAvailableNetwork, setIsAvailableNetwork] = useState(true)
   const [greetingScreenIsActive, setGreetingScreenIsActive] = useState(false)
-
-  const [loading, setLoading] = useState(true)
+  const [isAppDataLoading, setIsAppDataLoading] = useState(true)
 
   useEffect(() => {
     setGreetingScreenIsActive(!domainData || !domainData?.admin)
@@ -108,22 +107,31 @@ export default function App() {
     if (domainData?.favicon && domainData.favicon !== faviconUrl) {
       localStorage.setItem('faviconUrl', domainData.favicon)
       window.location.reload()
-    } else if (!loading && !domainData?.favicon && faviconUrl) {
+    } else if (!isAppDataLoading && !domainData?.favicon && faviconUrl) {
       localStorage.removeItem('faviconUrl')
       window.location.reload()
     }
-  }, [domainData, loading])
+  }, [domainData, isAppDataLoading])
 
   useEffect(() => {
-    if (chainId) {
-      const lowerAcc = account?.toLowerCase()
-      const appAdmin = admin && admin !== ZERO_ADDRESS ? admin.toLowerCase() === lowerAcc : true
+    if (chainId && domainData) {
+      const isUseableChain =
+        domainData.contracts[chainId]?.factory?.match(EVM_ADDRESS_REGEXP) &&
+        domainData.contracts[chainId]?.router?.match(EVM_ADDRESS_REGEXP)
 
-      const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
-
-      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && accessToStorageNetwork))
+      setIsAvailableNetwork(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && isUseableChain)
     }
-  }, [chainId, domainDataTrigger, admin, account])
+  }, [chainId, domainDataTrigger, admin, account, domainData])
+
+  const [isSetupRequired, setIsSetupRequired] = useState(false)
+
+  useEffect(() => {
+    if (!isAppDataLoading) {
+      const isEnoughData = Boolean(validateAddress(admin) && validateAddress(factory) && validateAddress(router))
+
+      if (!isEnoughData) setIsSetupRequired(true)
+    }
+  }, [admin, factory, router, isAppDataLoading])
 
   useEffect(() => {
     if (!storage) return
@@ -137,7 +145,7 @@ export default function App() {
           setDomainData(data)
         }
 
-        setLoading(false)
+        setIsAppDataLoading(false)
       }
 
       if (!pairHash) start()
@@ -167,7 +175,7 @@ export default function App() {
         <Web3ReactManager>
           <Popups />
 
-          {loading ? (
+          {isAppDataLoading ? (
             <LoaderWrapper>
               <Loader size="2.8rem" />
             </LoaderWrapper>
@@ -216,6 +224,7 @@ export default function App() {
                   setDomainDataTrigger={setDomainDataTrigger}
                   domainData={domainData}
                   isAvailableNetwork={isAvailableNetwork}
+                  isSetupRequired={isSetupRequired}
                 />
               )}
             </>

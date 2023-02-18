@@ -1,12 +1,19 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { ChevronUp, ChevronDown, Check } from 'react-feather'
-import networks from 'networks.json'
+import { UnsupportedChainIdError } from '@web3-react/core'
+import { InjectedConnector } from '@web3-react/injected-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { useActiveWeb3React } from 'hooks'
+import { switchInjectedNetwork } from 'utils/wallet'
 import { useAppState, useModalOpen, useToggleModal } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/actions'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { CURRENCY } from 'assets/images'
 import MenuFlyout from 'components/MenuFlyout'
+import networks from 'networks.json'
+
+type SupportedChainId = keyof typeof networks
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -37,7 +44,7 @@ const StyledMenuToggle = styled.button`
 const StyledNetworkImg = styled.img`
   height: 20px;
   width: 20px;
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 `
 
 const StyledName = styled.span`
@@ -49,7 +56,7 @@ const StyledNetworkItem = styled.button`
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  padding: 12px 16px;
+  padding: 12px 8px;
   color: var(--color-text-primary);
   transition: 0.12s;
   border-radius: 12px;
@@ -58,7 +65,7 @@ const StyledNetworkItem = styled.button`
 
   :hover,
   :focus {
-    background-color: var(--color-background-module);
+    background-color: var(--color-background-outline);
     cursor: pointer;
     text-decoration: none;
   }
@@ -70,7 +77,7 @@ const StyledNetworkItem = styled.button`
 
   .networkName {
     margin-left: 6px;
-    font-size: 18px;
+    font-size: 16px;
   }
 `
 
@@ -80,6 +87,7 @@ const chevronProps = {
 }
 
 export default function NetworkSelector({ currentChainId }: { currentChainId?: number }) {
+  const { connector, activate } = useActiveWeb3React()
   const { contracts } = useAppState()
 
   const node = useRef<HTMLDivElement>()
@@ -88,15 +96,32 @@ export default function NetworkSelector({ currentChainId }: { currentChainId?: n
 
   useOnClickOutside(node, isMenuOpen ? toggleMenu : undefined)
 
-  // @ts-ignore: add types for local JSON files
-  const [availableNetworks] = useState<any[]>(Object.keys(contracts).map((chainId) => networks[chainId]))
+  const [availableNetworks] = useState(
+    Object.keys(contracts).map((chainId) => networks[chainId as keyof typeof networks])
+  )
 
-  const onSelectNetwork = (id: number) => console.log('select a new network', id)
+  const onSelectNetwork = async (id: number) => {
+    if (currentChainId !== id) {
+      if (connector instanceof InjectedConnector) {
+        const result = await switchInjectedNetwork(id)
 
-  // @ts-ignore
-  const networkConfig = networks[currentChainId]
-  // @ts-ignore
-  const networkImage = CURRENCY[currentChainId]
+        if (!result) return
+      } // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+      else if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+        connector.walletConnectProvider = undefined
+      }
+
+      connector &&
+        activate(connector, undefined, true).catch((error) => {
+          if (error instanceof UnsupportedChainIdError) {
+            activate(connector)
+          }
+        })
+    }
+  }
+
+  const networkConfig = networks[String(currentChainId) as SupportedChainId]
+  const networkImage = CURRENCY[String(currentChainId) as SupportedChainId]
 
   return typeof currentChainId === 'number' && networkConfig ? (
     <StyledWrapper ref={node as any}>
@@ -107,13 +132,15 @@ export default function NetworkSelector({ currentChainId }: { currentChainId?: n
       </StyledMenuToggle>
 
       {isMenuOpen && (
-        <MenuFlyout padding="8px" width="290px">
+        <MenuFlyout padding="8px" width="260px">
           {availableNetworks.map(({ name, chainId }) => (
             <StyledNetworkItem key={chainId} onClick={() => onSelectNetwork(chainId)}>
               <div className="networkInfo">
-                {/* @ts-ignore */}
-                {!!CURRENCY[chainId] && (
-                  <StyledNetworkImg src={networkImage} alt={`logo of the ${name} network`} />
+                {!!CURRENCY[String(chainId) as SupportedChainId] && (
+                  <StyledNetworkImg
+                    src={CURRENCY[String(chainId) as SupportedChainId]}
+                    alt={`logo of the ${name} network`}
+                  />
                 )}{' '}
                 <span className="networkName">{name}</span>
               </div>

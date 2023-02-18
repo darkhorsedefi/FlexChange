@@ -14,7 +14,6 @@ import { SUPPORTED_WALLETS, WALLET_NAMES } from '../../constants'
 import { switchInjectedNetwork } from 'utils/wallet'
 import usePrevious from 'hooks/usePrevious'
 import { useWindowSize } from 'hooks/useWindowSize'
-import useWordpressInfo from 'hooks/useWordpressInfo'
 import { ApplicationModal } from 'state/application/actions'
 import { useModalOpen, useWalletModalToggle } from 'state/application/hooks'
 import AccountDetails from '../AccountDetails'
@@ -155,21 +154,8 @@ export default function WalletModal({
   // important that these are destructed from the account-specific web3-react context
   const { active, chainId, account, connector, activate, error } = useWeb3React()
   const isDark = useIsDarkMode()
-  const wordpressData = useWordpressInfo()
-  const [availableNetworks, setAvailableNetworks] = useState<Network[]>([])
+  const [availableNetworks] = useState<Network[]>(Object.values(SUPPORTED_NETWORKS))
   const [currentChainId, setCurrentChainId] = useState<number>(0)
-
-  useEffect(() => {
-    const networks = Object.values(SUPPORTED_NETWORKS).filter(({ chainId }) => {
-      if (wordpressData?.wpNetworkIds?.length) {
-        return wordpressData.wpNetworkIds.includes(chainId)
-      }
-
-      return true
-    })
-
-    setAvailableNetworks(networks)
-  }, [wordpressData])
 
   useEffect(() => {
     if (availableNetworks.length === 1) {
@@ -284,15 +270,12 @@ export default function WalletModal({
           return (
             <Option
               onClick={() => {
-                ;(currentChainId !== chainId || option.connector !== connector) &&
-                  !option.href &&
-                  tryActivation(option.connector)
+                ;(currentChainId !== chainId || option.connector !== connector) && tryActivation(option.connector)
               }}
               id={`connect-${key}`}
               key={key}
               active={option.connector && option.connector === connector}
               color={option.color}
-              link={option.href}
               header={option.name}
               subheader={null}
               size={45}
@@ -341,14 +324,11 @@ export default function WalletModal({
           <Option
             id={`connect-${key}`}
             onClick={() => {
-              ;(currentChainId !== chainId || option.connector !== connector) &&
-                !option.href &&
-                tryActivation(option.connector)
+              ;(currentChainId !== chainId || option.connector !== connector) && tryActivation(option.connector)
             }}
             key={key}
             active={option.connector === connector}
             color={option.color}
-            link={option.href}
             header={option.name}
             subheader={null} //use option.descriptio to bring back multi-line
             icon={require('../../assets/images/' + option.iconName)}

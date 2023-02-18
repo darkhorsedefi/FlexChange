@@ -117,6 +117,26 @@
       "symbol": "WMATIC"
     }
   },
+  "80001": {
+    "name": "Polygon Mumbai",
+    "rpc": "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+    "chainId": 80001,
+    "explorer": "https://mumbai.polygonscan.com",
+    "color": "#A457FF",
+    "colorSoft": "#A457FF30",
+    "multicall": "0xEF65BF9e225A4B606aa5C46f944De35f566e58e4",
+    "bridge": "https://wallet.polygon.technology/login",
+    "baseCurrency": {
+      "decimals": 18,
+      "name": "Matic",
+      "symbol": "MATIC"
+    },
+    "wrappedToken": {
+      "address": "0x6089be5B1CB15A3b35ef9AC487D4b8295AFdDEda",
+      "name": "Wrapped Matic",
+      "symbol": "WMATIC"
+    }
+  },
   "43114": {
     "name": "Avalanche",
     "rpc": "https://api.avax.network/ext/bc/C/rpc",

@@ -3,6 +3,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { NetworkConnector } from './NetworkConnector'
+import { WALLET_NAMES } from '../constants'
 import networks from 'networks.json'
 
 export type Network = {
@@ -48,7 +49,6 @@ export const SUPPORTED_NETWORKS: { [chainId: string]: Network } = Object.values(
 
   return acc
 }, {})
-
 export const SUPPORTED_CHAIN_IDS = Object.keys(SUPPORTED_NETWORKS).map((id) => Number(id))
 
 // export const AVAILABLE_FOR_SELECTION_CHAIN_IDS = []
@@ -78,7 +78,7 @@ export const newWalletConnect = (chainId: number) =>
     rpc: { [networks[chainId].chainId]: networks[networks[chainId].chainId].rpc },
     bridge: 'https://bridge.walletconnect.org',
     qrcode: true,
-    pollingInterval: 15000,
+    pollingInterval: 15_000,
   })
 
 export const newWalletlink = (chainId: number, appName = '', appLogoUrl = '') =>
@@ -88,3 +88,14 @@ export const newWalletlink = (chainId: number, appName = '', appLogoUrl = '') =>
     appName,
     appLogoUrl,
   })
+
+export const newWalletConnector = (walletName: keyof typeof WALLET_NAMES, chainId: number) => {
+  switch (walletName) {
+    case WALLET_NAMES.WALLET_CONNECT:
+      return newWalletConnect(chainId)
+    case WALLET_NAMES.WALLET_LINK:
+      return newWalletlink(chainId)
+    default:
+      return
+  }
+}

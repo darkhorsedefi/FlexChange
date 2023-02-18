@@ -5,13 +5,21 @@ import { useDarkModeManager } from 'state/user/hooks'
 import styled from 'styled-components/macro'
 import { ExternalLink, HideSmall } from 'theme'
 import networks from 'networks.json'
+import { CURRENCY } from 'assets/images'
 
 import { AutoRow } from '../Row'
 
 const BodyText = styled.div`
-  color: ${({ color }) => color};
+  display: flex;
+  align-items: center;
   margin: 8px;
   font-size: 14px;
+  color: ${({ color }) => color};
+`
+
+const StyledNetworkImg = styled.img`
+  width: 24px;
+  margin-right: 0.8rem;
 `
 
 const TextRows = styled(AutoRow)`
@@ -23,10 +31,16 @@ const TextRows = styled(AutoRow)`
 const RootWrapper = styled.div`
   position: relative;
   margin-top: 16px;
+
+  @media (max-width: 540px) {
+    margin: 16px auto 0;
+    width: 90%;
+  }
 `
 
 const ContentWrapper = styled.div<{ color: string; colorSoft: string; darkMode: boolean; logoUrl?: string }>`
-  background-image: ${({ colorSoft }) => `linear-gradient(135deg, ${colorSoft} 0%, rgba(255, 255, 255, 0) 100%)`};
+  background-image: ${({ colorSoft }) =>
+    `radial-gradient(182.71% 205.59% at 2.81% 7.69%, ${colorSoft} 0%, var(--color-currency-search-item-hover) 100%)`};
   border-radius: 20px;
   display: flex;
   flex-direction: row;
@@ -60,15 +74,15 @@ const LinkOutToBridge = styled(ExternalLink)`
 
 const StyledArrowUpRight = styled(ArrowUpRight)`
   margin-left: 12px;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
 `
 
 export default function NetworkAlert() {
   const { chainId } = useWeb3React()
   const [darkMode] = useDarkModeManager()
 
-  //@ts-ignore
+  // @ts-ignore
   const { bridge, name, color, colorSoft } = networks[String(chainId) as keyof typeof networks]
 
   return bridge ? (
@@ -76,6 +90,9 @@ export default function NetworkAlert() {
       <ContentWrapper color={color} colorSoft={colorSoft} darkMode={darkMode}>
         <LinkOutToBridge href={bridge}>
           <BodyText color={color}>
+            {CURRENCY[String(chainId) as keyof typeof networks] && (
+              <StyledNetworkImg src={CURRENCY[String(chainId) as keyof typeof networks]} alt="Network logo" />
+            )}
             <TextRows>
               <Header>{name} token bridge</Header>
               <HideSmall>Deposit tokens to the {name} network.</HideSmall>

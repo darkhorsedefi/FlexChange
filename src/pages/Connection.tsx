@@ -4,16 +4,15 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { FaWallet } from 'react-icons/fa'
 import { useWeb3React } from '@web3-react/core'
-import networks from 'networks.json'
 import { SUPPORTED_NETWORKS } from 'connectors'
 import AppBody from './AppBody'
 import Panel from './Panel'
+// import { STORAGE_NETWORK_ID } from '../constants'
 import Web3Status from 'components/Web3Status'
 import { AppDispatch } from 'state'
 import { ApplicationModal, setOpenModal } from '../state/application/actions'
 import { useAppState } from 'state/application/hooks'
 import { useDispatch } from 'react-redux'
-import useWordpressInfo from 'hooks/useWordpressInfo'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -52,17 +51,6 @@ const Title = styled.h3`
   font-weight: 500;
 `
 
-const SubTitle = styled.h4`
-  margin: 0.2rem 0;
-  padding: 0.2rem 0;
-  font-weight: 400;
-`
-
-const NetworkRow = styled.p`
-  margin: 0;
-  padding: 0.2rem 0;
-`
-
 const NetworkStatus = styled.div`
   width: 80%;
 `
@@ -84,96 +72,37 @@ const SupportedNetworksList = styled.ul`
   }
 `
 
-const unavailableOrZeroAddr = (value: string | undefined) => !value || value === ZERO_ADDRESS
-
-interface ComponentProps {
+interface Props {
   domainData: any
   isAvailableNetwork: boolean
+  isSetupRequired: boolean
   setDomainDataTrigger: (x: any) => void
 }
 
-export default function Connection({ domainData, isAvailableNetwork, setDomainDataTrigger }: ComponentProps) {
-  const { active, chainId, account } = useWeb3React()
-  const wordpressData = useWordpressInfo()
+export default function Connection({ isAvailableNetwork, isSetupRequired, setDomainDataTrigger }: Props) {
+  const { account /* chainId */ } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
-  const { admin, factory, router } = useAppState()
-  const [needToConfigure, setNeedToConfigure] = useState(false)
+  const { admin } = useAppState()
 
   useEffect(() => {
-    if (
-      active &&
-      (!domainData || unavailableOrZeroAddr(admin) || unavailableOrZeroAddr(factory) || unavailableOrZeroAddr(router))
-    ) {
-      setNeedToConfigure(true)
-    }
-  }, [active, admin, factory, router, domainData])
-
-  useEffect(() => {
-    if (isAvailableNetwork && !needToConfigure) {
+    if (isAvailableNetwork && !isSetupRequired) {
       dispatch(setOpenModal(ApplicationModal.WALLET))
     }
-  }, [dispatch, isAvailableNetwork, needToConfigure])
+  }, [dispatch, isAvailableNetwork, isSetupRequired])
 
-  const [changeAllowed, setChangeAllowed] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  // const accessToStorageNetwork = isAdmin && chainId === STORAGE_NETWORK_ID
 
   useEffect(() => {
-    setChangeAllowed(
-      wordpressData?.wpAdmin
-        ? wordpressData.wpAdmin.toLowerCase() === account?.toLowerCase()
-        : admin && admin !== ZERO_ADDRESS
-        ? admin.toLowerCase() === account?.toLowerCase()
-        : true
-    )
-  }, [needToConfigure, wordpressData, account, admin])
+    setIsAdmin(admin !== ZERO_ADDRESS && admin.toLowerCase() === account?.toLowerCase())
+  }, [account, admin])
 
   return (
     <Wrapper>
-      {!isAvailableNetwork ? (
-        <AppBody>
-          <SupportedNetworksWrapper>
-            {chainId && wordpressData?.wpNetworkIds?.length && !wordpressData.wpNetworkIds.includes(chainId) ? (
-              <>
-                <h3>{t('youCanNotUseThisNetwork')}</h3>
-                <div>
-                  <SubTitle>
-                    {wordpressData.wpNetworkIds.length > 1
-                      ? t('pleaseSelectOneOfTheFollowingNetworks')
-                      : t('pleaseSelectTheFollowingNetwork')}
-                    :
-                  </SubTitle>
-                  {wordpressData.wpNetworkIds.map((id) =>
-                    !!id ? (
-                      <NetworkRow key={id}>
-                        {/* @ts-ignore */}
-                        {networks[id]?.name} (ID: {networks[id]?.chainId})
-                      </NetworkRow>
-                    ) : null
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <h3>{t('youCanNotUseThisNetwork')}</h3>
-                {SUPPORTED_NETWORKS.length && (
-                  <>
-                    <p>{t('availableNetworks')}</p>
-                    <SupportedNetworksList>
-                      {Object.values(SUPPORTED_NETWORKS).map(({ name, chainId }) => (
-                        <li key={chainId}>
-                          {chainId} - {name}
-                        </li>
-                      ))}
-                    </SupportedNetworksList>
-                  </>
-                )}
-              </>
-            )}
-          </SupportedNetworksWrapper>
-        </AppBody>
-      ) : needToConfigure ? (
+      {isSetupRequired ? (
         <>
-          {changeAllowed ? (
+          {isAdmin ? (
             <Panel setDomainDataTrigger={setDomainDataTrigger} />
           ) : (
             <AppBody>
@@ -183,6 +112,26 @@ export default function Connection({ domainData, isAvailableNetwork, setDomainDa
             </AppBody>
           )}
         </>
+      ) : !isAvailableNetwork ? (
+        <AppBody>
+          <SupportedNetworksWrapper>
+            <>
+              <h3>{t('youCanNotUseThisNetwork')}</h3>
+              {SUPPORTED_NETWORKS.length && (
+                <>
+                  <p>{t('availableNetworks')}</p>
+                  <SupportedNetworksList>
+                    {Object.values(SUPPORTED_NETWORKS).map(({ name, chainId }) => (
+                      <li key={chainId}>
+                        {chainId} - {name}
+                      </li>
+                    ))}
+                  </SupportedNetworksList>
+                </>
+              )}
+            </>
+          </SupportedNetworksWrapper>
+        </AppBody>
       ) : (
         <AppBody>
           <ContentWrapper>
