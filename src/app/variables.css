@@ -119,6 +119,7 @@
   --color-background-surface-reversed: #0d111c;
   --color-background-interactive: #e8ecfb;
   --color-background-module: #f5f6fc;
+  --color-background-3: #b8c0dc;
   --color-text-secondary: #7780a0;
   --color-state-overlay-hover: #98a1c02e;
   --color-state-overlay-pressed: #b8c0dc48;
@@ -155,6 +156,7 @@
   --color-background-surface-reversed: #ffffff;
   --color-background-interactive: #293249;
   --color-background-module: #131a2a;
+  --color-background-3: #404a67;
   --color-text-secondary: #7780a0;
   --color-state-overlay-hover: #98a1c02e;
   --color-state-overlay-pressed: #b8c0dc48;

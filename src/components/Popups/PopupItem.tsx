@@ -11,20 +11,19 @@ import ErrorPopup from './ErrorPopup'
 
 export const StyledClose = styled(X)`
   position: absolute;
-  right: 10px;
-  top: 10px;
-
-  :hover {
-    cursor: pointer;
-  }
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
 `
 export const Popup = styled.div<{ error?: boolean }>`
   display: inline-block;
   width: 100%;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: var(--color-background-surface);
   position: relative;
+  z-index: 1;
   border-radius: 10px;
-  padding: 20px 35px 20px 20px;
+  padding: 20px;
+  padding-right: 35px;
   overflow: hidden;
   border: 1px solid ${({ error, theme }) => (error ? theme.red1 : 'transparent')};
 
@@ -41,7 +40,7 @@ const Fader = styled.div`
   left: 0px;
   width: 100%;
   height: 2px;
-  background-color: ${({ theme }) => theme.bg3};
+  background-color: var(--color-background-3);
 `
 
 const AnimatedFader = animated(Fader)
@@ -57,6 +56,7 @@ export default function PopupItem({
 }) {
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
+
   useEffect(() => {
     if (removeAfterMs === null) return undefined
 

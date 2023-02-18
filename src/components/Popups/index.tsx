@@ -7,15 +7,17 @@ import { AutoColumn } from '../Column'
 import PopupItem from './PopupItem'
 
 const MobilePopupWrapper = styled.div<{ height: string | number }>`
-  position: relative;
+  position: fixed;
+  z-index: 300;
   max-width: 100%;
   height: ${({ height }) => height};
   margin: ${({ height }) => (height ? '0 auto;' : 0)};
   margin-bottom: ${({ height }) => (height ? '20px' : 0)}};
-
   display: none;
+
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: block;
+    padding-top: 20px;
   `};
 `
 
@@ -33,11 +35,11 @@ const MobilePopupInner = styled.div`
 
 const FixedPopupColumn = styled(AutoColumn)<{ noPadding: boolean; extraPadding: boolean }>`
   position: fixed;
-  top: ${({ noPadding, extraPadding }) => (noPadding ? '22px' : extraPadding ? '108px' : '88px')};
+  top: ${({ noPadding, extraPadding }) => (noPadding ? '22px' : extraPadding ? '72px' : '64px')};
   right: 1rem;
   max-width: 355px !important;
   width: 100%;
-  z-index: 3;
+  z-index: 300;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
@@ -54,41 +56,6 @@ export default function Popups() {
 
   const noDomainInfo = !admin
 
-  // popup component testing
-  // const zero = '0x0000000000000000000000000000000000000000000000000000000000000000'
-
-  // if (!activePopups.length) {
-  //   activePopups.push({
-  //     key: zero,
-  //     show: true,
-  //     content: {
-  //       txn: {
-  //         hash: zero,
-  //         success: true,
-  //         // summary: 'Test popup',
-  //         summary: 'Test popup popup popup popup popup popup popup popup popup popup popup popup popup',
-  //       },
-  //     },
-  //     removeAfterMs: Infinity,
-  //   })
-  // }
-
-  // if (!activePopups.length) {
-  //   activePopups.push({
-  //     key: zero,
-  //     show: true,
-  //     removeAfterMs: Infinity,
-  //     content: {
-  //       error: {
-  //         message: 'Error message with useless information. No point to read this stuff',
-  //         // message:
-  //         //   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam commodi cumque ea esse ex impedit iste labore modi mollitia nostrum, obcaecati qui saepe tempore tenetur unde, vel veritatis vitae?',
-  //         code: 1234,
-  //       },
-  //     },
-  //   })
-  // }
-
   return (
     <>
       <FixedPopupColumn gap="20px" noPadding={appManagement || noDomainInfo} extraPadding={false}>
@@ -96,16 +63,18 @@ export default function Popups() {
           <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
         ))}
       </FixedPopupColumn>
-      <MobilePopupWrapper height={activePopups?.length > 0 ? 'fit-content' : 0}>
-        <MobilePopupInner>
-          {activePopups // reverse so new items up front
-            .slice(0)
-            .reverse()
-            .map((item) => (
-              <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
-            ))}
-        </MobilePopupInner>
-      </MobilePopupWrapper>
+      {activePopups?.length > 0 && (
+        <MobilePopupWrapper height="fit-content">
+          <MobilePopupInner>
+            {activePopups // reverse so new items up front
+              .slice(0)
+              .reverse()
+              .map((item) => (
+                <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
+              ))}
+          </MobilePopupInner>
+        </MobilePopupWrapper>
+      )}
     </>
   )
 }
