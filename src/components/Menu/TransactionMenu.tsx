@@ -1,173 +1,115 @@
-// import React, { useMemo, useCallback } from 'react'
-// import { useTranslation } from 'react-i18next'
-// import { ChevronLeft } from 'react-feather'
-// import { useDispatch } from 'react-redux'
-// import styled from 'styled-components'
-// import { MenuFlyout, StyledMenuHeader, ReturnButton } from './styled'
-// import { useActiveWeb3React } from 'hooks'
-// import { useAllTransactions } from '../../state/transactions/hooks'
-// import { clearAllTransactions } from '../../state/transactions/reducer'
-// import { TransactionDetails } from '../../state/transactions/types'
-// import { TransactionSummary } from '../AccountDetailsV2'
+import React, { useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
+import styled from 'styled-components'
+import { ChevronLeft } from 'react-feather'
+import { LinkStyledButton, TYPE } from 'theme'
+import { useActiveWeb3React } from 'hooks'
+import { useAllTransactions } from '../../state/transactions/hooks'
+import { clearAllTransactions } from '../../state/transactions/actions'
+import Transaction from 'components/Transaction'
+import { AutoRow } from 'components/Row'
+import MenuFlyout from 'components/MenuFlyout'
+import { NetworkContextName } from '../../constants'
+import { isTransactionRecent } from 'state/transactions/hooks'
+import { StyledMenuHeader, ReturnButton } from './styled'
 
-// const THIRTY_DAYS = ms`30 days`
+const Divider = styled.div`
+  border-bottom: 1px solid var(--color-background-outline);
+`
 
-// const TransactionListWrapper = styled.div`
-//   ${flexColumnNoWrap};
-// `
+const StyledTransactionsWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1.5rem;
+  flex-grow: 1;
+  overflow: auto;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 
-// interface TransactionInformation {
-//   title: string
-//   transactions: TransactionDetails[]
-// }
+  h5 {
+    margin: 0;
+    font-weight: 400;
+    color: ${({ theme }) => theme.text3};
+  }
+`
 
-// const TransactionTitle = styled.span`
-//   padding-bottom: 8px;
-//   padding-top: 20px;
-//   padding-left: 12px;
-//   padding-right: 12px;
-//   font-weight: 600;
-//   color: var(--color-text-tertiary);
-// `
+const TransactionListWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+`
 
-// const TransactionList = ({ transactionInformation }: { transactionInformation: TransactionInformation }) => {
-//   const { title, transactions } = transactionInformation
+const StyledNoTransactionWrapper = styled.div`
+  text-align: center;
+  margin-top: 24px;
+  font-weight: 400;
+  font-size: 14px;
+  padding-left: 12px;
+  padding-right: 12px;
+  color: var(--color-text-secondary);
+`
 
-//   return (
-//     <TransactionListWrapper key={title}>
-//       <TransactionTitle>{title}</TransactionTitle>
-//       {transactions.map((transactionDetails, index) => (
-//         <TransactionSummary
-//           key={transactionDetails.hash}
-//           transactionDetails={transactionDetails}
-//           isLastTransactionInList={index === transactions.length - 1}
-//         />
-//       ))}
-//     </TransactionListWrapper>
-//   )
-// }
+const renderTransactions = (transactions: string[]) => (
+  <TransactionListWrapper>
+    {transactions.map((hash) => (
+      <Transaction key={hash} hash={hash} />
+    ))}
+  </TransactionListWrapper>
+)
 
-// const getConfirmedTransactions = (confirmedTransactions: Array<TransactionDetails>) => {
-//   const now = new Date().getTime()
+export default function TransactionMenu({ close }: { close: VoidFunction }) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { chainId } = useActiveWeb3React()
+  const { active } = useWeb3React()
+  const contextNetwork = useWeb3React(NetworkContextName)
+  const allTransactions = useAllTransactions()
 
-//   const today: Array<TransactionDetails> = []
-//   const currentWeek: Array<TransactionDetails> = []
-//   const last30Days: Array<TransactionDetails> = []
-//   const currentYear: Array<TransactionDetails> = []
-//   const yearMap: { [key: string]: Array<TransactionDetails> } = {}
+  const sortedRecentTransactions = useMemo(() => {
+    const txs = Object.values(allTransactions)
 
-//   confirmedTransactions.forEach((transaction) => {
-//     const { addedTime } = transaction
+    return txs.filter(isTransactionRecent).sort((a, b) => b.addedTime - a.addedTime)
+  }, [allTransactions])
 
-//     if (isSameDay(now, addedTime)) {
-//       today.push(transaction)
-//     } else if (isSameWeek(addedTime, now)) {
-//       currentWeek.push(transaction)
-//     } else if (now - addedTime < THIRTY_DAYS) {
-//       last30Days.push(transaction)
-//     } else if (isSameYear(addedTime, now)) {
-//       currentYear.push(transaction)
-//     } else {
-//       const year = getYear(addedTime)
+  const pendingTransactions = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
+  const confirmedTransactions = sortedRecentTransactions.filter((tx) => tx.receipt).map((tx) => tx.hash)
 
-//       if (!yearMap[year]) {
-//         yearMap[year] = [transaction]
-//       } else {
-//         yearMap[year].push(transaction)
-//       }
-//     }
-//   })
+  const clearAllTransactionsCallback = useCallback(() => {
+    if (chainId) dispatch(clearAllTransactions({ chainId }))
+  }, [dispatch, chainId])
 
-//   const transactionGroups: Array<TransactionInformation> = [
-//     {
-//       title: 'Today',
-//       transactions: today,
-//     },
-//     {
-//       title: 'This week',
-//       transactions: currentWeek,
-//     },
-//     {
-//       title: 'Past 30 Days',
-//       transactions: last30Days,
-//     },
-//     {
-//       title: 'This year',
-//       transactions: currentYear,
-//     },
-//   ]
+  const hasAnyTransactions = !!pendingTransactions.length || !!confirmedTransactions.length
 
-//   const sortedYears = Object.keys(yearMap)
-//     .sort((a, b) => parseInt(b) - parseInt(a))
-//     .map((year) => ({ title: year, transactions: yearMap[year] }))
+  if (!contextNetwork.active && !active) {
+    return null
+  }
 
-//   transactionGroups.push(...sortedYears)
-
-//   return transactionGroups.filter((transactionInformation) => transactionInformation.transactions.length > 0)
-// }
-
-// const EmptyTransaction = styled.div`
-//   text-align: center;
-//   margin-top: 24px;
-//   font-weight: 400;
-//   font-size: 14px;
-//   padding-left: 12px;
-//   padding-right: 12px;
-//   color: var(--color-text-secondary);
-// `
-
-// export default function TransactionMenu({ close }: { close: VoidFunction }) {
-//   const { t } = useTranslation()
-//   const allTransactions = useAllTransactions()
-//   const { chainId } = useActiveWeb3React()
-//   const dispatch = useDispatch()
-//   const transactionGroupsInformation = []
-
-//   const clearAllTransactionsCallback = useCallback(() => {
-//     if (chainId) dispatch(clearAllTransactions({ chainId }))
-//   }, [dispatch, chainId])
-
-//   const [confirmed, pending] = useMemo(() => {
-//     const confirmed: Array<TransactionDetails> = []
-//     const pending: Array<TransactionDetails> = []
-
-//     const sorted = Object.values(allTransactions).sort((a, b) => b.addedTime - a.addedTime)
-//     sorted.forEach((transaction) => (transaction.receipt ? confirmed.push(transaction) : pending.push(transaction)))
-
-//     return [confirmed, pending]
-//   }, [allTransactions])
-
-//   const confirmedTransactions = useMemo(() => getConfirmedTransactions(confirmed), [confirmed])
-
-//   if (pending.length) transactionGroupsInformation.push({ title: `Pending (${pending.length})`, transactions: pending })
-//   if (confirmedTransactions.length) transactionGroupsInformation.push(...confirmedTransactions)
-
-//   return (
-//     <MenuFlyout>
-//       <StyledMenuHeader>
-//         <ReturnButton onClick={close}>
-//           <ChevronLeft size={22} color="var(--color-text-secondary)" />
-//         </ReturnButton>
-//         {t('transactions')}
-//       </StyledMenuHeader>
-
-//       {transactionGroupsInformation.length > 0 ? (
-//         <>
-//           {transactionGroupsInformation.map((transactionInformation) => (
-//             <TransactionList key={transactionInformation.title} transactionInformation={transactionInformation} />
-//           ))}
-//         </>
-//       ) : (
-//         <EmptyTransaction data-testid="wallet-empty-transaction-text">
-//           {t('yourTransactionsWillAppearHere')}
-//         </EmptyTransaction>
-//       )}
-//     </MenuFlyout>
-//   )
-// }
-
-import React from 'react'
-
-export default function TransactionMenu(p: any) {
-  return <div>Transactions</div>
+  return (
+    <MenuFlyout>
+      <StyledMenuHeader>
+        <ReturnButton onClick={close}>
+          <ChevronLeft size={22} color="var(--color-text-secondary)" />
+        </ReturnButton>
+        {t('transactions')}
+      </StyledMenuHeader>
+      <Divider />
+      {!contextNetwork.active && !active ? null : hasAnyTransactions ? (
+        <StyledTransactionsWrapper>
+          <AutoRow mb="1rem" style={{ justifyContent: 'space-between' }}>
+            <TYPE.body>{t('recentTransactions')}</TYPE.body>
+            <LinkStyledButton onClick={clearAllTransactionsCallback}>({t('clearAll')})</LinkStyledButton>
+          </AutoRow>
+          {renderTransactions(pendingTransactions)}
+          {renderTransactions(confirmedTransactions)}
+        </StyledTransactionsWrapper>
+      ) : (
+        <StyledTransactionsWrapper>
+          <StyledNoTransactionWrapper>
+            <TYPE.body color="var(--color-background-outline)">{t('yourTransactionsAppearHere')}</TYPE.body>
+          </StyledNoTransactionWrapper>
+        </StyledTransactionsWrapper>
+      )}
+    </MenuFlyout>
+  )
 }

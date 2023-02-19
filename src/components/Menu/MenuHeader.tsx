@@ -8,6 +8,7 @@ import useCopyClipboard from 'hooks/useCopyClipboard'
 import { shortenAddress } from 'utils'
 import Identicon from 'components/Identicon'
 import IconButton from 'components/IconButton'
+import Loader from 'components/Loader'
 import networks from 'networks.json'
 
 const StyledMenuHeader = styled.div``
@@ -95,13 +96,17 @@ export default function MenuHeader() {
             </StyledRowItem>
           </StyledRow>
 
-          {account && baseCoinBalance && (
+          {account && (
             <StyledAccountInfo>
               <StyledBalanceTitle>{t('balance')}</StyledBalanceTitle>
-              <StyledBalance>
-                {baseCoinBalance?.toSignificant(5)} {baseCurrency?.symbol}
-              </StyledBalance>
-              {/* @todo: add fiat balance */}
+              {baseCoinBalance ? (
+                <StyledBalance>
+                  {baseCoinBalance?.toSignificant(5)} {baseCurrency?.symbol}
+                  {/* @todo: add fiat balance */}
+                </StyledBalance>
+              ) : (
+                <Loader />
+              )}
               <StyledSeparator />
             </StyledAccountInfo>
           )}
