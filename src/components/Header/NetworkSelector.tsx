@@ -49,6 +49,10 @@ const StyledNetworkImg = styled.img`
 
 const StyledName = styled.span`
   margin-right: 0.5rem;
+
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    display: none;
+  `};
 `
 
 const StyledNetworkItem = styled.button`

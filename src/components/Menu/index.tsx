@@ -46,6 +46,12 @@ export const StyledMenuButton = styled.button`
   }
 `
 
+const StyledMenuAddress = styled.div`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: none;
+  `};
+`
+
 const StyledMenu = styled.div`
   margin-left: 0.5rem;
   display: flex;
@@ -167,7 +173,10 @@ export default function Menu() {
       <StyledMenuButton onClick={toggle}>
         {!!account ? (
           <>
-            <Identicon /> {shortenAddress(account)} {getChevron(isMenuOpen)}
+            <Identicon />
+            <StyledMenuAddress>
+              {shortenAddress(account)} {getChevron(isMenuOpen)}
+            </StyledMenuAddress>
           </>
         ) : (
           <>

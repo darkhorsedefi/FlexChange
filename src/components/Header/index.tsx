@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import Logo from 'assets/images/logo.svg'
 import { RiArrowRightUpLine } from 'react-icons/ri'
@@ -15,7 +15,7 @@ const HeaderFrame = styled.header`
   width: 100vw;
   height: 72px;
   padding: 20px 12px;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,10 +34,11 @@ const HeaderElement = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row-reverse;
-    align-items: center;
+const StyledNetworkSelectorWrapper = styled.div`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    position
   `};
 `
 
@@ -63,17 +64,21 @@ const NavlLinks = styled(Row)`
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     position: fixed;
-    flex-wrap: wrap;
     margin-left: 0;
     bottom: 0;
-    padding: 0.6rem;
-    width: 100%;
-    left: 0%;
+    width: 100vw;
+    padding: 4px 8px;
+    left: 0;
+    overflow-x: auto;
+    border-top: 1px solid var(--color-background-outline);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    box-shadow: var(--box-shadow);
-    background-color: var(--color-background-elements);
+    background-color: var(--color-background-surface);
   `};
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    justify-content: space-between;
+  `}
 `
 
 const Title = styled.a`
@@ -102,10 +107,9 @@ const LogoImage = styled.img`
 
 const activeClassName = 'ACTIVE'
 
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName,
-})`
-  ${({ theme }) => theme.flexRowNoWrap}
+const linkStyles = css`
+  display: flex;
+  flex-flow: row nowrap;
   align-items: left;
   outline: none;
   cursor: pointer;
@@ -130,65 +134,17 @@ const StyledNavLink = styled(NavLink).attrs({
   &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
   }
+`
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    max-width: 10rem;
-    width: 100%;
-    margin: .1rem;
-    padding: 0.4rem 6%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid ${({ theme }) => theme.bg3};
-    font-size: 1.1em;
-  `};
+const StyledNavLink = styled(NavLink).attrs({
+  activeClassName,
+})`
+  ${linkStyles}
 `
 
 const StyledExternalLink = styled.a`
-  display: flex;
+  ${linkStyles}
   align-items: center;
-  justify-content: space-between;
-  text-decoration: none;
-  font-size: 0.9rem;
-  width: fit-content;
-  font-weight: 500;
-  color: var(--color-notice);
-  transition: 0.12s;
-  word-break: keep-all;
-  white-space: nowrap;
-  margin: 4px 0;
-  padding: 8px 16px;
-  line-height: 24px;
-  border-radius: 12px;
-
-  &:not(:last-child) {
-    margin-right: 0.16rem;
-  }
-
-  &:hover {
-    background-color: var(--color-nav-link-background-hover);
-  }
-
-  &.${activeClassName} {
-    color: ${({ theme }) => theme.text1};
-    background-color: var(--color-nav-link-background-hover);
-  }
-
-  .name {
-    margin-right: 0.1rem;
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    max-width: 10rem;
-    width: 100%;
-    margin: .1rem;
-    padding: 0.4rem 6%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid ${({ theme }) => theme.bg3};
-    font-size: 1.1em;
-  `};
 `
 
 export default function Header() {
@@ -243,7 +199,9 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
-          <NetworkSelector currentChainId={chainId} />
+          <StyledNetworkSelectorWrapper>
+            <NetworkSelector currentChainId={chainId} />
+          </StyledNetworkSelectorWrapper>
           <Menu />
         </HeaderElement>
       </HeaderControls>

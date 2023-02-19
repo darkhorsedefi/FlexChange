@@ -68,6 +68,10 @@ const BodyWrapper = styled.div<{ padding?: string }>`
   padding: ${({ padding }) => padding || '136px 8px 0'};
   overflow-x: hidden;
   z-index: 1;
+
+  ${({ theme, padding }) => theme.mediaWidth.upToMedium`
+    padding-top: ${padding ? padding : '88px'};
+  `};
 `
 
 export default function App() {

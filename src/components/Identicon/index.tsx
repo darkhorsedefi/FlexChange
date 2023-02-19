@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import Jazzicon from 'jazzicon'
 
-const StyledIdenticonContainer = styled.div`
-  height: 1rem;
-  width: 1rem;
+const StyledIdenticonContainer = styled.div<{ size?: number }>`
+  height: ${({ size }) => (size ? `${size}px` : '1rem')};
+  width: ${({ size }) => (size ? `${size}px` : '1rem')};
   border-radius: 1.125rem;
   background-color: ${({ theme }) => theme.bg4};
 `
 
-export default function Identicon() {
+export default function Identicon({ size }: { size?: number }) {
   const ref = useRef<HTMLDivElement>()
 
   const { account } = useActiveWeb3React()
@@ -25,5 +25,5 @@ export default function Identicon() {
   }, [account])
 
   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
-  return <StyledIdenticonContainer ref={ref as any} />
+  return <StyledIdenticonContainer ref={ref as any} size={size} />
 }
