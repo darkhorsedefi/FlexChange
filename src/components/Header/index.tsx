@@ -38,7 +38,9 @@ const HeaderElement = styled.div`
 
 const StyledNetworkSelectorWrapper = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    position
+    position: fixed;
+    left: 60px;
+    top: 16px;
   `};
 `
 

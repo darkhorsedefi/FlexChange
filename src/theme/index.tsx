@@ -17,6 +17,7 @@ const MEDIA_WIDTHS = {
   laptop: 1024,
   tabletL: 880,
   tabletM: 768,
+  mobile: 620,
   mobileL: 425,
   mobileM: 375,
   mobileS: 340,

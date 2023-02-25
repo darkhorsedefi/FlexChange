@@ -68,6 +68,7 @@ declare module 'styled-components' {
       laptop: ThemedCssFunction<DefaultTheme>
       tabletL: ThemedCssFunction<DefaultTheme>
       tabletM: ThemedCssFunction<DefaultTheme>
+      mobile: ThemedCssFunction<DefaultTheme>
       mobileL: ThemedCssFunction<DefaultTheme>
       mobileM: ThemedCssFunction<DefaultTheme>
       mobileS: ThemedCssFunction<DefaultTheme>

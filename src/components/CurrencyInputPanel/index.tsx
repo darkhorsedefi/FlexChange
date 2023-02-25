@@ -1,7 +1,6 @@
 import { Currency, Pair } from 'sdk'
 import React, { useState, useCallback } from 'react'
 import styled, { css } from 'styled-components'
-import { darken } from 'polished'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
 import CurrencyLogo from '../CurrencyLogo'
@@ -17,7 +16,8 @@ import { useTranslation } from 'react-i18next'
 import useTheme from 'hooks/useTheme'
 
 const InputRow = styled.div<{ selected: boolean }>`
-  ${({ theme }) => theme.flexRowNoWrap}
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   padding: 16px;
 `
@@ -62,17 +62,17 @@ const CurrencySelect = styled(ButtonGray)<{ isCurrencySelected?: boolean }>`
         `}
 `
 
-const LabelRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
+const StyledLabelRow = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
   color: var(--color-text-secondary);
-  font-size: 0.75rem;
   line-height: 1rem;
   min-height: 20px;
   padding: 0 16px;
 
   span:hover {
     cursor: pointer;
-    color: ${({ theme }) => darken(0.2, theme.text2)};
+    color: var(--color-text-secondary);
   }
 `
 
@@ -82,12 +82,12 @@ const Aligner = styled.span`
   justify-content: space-between;
 `
 
-const StyledDropDown = styled(DropDown)`
+const StyledDropDownIcon = styled(DropDown)<{ color?: string }>`
   margin: 0 0.25rem 0 0.5rem;
   height: 35%;
 
   path {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({ color }) => color || 'var(--color-text-primary)'};
     stroke-width: 1.5px;
   }
 `
@@ -216,27 +216,24 @@ export default function CurrencyInputPanel({
                   {selectedCurrencySymbol || t('selectToken')}
                 </StyledTokenName>
               )}
-              {!disableCurrencySelect && <StyledDropDown />}
+              {!disableCurrencySelect && (
+                <StyledDropDownIcon color={!selectedCurrencySymbol ? 'var(--color-f-brightest)' : ''} />
+              )}
             </Aligner>
           </CurrencySelect>
         </InputRow>
         {!hideInput && (
-          <LabelRow>
+          <StyledLabelRow>
             <RowBetween jc="flex-end">
               {account && (
-                <TYPE.body
-                  onClick={onMax}
-                  color={theme.text2}
-                  fontSize={14}
-                  style={{ display: 'inline', cursor: 'pointer' }}
-                >
+                <TYPE.body onClick={onMax} color={theme.text2} fontSize={14}>
                   {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(6)
+                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(4)
                     : ''}
                 </TYPE.body>
               )}
             </RowBetween>
-          </LabelRow>
+          </StyledLabelRow>
         )}
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (

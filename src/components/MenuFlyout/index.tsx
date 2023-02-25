@@ -18,6 +18,20 @@ const StyledMenuFlyout = styled.div<{ padding?: string; width?: string }>`
   box-shadow: var(--color-modal-shadow);
   width: ${({ width }) => width || '320px'};
   padding: ${({ padding }) => padding || '16px'};
+
+  ${({ theme }) => theme.mediaWidth.mobile`
+    position: fixed;
+    top: unset;
+    left: 0px;
+    right: 0px;
+    bottom: 60px;
+    width: 100vw;
+    height: fit-content;
+    padding: 8px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    box-shadow: unset;
+  `};
 `
 
 export default function MenuFlyout({
