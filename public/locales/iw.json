@@ -279,5 +279,10 @@
   "IfYouWantToChangeTheAddressSwitchToAnotherAddress": "אם ברצונך לשנות את הכתובת, עבור לכתובת אחרת. אם אינך יכול להחליף, פשוט נתק את הארנק וחבר אותו לכתובת החדשה.",
   "setTheOwner": "הגדר את הבעלים",
   "setAddressAsTheOwnerOfDomain": "הגדר את הכתובת שלך כבעלים של דומיין זה",
+  "transactions": "עסקאות",
+  "tokenBridge": "גשר אסימון",
+  "copy": "עותק",
+  "explorer": "אקספלורר",
+  "depositTokensToNetwork": "הפקדת אסימונים לרשת {{network}}",
   "onlyThisAddressCanAccessAppSettings": "רק כתובת זו יכולה לגשת ולשנות את הגדרות האפליקציה"
 }

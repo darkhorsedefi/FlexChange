@@ -44,12 +44,25 @@ export const StyledMenuButton = styled.button`
   > *:not(:last-child) {
     margin-right: 0.4rem;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    background-color: transparent;
+    border: none;
+  `};
 `
 
-const StyledMenuAddress = styled.div`
+const StyledMenuButtonItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     display: none;
   `};
+`
+
+const StyledMenuButtonAddress = styled.span`
+  margin-right: 8px;
 `
 
 const StyledMenu = styled.div`
@@ -174,9 +187,10 @@ export default function Menu() {
         {!!account ? (
           <>
             <Identicon />
-            <StyledMenuAddress>
-              {shortenAddress(account)} {getChevron(isMenuOpen)}
-            </StyledMenuAddress>
+            <StyledMenuButtonItem>
+              <StyledMenuButtonAddress>{shortenAddress(account)}</StyledMenuButtonAddress>
+              {getChevron(isMenuOpen)}
+            </StyledMenuButtonItem>
           </>
         ) : (
           <>
@@ -196,7 +210,6 @@ export default function Menu() {
               <MenuHeader />
               <MenuButton onClick={openTransactionMenu}>
                 {t('transactions')}
-                {/* @todo add pending state */}
                 <IconWrapper>
                   <ChevronRight size={16} />
                 </IconWrapper>

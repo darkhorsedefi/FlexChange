@@ -279,5 +279,10 @@
   "IfYouWantToChangeTheAddressSwitchToAnotherAddress": "Si desea cambiar la dirección, cambie a otra dirección. Si no puede cambiar, simplemente desconecte su billetera y conéctela a la nueva dirección.",
   "setTheOwner": "Establecer el propietario",
   "setAddressAsTheOwnerOfDomain": "Establece tu dirección como el propietario de este dominio",
+  "transactions": "Transacciones",
+  "tokenBridge": "Puente de fichas",
+  "copy": "Copia",
+  "explorer": "Explorador",
+  "depositTokensToNetwork": "Deposite tokens en el {{network}} red",
   "onlyThisAddressCanAccessAppSettings": "Solo esta dirección puede acceder y cambiar la configuración de la aplicación"
 }

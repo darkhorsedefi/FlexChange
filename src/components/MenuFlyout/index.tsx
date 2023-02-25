@@ -27,7 +27,6 @@ const StyledMenuFlyout = styled.div<{ padding?: string; width?: string }>`
     bottom: 60px;
     width: 100vw;
     height: fit-content;
-    padding: 8px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     box-shadow: unset;

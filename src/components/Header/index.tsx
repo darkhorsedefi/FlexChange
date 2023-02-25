@@ -15,7 +15,7 @@ const HeaderFrame = styled.header`
   width: 100vw;
   height: 72px;
   padding: 20px 12px;
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,8 +39,8 @@ const HeaderElement = styled.div`
 const StyledNetworkSelectorWrapper = styled.div`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     position: fixed;
-    left: 60px;
-    top: 16px;
+    left: 70px;
+    top: 14px;
   `};
 `
 

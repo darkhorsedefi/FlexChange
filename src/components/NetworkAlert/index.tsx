@@ -1,6 +1,7 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { ArrowUpRight } from 'react-feather'
+import { useTranslation } from 'react-i18next'
 import { useDarkModeManager } from 'state/user/hooks'
 import styled from 'styled-components/macro'
 import { ExternalLink, HideSmall } from 'theme'
@@ -79,6 +80,7 @@ const StyledArrowUpRight = styled(ArrowUpRight)`
 `
 
 export default function NetworkAlert() {
+  const { t } = useTranslation()
   const { chainId } = useWeb3React()
   const [darkMode] = useDarkModeManager()
 
@@ -94,8 +96,10 @@ export default function NetworkAlert() {
               <StyledNetworkImg src={CURRENCY[String(chainId) as keyof typeof networks]} alt="Network logo" />
             )}
             <TextRows>
-              <Header>{name} token bridge</Header>
-              <HideSmall>Deposit tokens to the {name} network.</HideSmall>
+              <Header>
+                {name} {t('tokenBridge')}
+              </Header>
+              <HideSmall>{t('depositTokensToNetwork', { network: name })}.</HideSmall>
             </TextRows>
           </BodyText>
           <StyledArrowUpRight color={color} />
