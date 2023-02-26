@@ -33,21 +33,21 @@ const OptionCard = styled(InfoCard as any)`
 const OptionCardClickable = styled(OptionCard as any)<{
   clickable?: boolean
   color?: string
+  bgColor?: string
   widthPercent?: number
   isDark: boolean
 }>`
   position: relative;
   width: ${({ widthPercent }) => widthPercent}%;
   border: 1px solid transparent;
-
-  ${({ isDark, theme }) => `background-color: ${isDark ? theme.bg3 : theme.bg1};`}
+  background-color: var(--color-background-interactive);
 
   &:hover {
-    ${({ color, clickable }) =>
-      clickable ? (color ? `border-color: ${color}; cursor: pointer;` : 'cursor: pointer;') : ''};
+    ${({ bgColor, clickable }) =>
+      clickable ? (bgColor ? `background-color: ${bgColor}; cursor: pointer;` : 'cursor: pointer;') : ''};
   }
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
-  transition: 0.1s;
+  transition: 0.12s;
 
   ${({ theme, widthPercent }) => theme.mediaWidth.upToExtraSmall`
     width: ${widthPercent - widthPercent / 4}%;
@@ -130,6 +130,7 @@ export default function Option({
   size,
   onClick = null,
   color,
+  bgColor,
   widthPercent = 17,
   header,
   subheader = null,
@@ -142,6 +143,7 @@ export default function Option({
   size?: number | null
   onClick?: null | VoidFunction
   color: string
+  bgColor?: string
   widthPercent?: number
   header: React.ReactNode
   subheader: React.ReactNode | null
@@ -159,6 +161,7 @@ export default function Option({
       clickable={clickable && !active}
       active={active}
       color={color}
+      bgColor={bgColor}
       widthPercent={widthPercent}
     >
       {active && (

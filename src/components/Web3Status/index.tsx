@@ -71,28 +71,26 @@ const ErrorStatusDescription = styled.p`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary1};
+  background-color: var(--color-brand-background);
   border: 1px solid transparent;
-  color: ${({ theme }) => theme.white1};
+  color: var(--color-text-primary);
   font-weight: 500;
 
   :hover,
   :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary1)};
-    color: ${({ theme }) => theme.white1};
+    border-color: var(--color-brand-background);
   }
 
   ${({ faded }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => theme.primary4};
-      border: 1px solid ${({ theme }) => theme.primary4};
-      color: ${({ theme }) => theme.white1};
+      background-color: var(--color-brand-background);
+      border-color: var(--color-brand-background);
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary1)};
-        color: ${({ theme }) => darken(0.05, theme.white1)};
+        background-color: var(--color-brand-hover);
+        border-color: var(--color-brand-hover);
       }
     `}
 `

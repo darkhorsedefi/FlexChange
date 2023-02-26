@@ -5,13 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import { AppState } from 'state'
-import { ZERO_ADDRESS } from 'sdk'
 import { useAppState } from 'state/application/hooks'
 import { retrieveDomainData } from 'state/application/actions'
 import { fetchDomainData } from 'utils/app'
 import { useStorageContract } from 'hooks/useContract'
 import { SUPPORTED_CHAIN_IDS } from '../connectors'
-import { STORAGE_NETWORK_ID } from '../constants'
 import Loader from 'components/Loader'
 import Panel from 'pages/Panel'
 import Connection from 'pages/Connection'
@@ -68,7 +66,7 @@ const BodyWrapper = styled.div<{ padding?: string }>`
 
 export default function App() {
   const dispatch = useDispatch()
-  const { active, chainId, library, account } = useWeb3React()
+  const { active, chainId, library } = useWeb3React()
   const storage = useStorageContract()
   const [domainData, setDomainData] = useState<any>(null)
   const { admin, factory, router, projectName, pairHash } = useAppState()
@@ -100,13 +98,10 @@ export default function App() {
 
   useEffect(() => {
     if (chainId) {
-      const lowerAcc = account?.toLowerCase()
-      const appAdmin = admin && admin !== ZERO_ADDRESS ? admin.toLowerCase() === lowerAcc : true
-      const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
-
-      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && accessToStorageNetwork))
+      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId))))
     }
-  }, [chainId, domainDataTrigger, admin, account])
+    // Set domainDataTrigger as a dependency so we can recheck network on some event (ex. Contract deployment)
+  }, [chainId, domainDataTrigger])
 
   useEffect(() => {
     if (!storage) return

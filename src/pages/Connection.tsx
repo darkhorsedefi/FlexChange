@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { ZERO_ADDRESS } from 'sdk'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { FaWallet } from 'react-icons/fa'
 import { useWeb3React } from '@web3-react/core'
 import { SUPPORTED_NETWORKS } from 'connectors'
 import AppBody from './AppBody'
@@ -31,17 +30,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 1.8rem;
-`
-
-const WalletIconWrapper = styled.div`
-  padding: 0.6rem;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.text2};
-
-  .icon {
-    color: ${({ theme }) => theme.bg1};
-  }
+  padding: 0 1rem 1rem;
 `
 
 const Title = styled.h3`
@@ -113,7 +102,7 @@ export default function Connection({ domainData, isAvailableNetwork, setDomainDa
         <AppBody>
           <SupportedNetworksWrapper>
             <h3>{t('youCanNotUseThisNetwork')}</h3>
-            {SUPPORTED_NETWORKS.length && (
+            {Object.values(SUPPORTED_NETWORKS).length && (
               <>
                 <p>{t('availableNetworks')}</p>
                 <SupportedNetworksList>
@@ -142,9 +131,6 @@ export default function Connection({ domainData, isAvailableNetwork, setDomainDa
       ) : (
         <AppBody>
           <ContentWrapper>
-            <WalletIconWrapper>
-              <FaWallet size="2.4rem" className="icon" />
-            </WalletIconWrapper>
             <Title>{t('toGetStartedConnectWallet')}</Title>
             <NetworkStatus>
               <Web3Status />

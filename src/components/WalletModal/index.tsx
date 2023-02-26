@@ -13,7 +13,6 @@ import { Network, injected, SUPPORTED_NETWORKS, newWalletlink, newWalletConnect 
 import { SUPPORTED_WALLETS, WALLET_NAMES } from '../../constants'
 import { switchInjectedNetwork } from 'utils/wallet'
 import usePrevious from 'hooks/usePrevious'
-import { useWindowSize } from 'hooks/useWindowSize'
 import { ApplicationModal } from 'state/application/actions'
 import { useModalOpen, useWalletModalToggle } from 'state/application/hooks'
 import AccountDetails from '../AccountDetails'
@@ -24,19 +23,19 @@ import PendingView from './PendingView'
 import { useIsDarkMode } from 'state/user/hooks'
 
 const CloseIcon = styled.div`
+  cursor: pointer;
   position: absolute;
   right: 1rem;
   top: 1rem;
 
   &:hover {
-    cursor: pointer;
     opacity: 0.5;
   }
 `
 
 const CloseColor = styled(Close)`
   path {
-    stroke: ${({ theme }) => theme.text4};
+    stroke: var(--color-text-secondary);
   }
 `
 
@@ -51,23 +50,27 @@ const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  font-size: 20px;
+  color: inherit;
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
 `
 
 const ContentWrapper = styled.div`
-  background-color: ${({ theme }) => theme.bg2};
-  padding: 2rem;
+  padding: 8px 16px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`padding: 1rem`};
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    padding: 1rem;
+  `};
 `
 
 const Title = styled.h3`
   font-weight: 500;
+  font-size: 18px;
   display: flex;
   align-items: center;
   margin: 0 0 0.6rem;
@@ -122,7 +125,6 @@ const Options = styled.div<{ disabled?: boolean; isDark: boolean }>`
   padding: 0.6rem;
   border-radius: 0.8rem;
   border: 1px solid ${({ theme, isDark }) => (isDark ? theme.bg1 : theme.bg3)};
-  box-shadow: inset 0 0 0.2rem ${({ theme, isDark }) => (isDark ? theme.bg1 : theme.bg3)};
 
   ${({ disabled }) => (disabled ? 'pointer-events: none; opacity: 0.6' : '')};
 `
@@ -149,8 +151,6 @@ export default function WalletModal({
   confirmedTransactions: string[] // hashes of confirmed
   ENSName?: string
 }) {
-  const { height } = useWindowSize()
-
   // important that these are destructed from the account-specific web3-react context
   const { active, chainId, account, connector, activate, error } = useWeb3React()
   const isDark = useIsDarkMode()
@@ -224,22 +224,25 @@ export default function WalletModal({
   }
 
   function getNetworkOptions() {
-    return availableNetworks.map(({ chainId }) => (
-      <Option
-        onClick={() => setCurrentChainId(Number(chainId))}
-        id={`connect-network-${chainId}`}
-        key={chainId}
-        active={currentChainId === Number(chainId)}
-        //@ts-ignore
-        color={networks[chainId]?.color || ''}
-        //@ts-ignore
-        header={networks[chainId].name}
-        subheader={null}
-        //@ts-ignore
-        icon={CURRENCY[chainId] ?? ''}
-        size={45}
-      />
-    ))
+    return availableNetworks.map(({ chainId }) => {
+      const option = networks[String(chainId) as keyof typeof networks]
+
+      return (
+        <Option
+          onClick={() => setCurrentChainId(Number(chainId))}
+          id={`connect-network-${chainId}`}
+          key={chainId}
+          active={currentChainId === Number(chainId)}
+          color={option.color}
+          bgColor={option.colorSoft}
+          header={option.name}
+          subheader={null}
+          //@ts-ignore
+          icon={CURRENCY[chainId] ?? ''}
+          size={45}
+        />
+      )
+    })
   }
 
   function returnUpdatedConnector(option: { name: string }) {
@@ -388,7 +391,7 @@ export default function WalletModal({
           <CloseColor />
         </CloseIcon>
         {walletView !== WALLET_VIEWS.ACCOUNT ? (
-          <HeaderRow color="blue">
+          <HeaderRow>
             <HoverText
               onClick={() => {
                 setPendingError(false)
@@ -447,11 +450,9 @@ export default function WalletModal({
     )
   }
 
-  const CUSTOM_WINDOW_OVERFLOW_HEIGHT = 750
-
   return (
     <Modal
-      overflow={height && height < CUSTOM_WINDOW_OVERFLOW_HEIGHT ? 'auto' : undefined}
+      overflow="auto"
       isOpen={walletModalOpen}
       onDismiss={toggleWalletModal}
       minHeight={false}

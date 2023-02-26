@@ -35,6 +35,10 @@
       if (faviconUrl) {
         favicon.href = faviconUrl
       }
+
+      if (window.matchMedia('(prefers-color-scheme: dark)')?.matches) {
+        document.body.dataset.scheme = 'dark'
+      }
     </script>
     <style>
       * {
