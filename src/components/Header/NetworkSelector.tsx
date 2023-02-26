@@ -103,6 +103,7 @@ export default function NetworkSelector({ currentChainId }: { currentChainId?: n
   const [availableNetworks] = useState(
     Object.keys(contracts).map((chainId) => networks[chainId as keyof typeof networks])
   )
+  const isOnlyOneNetwork = availableNetworks.length === 1
 
   const onSelectNetwork = async (id: number) => {
     if (currentChainId !== id) {
@@ -132,10 +133,10 @@ export default function NetworkSelector({ currentChainId }: { currentChainId?: n
       <StyledMenuToggle title={`${networkConfig.name} network`} onClick={toggleMenu}>
         {networkImage && <StyledNetworkImg src={networkImage} alt={`logo of the ${networkConfig.name} network`} />}
         <StyledName>{networkConfig.name}</StyledName>
-        {isMenuOpen ? <ChevronUp {...chevronProps} /> : <ChevronDown {...chevronProps} />}
+        {isOnlyOneNetwork ? null : isMenuOpen ? <ChevronUp {...chevronProps} /> : <ChevronDown {...chevronProps} />}
       </StyledMenuToggle>
 
-      {isMenuOpen && (
+      {isMenuOpen && !isOnlyOneNetwork && (
         <MenuFlyout padding="8px" width="260px">
           {availableNetworks.map(({ name, chainId }) => (
             <StyledNetworkItem key={chainId} onClick={() => onSelectNetwork(chainId)}>
