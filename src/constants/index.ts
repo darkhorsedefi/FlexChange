@@ -10,7 +10,7 @@ export type NETWORKS_ID = keyof typeof networks
 export const BSC_ID = 56
 export const BSC_TESTNET_ID = 97
 
-export const STORAGE_NETWORK_ID = process.env.NODE_ENV === 'production' ? BSC_ID : BSC_TESTNET_ID
+export const STORAGE_NETWORK_ID = process.env.NODE_ENV === 'production' ? BSC_TESTNET_ID /* BSC_ID */ : BSC_TESTNET_ID
 export const STORAGE_NETWORK_NAME = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].name
 // @ts-ignore
 export const STORAGE = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].storage
