@@ -284,5 +284,6 @@
   "copy": "副本",
   "explorer": "探险者",
   "depositTokensToNetwork": "将令牌存入{{network}}网络",
+  "unsupportedNetwork": "您在不受支持的网络上",
   "onlyThisAddressCanAccessAppSettings": "只有这个地址才能访问和更改应用程序设置"
 }

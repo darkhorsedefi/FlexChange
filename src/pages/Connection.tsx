@@ -7,7 +7,6 @@ import { useWeb3React } from '@web3-react/core'
 import { SUPPORTED_NETWORKS } from 'connectors'
 import AppBody from './AppBody'
 import Panel from './Panel'
-// import { STORAGE_NETWORK_ID } from '../constants'
 import Web3Status from 'components/Web3Status'
 import { AppDispatch } from 'state'
 import { ApplicationModal, setOpenModal } from '../state/application/actions'
@@ -72,37 +71,65 @@ const SupportedNetworksList = styled.ul`
   }
 `
 
-interface Props {
+const unavailableOrZeroAddr = (value: string | undefined) => !value || value === ZERO_ADDRESS
+
+interface ComponentProps {
   domainData: any
   isAvailableNetwork: boolean
-  isSetupRequired: boolean
   setDomainDataTrigger: (x: any) => void
 }
 
-export default function Connection({ isAvailableNetwork, isSetupRequired, setDomainDataTrigger }: Props) {
-  const { account /* chainId */ } = useWeb3React()
+export default function Connection({ domainData, isAvailableNetwork, setDomainDataTrigger }: ComponentProps) {
+  const { active, account } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
-  const { admin } = useAppState()
+  const { admin, factory, router } = useAppState()
+  const [needToConfigure, setNeedToConfigure] = useState(false)
 
   useEffect(() => {
-    if (isAvailableNetwork && !isSetupRequired) {
+    if (
+      active &&
+      (!domainData || unavailableOrZeroAddr(admin) || unavailableOrZeroAddr(factory) || unavailableOrZeroAddr(router))
+    ) {
+      setNeedToConfigure(true)
+    }
+  }, [active, admin, factory, router, domainData])
+
+  useEffect(() => {
+    if (isAvailableNetwork && !needToConfigure) {
       dispatch(setOpenModal(ApplicationModal.WALLET))
     }
-  }, [dispatch, isAvailableNetwork, isSetupRequired])
+  }, [dispatch, isAvailableNetwork, needToConfigure])
 
-  const [isAdmin, setIsAdmin] = useState(false)
-  // const accessToStorageNetwork = isAdmin && chainId === STORAGE_NETWORK_ID
+  const [changeAllowed, setChangeAllowed] = useState(false)
 
   useEffect(() => {
-    setIsAdmin(admin !== ZERO_ADDRESS && admin.toLowerCase() === account?.toLowerCase())
-  }, [account, admin])
+    setChangeAllowed(admin && admin !== ZERO_ADDRESS ? admin.toLowerCase() === account?.toLowerCase() : true)
+  }, [needToConfigure, account, admin])
 
   return (
     <Wrapper>
-      {isSetupRequired ? (
+      {!isAvailableNetwork ? (
+        <AppBody>
+          <SupportedNetworksWrapper>
+            <h3>{t('youCanNotUseThisNetwork')}</h3>
+            {SUPPORTED_NETWORKS.length && (
+              <>
+                <p>{t('availableNetworks')}</p>
+                <SupportedNetworksList>
+                  {Object.values(SUPPORTED_NETWORKS).map(({ name, chainId }) => (
+                    <li key={chainId}>
+                      {chainId} - {name}
+                    </li>
+                  ))}
+                </SupportedNetworksList>
+              </>
+            )}
+          </SupportedNetworksWrapper>
+        </AppBody>
+      ) : needToConfigure ? (
         <>
-          {isAdmin ? (
+          {changeAllowed ? (
             <Panel setDomainDataTrigger={setDomainDataTrigger} />
           ) : (
             <AppBody>
@@ -112,26 +139,6 @@ export default function Connection({ isAvailableNetwork, isSetupRequired, setDom
             </AppBody>
           )}
         </>
-      ) : !isAvailableNetwork ? (
-        <AppBody>
-          <SupportedNetworksWrapper>
-            <>
-              <h3>{t('youCanNotUseThisNetwork')}</h3>
-              {SUPPORTED_NETWORKS.length && (
-                <>
-                  <p>{t('availableNetworks')}</p>
-                  <SupportedNetworksList>
-                    {Object.values(SUPPORTED_NETWORKS).map(({ name, chainId }) => (
-                      <li key={chainId}>
-                        {chainId} - {name}
-                      </li>
-                    ))}
-                  </SupportedNetworksList>
-                </>
-              )}
-            </>
-          </SupportedNetworksWrapper>
-        </AppBody>
       ) : (
         <AppBody>
           <ContentWrapper>

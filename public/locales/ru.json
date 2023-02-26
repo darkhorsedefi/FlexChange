@@ -283,5 +283,6 @@
   "copy": "Копировать",
   "explorer": "Обозреватель",
   "depositTokensToNetwork": "Внесите токены на {{network}} сеть",
+  "unsupportedNetwork": "Вы находитесь в неподдерживаемой сети",
   "onlyThisAddressCanAccessAppSettings": "Только этот адрес может получить доступ к настройкам приложения и изменить их"
 }

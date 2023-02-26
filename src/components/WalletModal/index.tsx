@@ -270,12 +270,15 @@ export default function WalletModal({
           return (
             <Option
               onClick={() => {
-                ;(currentChainId !== chainId || option.connector !== connector) && tryActivation(option.connector)
+                ;(currentChainId !== chainId || option.connector !== connector) &&
+                  !option.href &&
+                  tryActivation(option.connector)
               }}
               id={`connect-${key}`}
               key={key}
               active={option.connector && option.connector === connector}
               color={option.color}
+              link={option.href}
               header={option.name}
               subheader={null}
               size={45}
@@ -324,10 +327,13 @@ export default function WalletModal({
           <Option
             id={`connect-${key}`}
             onClick={() => {
-              ;(currentChainId !== chainId || option.connector !== connector) && tryActivation(option.connector)
+              ;(currentChainId !== chainId || option.connector !== connector) &&
+                !option.href &&
+                tryActivation(option.connector)
             }}
             key={key}
             active={option.connector === connector}
+            link={option.href}
             color={option.color}
             header={option.name}
             subheader={null} //use option.descriptio to bring back multi-line

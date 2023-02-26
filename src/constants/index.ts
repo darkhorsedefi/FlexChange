@@ -7,8 +7,8 @@ export const DEV_FEE_ADMIN = '0x80c007E00ad54645fB5f8Fb76106620C3Ce69d6c'
 
 export type NETWORKS_ID = keyof typeof networks
 
-const BSC_ID = 56
-const BSC_TESTNET_ID = 97
+export const BSC_ID = 56
+export const BSC_TESTNET_ID = 97
 
 export const STORAGE_NETWORK_ID = process.env.NODE_ENV === 'production' ? BSC_ID : BSC_TESTNET_ID
 export const STORAGE_NETWORK_NAME = networks[STORAGE_NETWORK_ID.toString() as NETWORKS_ID].name
@@ -62,6 +62,7 @@ export interface WalletInfo {
   name: string
   iconName: string
   description: string
+  href: string | null
   color: string
   primary?: true
   mobile?: true
@@ -81,6 +82,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     name: WALLET_NAMES.INJECTED,
     iconName: 'arrow-right.svg',
     description: 'Injected web3 provider.',
+    href: null,
     color: '#010101',
     primary: true,
   },
@@ -89,6 +91,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     name: WALLET_NAMES.METAMASK,
     iconName: 'metamask.png',
     description: 'Easy-to-use browser extension.',
+    href: null,
     color: '#E8831D',
   },
   WALLET_CONNECT: {
@@ -97,6 +100,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     iconName: 'walletConnectIcon.svg',
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
     color: '#4196FC',
+    href: null,
     mobile: true,
   },
   WALLET_LINK: {
@@ -104,6 +108,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     name: WALLET_NAMES.WALLET_LINK,
     iconName: 'coinbaseWalletIcon.svg',
     description: 'Use Coinbase Wallet app on mobile device',
+    href: null,
     color: '#315CF5',
   },
 }

@@ -284,5 +284,6 @@
   "copy": "Copia",
   "explorer": "Explorador",
   "depositTokensToNetwork": "Deposite tokens en el {{network}} red",
+  "unsupportedNetwork": "Estás en una red no compatible",
   "onlyThisAddressCanAccessAppSettings": "Solo esta dirección puede acceder y cambiar la configuración de la aplicación"
 }

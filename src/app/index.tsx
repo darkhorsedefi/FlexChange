@@ -5,38 +5,34 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import { AppState } from 'state'
-import './index.css'
-
-import { useAppState, useBlockNumber } from 'state/application/hooks'
-import { useDarkModeManager } from 'state/user/hooks'
+import { ZERO_ADDRESS } from 'sdk'
+import { useAppState } from 'state/application/hooks'
 import { retrieveDomainData } from 'state/application/actions'
 import { fetchDomainData } from 'utils/app'
 import { useStorageContract } from 'hooks/useContract'
-import { EVM_ADDRESS_REGEXP, SUPPORTED_CHAIN_IDS } from '../connectors'
+import { SUPPORTED_CHAIN_IDS } from '../connectors'
+import { STORAGE_NETWORK_ID } from '../constants'
 import Loader from 'components/Loader'
-import Panel from '../pages/Panel'
-import Connection from '../pages/Connection'
+import Panel from 'pages/Panel'
+import Connection from 'pages/Connection'
+import AddLiquidity from 'pages/AddLiquidity'
 import Header from 'components/Header'
 import Popups from 'components/Popups'
 import GreetingScreen from 'components/GreetingScreen'
 import Web3ReactManager from 'components/Web3ReactManager'
 import DarkModeQueryParamReader from 'theme/DarkModeQueryParamReader'
-import AddLiquidity from '../pages/AddLiquidity'
 import {
   RedirectDuplicateTokenIds,
   RedirectOldAddLiquidityPathStructure,
   RedirectToAddLiquidity,
-} from '../pages/AddLiquidity/redirects'
-import Pool from '../pages/Pool'
-import Pools from '../pages/Pools'
-import PoolFinder from '../pages/PoolFinder'
-import RemoveLiquidity from '../pages/RemoveLiquidity'
-import { RedirectOldRemoveLiquidityPathStructure } from '../pages/RemoveLiquidity/redirects'
-import Swap from '../pages/Swap'
-import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from '../pages/Swap/redirects'
-import Polling from 'widgets/Polling'
-
-const validateAddress = (v?: string) => v && v.match(EVM_ADDRESS_REGEXP)
+} from 'pages/AddLiquidity/redirects'
+import Pool from 'pages/Pool'
+import Pools from 'pages/Pools'
+import PoolFinder from 'pages/PoolFinder'
+import RemoveLiquidity from 'pages/RemoveLiquidity'
+import { RedirectOldRemoveLiquidityPathStructure } from 'pages/RemoveLiquidity/redirects'
+import Swap from 'pages/Swap'
+import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from 'pages/Swap/redirects'
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -48,7 +44,7 @@ const LoaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: var(--color-bg1);
 `
 
 const AppWrapper = styled.div`
@@ -68,10 +64,6 @@ const BodyWrapper = styled.div<{ padding?: string }>`
   padding: ${({ padding }) => padding || '136px 8px 0'};
   overflow-x: hidden;
   z-index: 1;
-
-  ${({ theme, padding }) => theme.mediaWidth.upToMedium`
-    padding-top: ${padding ? padding : '88px'};
-  `};
 `
 
 export default function App() {
@@ -81,18 +73,6 @@ export default function App() {
   const [domainData, setDomainData] = useState<any>(null)
   const { admin, factory, router, projectName, pairHash } = useAppState()
   const [domainDataTrigger, setDomainDataTrigger] = useState<boolean>(false)
-  const [darkMode] = useDarkModeManager()
-  const blockNumber = useBlockNumber()
-
-  useEffect(() => {
-    const dataset = document.body.dataset
-
-    if (darkMode) {
-      dataset.scheme = 'dark'
-    } else {
-      dataset.scheme = 'default'
-    }
-  }, [darkMode])
 
   useEffect(() => {
     setDomainDataTrigger((state) => !state)
@@ -100,7 +80,8 @@ export default function App() {
 
   const [isAvailableNetwork, setIsAvailableNetwork] = useState(true)
   const [greetingScreenIsActive, setGreetingScreenIsActive] = useState(false)
-  const [isAppDataLoading, setIsAppDataLoading] = useState(true)
+
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setGreetingScreenIsActive(!domainData || !domainData?.admin)
@@ -111,31 +92,21 @@ export default function App() {
     if (domainData?.favicon && domainData.favicon !== faviconUrl) {
       localStorage.setItem('faviconUrl', domainData.favicon)
       window.location.reload()
-    } else if (!isAppDataLoading && !domainData?.favicon && faviconUrl) {
+    } else if (!loading && !domainData?.favicon && faviconUrl) {
       localStorage.removeItem('faviconUrl')
       window.location.reload()
     }
-  }, [domainData, isAppDataLoading])
+  }, [domainData, loading])
 
   useEffect(() => {
-    if (chainId && domainData) {
-      const isUseableChain =
-        domainData.contracts[chainId]?.factory?.match(EVM_ADDRESS_REGEXP) &&
-        domainData.contracts[chainId]?.router?.match(EVM_ADDRESS_REGEXP)
+    if (chainId) {
+      const lowerAcc = account?.toLowerCase()
+      const appAdmin = admin && admin !== ZERO_ADDRESS ? admin.toLowerCase() === lowerAcc : true
+      const accessToStorageNetwork = appAdmin && chainId === STORAGE_NETWORK_ID
 
-      setIsAvailableNetwork(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && isUseableChain)
+      setIsAvailableNetwork(Boolean(SUPPORTED_CHAIN_IDS.includes(Number(chainId)) && accessToStorageNetwork))
     }
-  }, [chainId, domainDataTrigger, admin, account, domainData])
-
-  const [isSetupRequired, setIsSetupRequired] = useState(false)
-
-  useEffect(() => {
-    if (!isAppDataLoading) {
-      const isEnoughData = Boolean(validateAddress(admin) && validateAddress(factory) && validateAddress(router))
-
-      if (!isEnoughData) setIsSetupRequired(true)
-    }
-  }, [admin, factory, router, isAppDataLoading])
+  }, [chainId, domainDataTrigger, admin, account])
 
   useEffect(() => {
     if (!storage) return
@@ -149,7 +120,7 @@ export default function App() {
           setDomainData(data)
         }
 
-        setIsAppDataLoading(false)
+        setLoading(false)
       }
 
       if (!pairHash) start()
@@ -179,43 +150,49 @@ export default function App() {
         <Web3ReactManager>
           <Popups />
 
-          {isAppDataLoading ? (
+          {loading ? (
             <LoaderWrapper>
               <Loader size="2.8rem" />
             </LoaderWrapper>
           ) : appIsReady && isAvailableNetwork ? (
             <>
               {appManagement ? (
-                <BodyWrapper padding="64px 8px 16px">
+                <BodyWrapper>
                   <Panel setDomainDataTrigger={setDomainDataTrigger} />
                 </BodyWrapper>
               ) : (
                 <AppWrapper>
-                  <HeaderWrapper>
-                    <Header />
-                  </HeaderWrapper>
+                  {/* addition tag for the flex layout */}
+                  <div>
+                    <HeaderWrapper>
+                      <Header />
+                    </HeaderWrapper>
 
-                  <BodyWrapper>
-                    <Switch>
-                      <Route exact strict path="/swap" component={Swap} />
-                      <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
-                      <Route exact strict path="/find" component={PoolFinder} />
-                      <Route exact strict path="/pool" component={Pool} />
-                      <Route exact strict path="/pools" component={Pools} />
-                      <Route exact strict path="/create" component={RedirectToAddLiquidity} />
-                      <Route exact path="/add" component={AddLiquidity} />
-                      <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-                      <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-                      <Route exact path="/create" component={AddLiquidity} />
-                      <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
-                      <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
-                      <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
-                      <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-                      <Route component={RedirectPathToSwapOnly} />
-                    </Switch>
-                  </BodyWrapper>
-
-                  <Polling chainId={chainId} blockNumber={blockNumber} />
+                    <BodyWrapper>
+                      <Switch>
+                        <Route exact strict path="/swap" component={Swap} />
+                        <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
+                        <Route exact strict path="/find" component={PoolFinder} />
+                        <Route exact strict path="/pool" component={Pool} />
+                        <Route exact strict path="/pools" component={Pools} />
+                        <Route exact strict path="/create" component={RedirectToAddLiquidity} />
+                        <Route exact path="/add" component={AddLiquidity} />
+                        <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+                        <Route exact path="/add/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+                        <Route exact path="/create" component={AddLiquidity} />
+                        <Route exact path="/create/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
+                        <Route exact path="/create/:currencyIdA/:currencyIdB" component={RedirectDuplicateTokenIds} />
+                        <Route
+                          exact
+                          strict
+                          path="/remove/:tokens"
+                          component={RedirectOldRemoveLiquidityPathStructure}
+                        />
+                        <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+                        <Route component={RedirectPathToSwapOnly} />
+                      </Switch>
+                    </BodyWrapper>
+                  </div>
                 </AppWrapper>
               )}
             </>
@@ -228,7 +205,6 @@ export default function App() {
                   setDomainDataTrigger={setDomainDataTrigger}
                   domainData={domainData}
                   isAvailableNetwork={isAvailableNetwork}
-                  isSetupRequired={isSetupRequired}
                 />
               )}
             </>

@@ -62,7 +62,6 @@ export default function Web3ReactManager({ children }: { children: JSX.Element |
         <Message>
           {networkError?.toString().match(/unsupported chain id/i) ? t('unsupportedNetwork') : t('unknownError')}
         </Message>
-        <Message />
       </MessageWrapper>
     )
   }

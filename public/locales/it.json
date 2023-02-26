@@ -291,5 +291,6 @@
   "copy": "Copia",
   "explorer": "Explorer",
   "depositTokensToNetwork": "Deposito gettoni per il {{network}} rete",
+  "unsupportedNetwork": "Sei su una rete non supportata",
   "onlyThisAddressCanAccessAppSettings": "Solo questo indirizzo può accedere e modificare le impostazioni dell'app"
 }

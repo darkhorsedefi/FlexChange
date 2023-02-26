@@ -49,6 +49,7 @@ export const SUPPORTED_NETWORKS: { [chainId: string]: Network } = Object.values(
 
   return acc
 }, {})
+
 export const SUPPORTED_CHAIN_IDS = Object.keys(SUPPORTED_NETWORKS).map((id) => Number(id))
 
 // export const AVAILABLE_FOR_SELECTION_CHAIN_IDS = []
@@ -58,9 +59,15 @@ export const NETWORKS_RPC_BY_ID = Object.values(SUPPORTED_NETWORKS).reduce(
   {}
 )
 
+// This constant is defined in the .../constants/
+// but we can't import from there because of error: Cannot access <VAR> before initialization
+// So first keep in mind to be in sync with those vars for network ids,
+// and second find the way to avoid using many same vars in different places.
+const BSC_ID = 56
+
 export const network = new NetworkConnector({
   urls: NETWORKS_RPC_BY_ID,
-  defaultChainId: 5, // goerli testnet
+  defaultChainId: BSC_ID,
 })
 
 let networkLibrary: Web3Provider | undefined

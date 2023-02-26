@@ -292,5 +292,6 @@
   "copy": "Kopieren",
   "explorer": "Explorer",
   "depositTokensToNetwork": "Token einzahlen auf {{network}} Netzwerk",
+  "unsupportedNetwork": "Sie befinden sich in einem nicht unterstützten Netzwerk",
   "onlyThisAddressCanAccessAppSettings": "Nur diese Adresse kann auf App-Einstellungen zugreifen und diese ändern"
 }
