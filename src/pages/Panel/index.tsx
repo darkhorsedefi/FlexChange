@@ -30,6 +30,10 @@ export const OptionWrapper = styled.div<{ margin?: number; flex?: boolean }>`
   ${({ flex }) => (flex ? 'display: flex; align-items: center; justify-content: space-between' : '')}
 `
 
+const StyledOverlay = styled.div`
+  padding: 2%;
+`
+
 const Wrapper = styled.section`
   position: relative;
   max-width: 700px;
@@ -143,52 +147,54 @@ export default function Panel({ setDomainDataTrigger }: ComponentProps) {
   }
 
   return (
-    <Wrapper>
-      <ConfirmationModal
-        isOpen={showConfirm}
-        onDismiss={() => setShowConfirm(false)}
-        content={() => (
-          <>
-            <Text fontWeight={500} fontSize={20}>
-              {t('resetDomainDescription')}
-            </Text>
-            <ButtonError error padding={'12px'} onClick={resetData}>
-              <Text fontSize={20} fontWeight={500} id="reset">
-                {t('resetDomainData')}
+    <StyledOverlay>
+      <Wrapper>
+        <ConfirmationModal
+          isOpen={showConfirm}
+          onDismiss={() => setShowConfirm(false)}
+          content={() => (
+            <>
+              <Text fontWeight={500} fontSize={20}>
+                {t('resetDomainDescription')}
               </Text>
-            </ButtonError>
-          </>
-        )}
-      />
-      <PanelHeader
-        setPending={setPending}
-        pending={pending}
-        setError={setError}
-        error={error}
-        setShowConfirm={setShowConfirm}
-      />
-      <Tabs>{returnTabs()}</Tabs>
-      <Content>
-        {tab === 'contracts' && (
-          <SwapContracts
-            domain={domain}
-            pending={pending}
-            setPending={setPending}
-            setError={setError}
-            wrappedToken={wrappedToken}
-          />
-        )}
-        {tab === 'interface' && (
-          <Interface
-            domain={domain}
-            pending={pending}
-            activeNetworks={activeNetworks}
-            setPending={setPending}
-            setError={setError}
-          />
-        )}
-        {tab === 'migration' && <Migration />}
-      </Content>
-    </Wrapper>
+              <ButtonError error padding={'12px'} onClick={resetData}>
+                <Text fontSize={20} fontWeight={500} id="reset">
+                  {t('resetDomainData')}
+                </Text>
+              </ButtonError>
+            </>
+          )}
+        />
+        <PanelHeader
+          setPending={setPending}
+          pending={pending}
+          setError={setError}
+          error={error}
+          setShowConfirm={setShowConfirm}
+        />
+        <Tabs>{returnTabs()}</Tabs>
+        <Content>
+          {tab === 'contracts' && (
+            <SwapContracts
+              domain={domain}
+              pending={pending}
+              setPending={setPending}
+              setError={setError}
+              wrappedToken={wrappedToken}
+            />
+          )}
+          {tab === 'interface' && (
+            <Interface
+              domain={domain}
+              pending={pending}
+              activeNetworks={activeNetworks}
+              setPending={setPending}
+              setError={setError}
+            />
+          )}
+          {tab === 'migration' && <Migration />}
+        </Content>
+      </Wrapper>
+    </StyledOverlay>
   )
 }

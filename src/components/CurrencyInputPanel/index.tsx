@@ -13,7 +13,6 @@ import { ReactComponent as DropDown } from 'assets/images/dropdown.svg'
 
 import { useActiveWeb3React } from 'hooks'
 import { useTranslation } from 'react-i18next'
-import useTheme from 'hooks/useTheme'
 
 const InputRow = styled.div<{ selected: boolean }>`
   display: flex;
@@ -63,6 +62,8 @@ const CurrencySelect = styled(ButtonGray)<{ isCurrencySelected?: boolean }>`
 `
 
 const StyledLabelRow = styled.div`
+  position: relative;
+  top: -5px;
   display: flex;
   flex-flow: row nowrap;
   color: var(--color-text-secondary);
@@ -73,6 +74,24 @@ const StyledLabelRow = styled.div`
   span:hover {
     cursor: pointer;
     color: var(--color-text-secondary);
+  }
+`
+
+const StyledMaxButton = styled.button`
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--color-brand);
+  padding: 4px 6px;
+
+  :hover {
+    opacity: 0.8;
+  }
+
+  :focus {
+    outline: none;
   }
 `
 
@@ -172,7 +191,6 @@ export default function CurrencyInputPanel({
   const [modalOpen, setModalOpen] = useState(false)
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
-  const theme = useTheme()
 
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false)
@@ -189,7 +207,7 @@ export default function CurrencyInputPanel({
         <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={disableCurrencySelect}>
           {!hideInput && (
             <>
-              <NumericalInput className="token-amount-input" value={value} onUserInput={onUserInput} />
+              <NumericalInput className="token-amount-input" value={value} onUserInput={onUserInput} fontSize="30px" />
             </>
           )}
           <CurrencySelect
@@ -226,10 +244,15 @@ export default function CurrencyInputPanel({
           <StyledLabelRow>
             <RowBetween jc="flex-end">
               {account && (
-                <TYPE.body onClick={onMax} color={theme.text2} fontSize={14}>
-                  {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? (customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(4)
-                    : ''}
+                <TYPE.body color="var(--color-text-secondary)" fontSize={14}>
+                  {!hideBalance && !!currency && selectedCurrencyBalance ? (
+                    <>
+                      {(customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(4)}
+                      <StyledMaxButton onClick={onMax}>{t('max')}</StyledMaxButton>
+                    </>
+                  ) : (
+                    ''
+                  )}
                 </TYPE.body>
               )}
             </RowBetween>

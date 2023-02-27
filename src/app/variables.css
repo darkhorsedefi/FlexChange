@@ -81,19 +81,14 @@
   --magentaVibrant: '#FC72FF';
   --purple300: '#8440F2';
   --purple900: '#1C0337';
-  --networkEthereum: '#627EEA';
-  --networkOptimism: '#FF0420';
-  --networkOptimismSoft: 'rgba(255, 4, 32, 0.16)';
-  --networkPolygon: '#A457FF';
-  --networkArbitrum: '#28A0F0';
-  --networkPolygonSoft: 'rgba(164, 87, 255, 0.16)';
-  --networkEthereumSoft: 'rgba(98, 126, 234, 0.16)';
 
   --color-brand: #ea8636;
   --color-brand-hover: #f29952;
   --color-brand-background: #f29a5229;
   --color-brand-gradient-background: rgba(242, 154, 82, 0.13);
-  --color-page-background: #f7f7f7;
+  --color-gradient-background-end-light: rgba(255, 255, 255, 0);
+  --color-gradient-background-end-dark: rgba(34, 30, 48, 0.655);
+  --color-page-background: #fff;
   --color: #000;
   --color-background: #f7f7f7;
   --color-background-elements: #fff;
@@ -146,6 +141,7 @@
   --color-brand-hover: #f29952;
   --color-brand-background: #f29a5229;
   --color-brand-gradient-background: rgba(242, 154, 82, 0.17);
+  --color-brand-gradient-background-end: rgba(34, 30, 48, 0.655);
   --color-page-background: #070816;
   --color: #fff;
   --color-background: #222427;

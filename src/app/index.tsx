@@ -152,9 +152,7 @@ export default function App() {
           ) : appIsReady && isAvailableNetwork ? (
             <>
               {appManagement ? (
-                <BodyWrapper>
-                  <Panel setDomainDataTrigger={setDomainDataTrigger} />
-                </BodyWrapper>
+                <Panel setDomainDataTrigger={setDomainDataTrigger} />
               ) : (
                 <AppWrapper>
                   {/* addition tag for the flex layout */}
