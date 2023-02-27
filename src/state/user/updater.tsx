@@ -1,10 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import themeService from 'shared/services/theme'
 import { AppDispatch } from '../index'
-import { updateMatchesDarkMode, updateUserDarkMode } from './actions'
+import { useIsDarkMode } from './hooks'
+import { updateMatchesDarkMode } from './actions'
 
 export default function Updater(): null {
   const dispatch = useDispatch<AppDispatch>()
+  const isDark = useIsDarkMode()
+
+  // keep html class for CSS theme switching in sync with React state
+  useEffect(() => {
+    themeService.setBodyThemeScheme({ isDark })
+  }, [isDark])
 
   // keep dark mode in sync with the system
   useEffect(() => {
@@ -13,7 +21,6 @@ export default function Updater(): null {
     }
 
     const match = window?.matchMedia('(prefers-color-scheme: dark)')
-    dispatch(updateUserDarkMode({ userDarkMode: match.matches }))
     dispatch(updateMatchesDarkMode({ matchesDarkMode: match.matches }))
 
     if (match?.addListener) {

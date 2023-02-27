@@ -3,7 +3,6 @@ import styled, { ThemeProvider as StyledComponentsThemeProvider, createGlobalSty
 import { Text, TextProps } from 'rebass'
 import { useThemeColors } from '../hooks/useColor'
 import { useIsDarkMode } from '../state/user/hooks'
-import { darkTheme, lightTheme } from './colors'
 import { Colors } from './styled'
 
 export * from './components'
@@ -152,7 +151,6 @@ function getSettings(darkMode: boolean) {
 export function getTheme(darkMode: boolean) {
   return {
     darkMode,
-    ...(darkMode ? darkTheme : lightTheme),
     ...getSettings(darkMode),
   }
 }

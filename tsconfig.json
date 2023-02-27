@@ -64,7 +64,10 @@
     "theme/*": ["src/theme/*"],
 
     "utils": ["src/utils"],
-    "utils/*": ["src/utils/*"]
+    "utils/*": ["src/utils/*"],
+
+    "shared": ["src/shared"],
+    "shared/*": ["src/shared/*"]
   },
   "exclude": ["node_modules", "**/*/*.test.ts"],
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
