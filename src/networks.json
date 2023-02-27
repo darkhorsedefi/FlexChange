@@ -5,7 +5,7 @@
     "chainId": 1,
     "explorer": "https://etherscan.io",
     "color": "#627EEA",
-    "colorSoft": "#627EEA30",
+    "colorSoft": "rgba(98, 126, 234, 0.16)",
     "multicall": "0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441",
     "ENSRegistry": "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e",
     "baseCurrency": {
@@ -63,7 +63,7 @@
     "chainId": 56,
     "explorer": "https://bscscan.com",
     "color": "#CC9B00",
-    "colorSoft": "#CC9B0030",
+    "colorSoft": "rgba(204, 156, 0, 0.16)",
     "storage": "0xa7472f384339D37EfE505a1A71619212495A973A",
     "multicall": "0x41263cBA59EB80dC200F3E2544eda4ed6A90E76C",
     "baseCurrency": {
@@ -103,7 +103,7 @@
     "chainId": 137,
     "explorer": "https://polygonscan.com/",
     "color": "#A457FF",
-    "colorSoft": "#A457FF30",
+    "colorSoft": "rgba(164, 87, 255, 0.16)",
     "multicall": "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507",
     "bridge": "https://wallet.polygon.technology/login",
     "baseCurrency": {
@@ -123,7 +123,7 @@
     "chainId": 80001,
     "explorer": "https://mumbai.polygonscan.com",
     "color": "#A457FF",
-    "colorSoft": "#A457FF30",
+    "colorSoft": "rgba(164, 87, 255, 0.16)",
     "multicall": "0xEF65BF9e225A4B606aa5C46f944De35f566e58e4",
     "bridge": "https://wallet.polygon.technology/login",
     "baseCurrency": {
@@ -143,7 +143,7 @@
     "chainId": 43114,
     "explorer": "https://snowtrace.io",
     "color": "#D64F4A",
-    "colorSoft": "#D64F4A30",
+    "colorSoft": "rgba(214, 79, 74, 0.16)",
     "multicall": "0x04ad4Ce6015141F6f582A7451Cb7CD6866609298",
     "baseCurrency": {
       "decimals": 18,
@@ -181,7 +181,7 @@
     "chainId": 122,
     "explorer": "https://explorer.fuse.io/",
     "color": "#C6F9AC",
-    "colorSoft": "#C6F9AC30",
+    "colorSoft": "hsla(100, 87%, 83%, 0.16)",
     "multicall": "0x0755ba6D3e0B799AC7Cd6707AddE7B72208DE08e",
     "baseCurrency": {
       "decimals": 18,
@@ -200,7 +200,7 @@
     "chainId": 1285,
     "explorer": "https://moonriver.moonscan.io/",
     "color": "#F2B705",
-    "colorSoft": "#F2B70530",
+    "colorSoft": "hsla(45, 96%, 48%, 0.16)",
     "multicall": "0x9664EC984D1c0d44dD22C161da1D06f7f72Ae092",
     "baseCurrency": {
       "decimals": 18,
@@ -257,7 +257,7 @@
     "chainId": 97,
     "explorer": "https://testnet.bscscan.com",
     "color": "#CC9B00",
-    "colorSoft": "#CC9B0030",
+    "colorSoft": "rgba(204, 156, 0, 0.16)",
     "storage": "0x91a0DCC7a78Da02244212D36eAFd9E0dBB3174B4",
     "multicall": "0xAEd1D4cD398a21d8AdAf0203C1acb864D3553C50",
     "baseCurrency": {

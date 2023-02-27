@@ -91,7 +91,8 @@
 
   --color-brand: #ea8636;
   --color-brand-hover: #f29952;
-  --color-brand-background: #f29a5224;
+  --color-brand-background: #f29a5229;
+  --color-brand-gradient-background: rgba(242, 154, 82, 0.13);
   --color-page-background: #f7f7f7;
   --color: #000;
   --color-background: #f7f7f7;
@@ -144,6 +145,7 @@
   --color-brand: #ea8636;
   --color-brand-hover: #f29952;
   --color-brand-background: #f29a5229;
+  --color-brand-gradient-background: rgba(242, 154, 82, 0.17);
   --color-page-background: #070816;
   --color: #fff;
   --color-background: #222427;

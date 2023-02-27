@@ -10,6 +10,7 @@ import { NetworkContextName } from './constants'
 import './i18n'
 import App from './app'
 import store from './state'
+import RadialGradientByChainUpdater from 'theme/components/RadialGradientByChainUpdater'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
@@ -27,6 +28,7 @@ if ('ethereum' in window) {
 function Updaters() {
   return (
     <>
+      <RadialGradientByChainUpdater />
       <ListsUpdater />
       <UserUpdater />
       <ApplicationUpdater />
