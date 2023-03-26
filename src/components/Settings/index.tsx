@@ -232,7 +232,7 @@ export default function SettingsTab() {
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
                   {t('disableMultihops')}
                 </TYPE.black>
-                <QuestionHelper text="Restricts swaps to direct pairs only." />
+                <QuestionHelper text={t('disableMultihopsDescription')} />
               </RowFixed>
               <Toggle
                 id="toggle-disable-multihop-button"
@@ -245,7 +245,7 @@ export default function SettingsTab() {
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
                   {t('toggleExpertMode')}
                 </TYPE.black>
-                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
+                <QuestionHelper text={t('toggleExpertModeDescription')} />
               </RowFixed>
               <Toggle id="toggle-expert-mode-button" isActive={expertMode} toggle={switchExpertMode} />
             </RowBetween>

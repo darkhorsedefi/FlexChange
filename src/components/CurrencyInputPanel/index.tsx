@@ -197,7 +197,7 @@ export default function CurrencyInputPanel({
   }, [setModalOpen])
 
   const selectedCurrencySymbol =
-    currency && currency.symbol && currency.symbol.length > 20
+    currency?.symbol && currency.symbol.length > 20
       ? currency.symbol.slice(0, 4) + '...' + currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
       : currency?.symbol
 
@@ -247,8 +247,11 @@ export default function CurrencyInputPanel({
                 <TYPE.body color="var(--color-text-secondary)" fontSize={14}>
                   {!hideBalance && !!currency && selectedCurrencyBalance ? (
                     <>
-                      {(customBalanceText ?? 'Balance: ') + selectedCurrencyBalance?.toSignificant(4)}
-                      <StyledMaxButton onClick={onMax}>{t('max')}</StyledMaxButton>
+                      {customBalanceText ??
+                        t('balance', {
+                          balanceInput: selectedCurrencyBalance?.toSignificant(4),
+                        })}
+                      {onMax && <StyledMaxButton onClick={onMax}>{t('max')}</StyledMaxButton>}
                     </>
                   ) : (
                     ''

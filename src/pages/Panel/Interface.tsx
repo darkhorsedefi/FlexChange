@@ -6,29 +6,29 @@ import { useActiveWeb3React } from 'hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useAddPopup, useAppState } from 'state/application/hooks'
 import { ButtonPrimary } from 'components/Button'
-// import { TokenLists } from './TokenLists'
-// import Input from 'components/Input'
+import { TokenLists } from './TokenLists'
+import Input from 'components/Input'
 // import InputPanel from 'components/InputPanel'
 import ListFactory from 'components/ListFactory'
 import MenuLinksFactory, { LinkItem } from 'components/MenuLinksFactory'
-// import TextBlock from 'components/TextBlock'
+import TextBlock from 'components/TextBlock'
 import NetworkRelatedSettings from './NetworkRelatedSettings'
 import { OptionWrapper } from './index'
 import { STORAGE_NETWORK_ID, STORAGE_NETWORK_NAME } from '../../constants'
 import { saveAppData } from 'utils/storage'
 import { parseENSAddress } from 'utils/parseENSAddress'
 import uriToHttp from 'utils/uriToHttp'
-// import networks from 'networks.json'
+import networks from 'networks.json'
 
 const Button = styled(ButtonPrimary)`
   font-size: 0.8em;
   margin-top: 0.3rem;
 `
 
-// const Title = styled.h3`
-//   font-weight: 400;
-//   margin: 1.4rem 0 0.6rem;
-// `
+const Title = styled.h3`
+  font-weight: 400;
+  margin: 1.4rem 0 0.6rem;
+`
 
 export default function Interface(props: any) {
   const { pending, setPending, activeNetworks } = props
@@ -45,7 +45,7 @@ export default function Interface(props: any) {
     menuLinks: stateMenuLinks,
     socialLinks: stateSocialLinks,
     addressesOfTokenLists: stateAddressesOfTokenLists,
-    // tokenListsByChain: stateTokenListsByChain,
+    tokenListsByChain: stateTokenListsByChain,
     defaultSwapCurrency,
   } = useAppState()
 
@@ -67,7 +67,7 @@ export default function Interface(props: any) {
   const [menuLinks, setMenuLinks] = useState<LinkItem[]>(stateMenuLinks)
   const [socialLinks, setSocialLinks] = useState<string[]>(stateSocialLinks)
   const [addressesOfTokenLists, setAddressesOfTokenLists] = useState<string[]>(stateAddressesOfTokenLists)
-  // const [tokenLists, setTokenLists] = useState<any>(stateTokenListsByChain)
+  const [tokenLists, setTokenLists] = useState<any>(stateTokenListsByChain)
   const [swapInputCurrency, setSwapInputCurrency] = useState(defaultSwapCurrency.input || '')
   const [swapOutputCurrency, setSwapOutputCurrency] = useState(defaultSwapCurrency.output || '')
 
@@ -163,37 +163,37 @@ export default function Interface(props: any) {
     setPending(false)
   }
 
-  // const [newListChainId, setNewListChainId] = useState('')
-  // const [newListId, setNewListId] = useState('templatelist')
-  // const [isUniqueNewList, setIsUniqueNewList] = useState(false)
-  // const [canCreateNewList, setCanCreateNewList] = useState(false)
+  const [newListChainId, setNewListChainId] = useState('')
+  const [newListId, setNewListId] = useState('templatelist')
+  const [isUniqueNewList, setIsUniqueNewList] = useState(false)
+  const [canCreateNewList, setCanCreateNewList] = useState(false)
 
-  // useEffect(() => {
-  //   const isUnique = newListChainId && newListId && !tokenLists[newListChainId]?.[newListId]
+  useEffect(() => {
+    const isUnique = newListChainId && newListId && !tokenLists[newListChainId]?.[newListId]
 
-  //   setIsUniqueNewList(Boolean(isUnique))
-  //   setCanCreateNewList(Boolean(networks[newListChainId as keyof typeof networks] && newListId && isUnique))
-  // }, [newListChainId, newListId, tokenLists])
+    setIsUniqueNewList(Boolean(isUnique))
+    setCanCreateNewList(Boolean(networks[newListChainId as keyof typeof networks] && newListId && isUnique))
+  }, [newListChainId, newListId, tokenLists])
 
-  // const createNewTokenList = () => {
-  //   setTokenLists((oldData: any) => ({
-  //     ...oldData,
-  //     [newListChainId]: {
-  //       ...oldData[newListChainId],
-  //       [newListId]: {
-  //         name: 'Template list',
-  //         logoURI: '',
-  //         tokens: [],
-  //       },
-  //     },
-  //   }))
-  // }
+  const createNewTokenList = () => {
+    setTokenLists((oldData: any) => ({
+      ...oldData,
+      [newListChainId]: {
+        ...oldData[newListChainId],
+        [newListId]: {
+          name: 'Template list',
+          logoURI: '',
+          tokens: [],
+        },
+      },
+    }))
+  }
 
   return (
     <section>
       <div className={`${pending ? 'disabled' : ''}`}>
         {/* <OptionWrapper>
-          <InputPanel label={`${t('projectName')}`} value={projectName} onChange={setProjectName} />
+          // <InputPanel label={`${t('projectName')}`} value={projectName} onChange={setProjectName} />
         </OptionWrapper>
 
         <OptionWrapper>
@@ -257,7 +257,7 @@ export default function Interface(props: any) {
             network: STORAGE_NETWORK_NAME,
           })}
         </Button>
-        {/* 
+        
         <Title>{t('tokenLists')}</Title>
         <TokenLists pending={pending} setPending={setPending} tokenLists={tokenLists} />
 
@@ -280,7 +280,7 @@ export default function Interface(props: any) {
           <Button disabled={!canCreateNewList} onClick={createNewTokenList}>
             {t('createNewTokenList')}
           </Button>
-        </OptionWrapper> */}
+        </OptionWrapper>
       </div>
     </section>
   )

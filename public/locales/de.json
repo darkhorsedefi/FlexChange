@@ -293,5 +293,9 @@
   "explorer": "Explorer",
   "depositTokensToNetwork": "Token einzahlen auf {{network}} Netzwerk",
   "unsupportedNetwork": "Sie befinden sich in einem nicht unterstützten Netzwerk",
+  "disableMultihopsDescription": "Beschränkt Swaps nur auf direkte Paare.",
+  "toggleExpertModeDescription": "Umgeht Bestätigungsmodelle und ermöglicht Trades mit hohem Schlupf. Benutzung auf eigene Gefahr.",
+  "max": "Max",
+  "back": "Zurück",
   "onlyThisAddressCanAccessAppSettings": "Nur diese Adresse kann auf App-Einstellungen zugreifen und diese ändern"
 }

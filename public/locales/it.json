@@ -292,5 +292,9 @@
   "explorer": "Explorer",
   "depositTokensToNetwork": "Deposito gettoni per il {{network}} rete",
   "unsupportedNetwork": "Sei su una rete non supportata",
+  "disableMultihopsDescription": "Limita gli swap solo alle coppie dirette.",
+  "toggleExpertModeDescription": "Bypassa i modelli di conferma e consente scambi di slippage elevati. Utilizzare a proprio rischio.",
+  "max": "Max",
+  "back": "Indietro",
   "onlyThisAddressCanAccessAppSettings": "Solo questo indirizzo può accedere e modificare le impostazioni dell'app"
 }

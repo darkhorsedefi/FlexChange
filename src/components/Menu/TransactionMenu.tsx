@@ -22,7 +22,7 @@ const Divider = styled.div`
 const StyledTransactionsWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  padding: 1.5rem;
+  padding: 0.3rem;
   flex-grow: 1;
   overflow: auto;
   border-bottom-left-radius: 20px;

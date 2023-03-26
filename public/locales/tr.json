@@ -287,5 +287,9 @@
   "setTheOwner": "Sahibini ayarla",
   "setAddressAsThewnerOfDomain": "Adresinizi bu etki alanının sahibi olarak ayarlayın",
   "unsupportedNetwork": "Desteklenmeyen bir ağdasınız",
+  "disableMultihopsDescription": "Takasları yalnızca doğrudan çiftlerle sınırlar.",
+  "toggleExpertModeDescription": "Onay modellerini atlar ve yüksek kayma işlemlerine izin verir. Kendi sorumluluğunuzdadır kullanın.",
+  "max": "Maksimum",
+  "back": "Geri",
   "onlyThisAddressCanAccessAppSettings": "Uygulama ayarlarına yalnızca bu adres erişebilir ve bunları değiştirebilir"
 }

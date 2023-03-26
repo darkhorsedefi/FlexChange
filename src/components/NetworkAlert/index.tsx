@@ -39,7 +39,13 @@ const RootWrapper = styled.div`
   }
 `
 
-const ContentWrapper = styled.div<{ color: string; colorSoft: string; darkMode: boolean; logoUrl?: string }>`
+const ContentWrapper = styled.div<{
+  color: string
+  colorSoft: string
+  darkMode: boolean
+  logoUrl?: string
+  chainId?: number
+}>`
   background-image: ${({ colorSoft }) =>
     `radial-gradient(182.71% 205.59% at 2.81% 7.69%, ${colorSoft} 0%, var(--color-currency-search-item-hover) 100%)`};
   border-radius: 20px;
@@ -49,9 +55,22 @@ const ContentWrapper = styled.div<{ color: string; colorSoft: string; darkMode: 
   position: relative;
   width: 100%;
   transition: 0.1s;
+  overflow: hidden;
 
   :hover {
     opacity: 0.7;
+  }
+
+  ::before {
+    background-image: url(${({ chainId }) => (chainId ? CURRENCY[chainId as keyof typeof CURRENCY] : '')});
+    background-repeat: no-repeat;
+    background-size: 300px;
+    content: '';
+    height: 300px;
+    opacity: 0.15;
+    position: absolute;
+    transform: rotate(25deg) translate(-90px, -40px);
+    width: 300px;
   }
 `
 const Header = styled.h2`
@@ -61,6 +80,8 @@ const Header = styled.h2`
 `
 
 const LinkOutToBridge = styled(ExternalLink)`
+  position: relative;
+  z-index: 1;
   align-items: center;
   border-radius: 8px;
   color: white;
@@ -89,7 +110,7 @@ export default function NetworkAlert() {
 
   return bridge ? (
     <RootWrapper>
-      <ContentWrapper color={color} colorSoft={colorSoft} darkMode={darkMode}>
+      <ContentWrapper color={color} colorSoft={colorSoft} darkMode={darkMode} chainId={chainId}>
         <LinkOutToBridge href={bridge}>
           <BodyText color={color}>
             {CURRENCY[String(chainId) as keyof typeof networks] && (

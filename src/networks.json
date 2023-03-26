@@ -66,6 +66,7 @@
     "colorSoft": "rgba(204, 156, 0, 0.16)",
     "storage": "0xa7472f384339D37EfE505a1A71619212495A973A",
     "multicall": "0x41263cBA59EB80dC200F3E2544eda4ed6A90E76C",
+    "bridge": "https://cbridge.celer.network/1/56/USDC",
     "baseCurrency": {
       "decimals": 18,
       "name": "BNB",
@@ -253,13 +254,14 @@
   },
   "97": {
     "name": "BSC testnet",
-    "rpc": "https://bsc-testnet.public.blastapi.io",
+    "rpc": "https://endpoints.omniatech.io/v1/bsc/testnet/public",
     "chainId": 97,
     "explorer": "https://testnet.bscscan.com",
     "color": "#CC9B00",
     "colorSoft": "rgba(204, 156, 0, 0.16)",
     "storage": "0x91a0DCC7a78Da02244212D36eAFd9E0dBB3174B4",
     "multicall": "0xAEd1D4cD398a21d8AdAf0203C1acb864D3553C50",
+    "bridge": "https://cbridge.celer.network/1/56/USDC",
     "baseCurrency": {
       "decimals": 18,
       "name": "BNB",

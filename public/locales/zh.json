@@ -285,5 +285,9 @@
   "explorer": "探险者",
   "depositTokensToNetwork": "将令牌存入{{network}}网络",
   "unsupportedNetwork": "您在不受支持的网络上",
+  "disableMultihopsDescription": "仅将掉期限制为直接对。",
+  "toggleExpertModeDescription": "绕过确认模型并允许高滑点交易。 使用风险自负。",
+  "max": "麦克斯",
+  "back": "返回",
   "onlyThisAddressCanAccessAppSettings": "只有这个地址才能访问和更改应用程序设置"
 }

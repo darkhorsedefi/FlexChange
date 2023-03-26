@@ -71,7 +71,7 @@ export default function Pool() {
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
   const tokenPairsWithLiquidityTokens = useMemo(() => {
-    if (!factory || !pairHash) return []
+    if (!(factory && pairHash)) return []
 
     return trackedTokenPairs.map((tokens) => ({
       liquidityToken: toV2LiquidityToken(tokens, factory, pairHash),
@@ -153,7 +153,7 @@ export default function Pool() {
                     {t('noLiquidityFound')}
                   </TYPE.body>
                 </EmptyProposals>
-                <ButtonSecondary as={Link} to={`/find`}>
+                <ButtonSecondary as={Link} to={"/find"}>
                   {t('findManually')}
                 </ButtonSecondary>
               </>

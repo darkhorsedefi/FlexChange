@@ -285,5 +285,9 @@
   "explorer": "אקספלורר",
   "depositTokensToNetwork": "הפקדת אסימונים לרשת {{network}}",
   "unsupportedNetwork": "אתה נמצא ברשת לא נתמכת",
+  "disableMultihopsDescription": "מגביל החלפות לזוגות ישירים בלבד.",
+  "toggleExpertModeDescription": "עוקף מודלים אישור ומאפשר עסקאות החלקה גבוהה. השתמש על אחריותך בלבד.",
+  "max": "מקס",
+  "back": "חזרה",
   "onlyThisAddressCanAccessAppSettings": "רק כתובת זו יכולה לגשת ולשנות את הגדרות האפליקציה"
 }

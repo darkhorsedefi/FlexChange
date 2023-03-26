@@ -285,5 +285,9 @@
   "explorer": "Explorador",
   "depositTokensToNetwork": "Deposite tokens en el {{network}} red",
   "unsupportedNetwork": "Estás en una red no compatible",
+  "disableMultihopsDescription": "Restringe los swaps solo a pares directos.",
+  "toggleExpertModeDescription": "Omite los modelos de confirmación y permite operaciones de alto deslizamiento. Úselo bajo su propio riesgo.",
+  "max": "Máx.",
+  "back": "Volver",
   "onlyThisAddressCanAccessAppSettings": "Solo esta dirección puede acceder y cambiar la configuración de la aplicación"
 }

@@ -38,8 +38,8 @@ export const HoverCard = styled(Card)`
 const StyledPositionCard = styled(LightCard)<{ bgColor: any }>`
   position: relative;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.primary1};
-  background: ${({ theme }) => theme.bg1};
+  border: 1px solid var(--color-text-secondary);
+  background: var(--color-background-surface);
 `
 
 const IconWrapper = styled.div`
