@@ -58,6 +58,10 @@ const NavlLinks = styled(Row)`
   padding: 0.3rem;
   justify-content: center;
 
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge`
+    font-size: 0.9rem;
+  `};
+
   ${({ theme }) => theme.mediaWidth.upToLarge`
     margin: 0;
     margin-left: 4%;
@@ -104,7 +108,7 @@ const Icon = styled.div`
 `
 
 const LogoImage = styled.img`
-  width: 100%;
+  width: 70%;
 `
 
 const activeClassName = 'ACTIVE'
@@ -136,6 +140,26 @@ const linkStyles = css`
   &.${activeClassName} {
     color: ${({ theme }) => theme.text1};
   }
+
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    margin: 1px 0;
+    padding: 4px 10px;
+    line-height: 22px;
+
+    &:not(:last-child) {
+      margin-right: 0.08rem;
+    }
+  `};
+
+  ${({ theme }) => theme.mediaWidth.mobile`
+    margin: 4px 0;
+    padding: 8px 16px;
+    line-height: 24px;
+
+    &:not(:last-child) {
+      margin-right: 0.16rem;
+    }
+  `};
 `
 
 const StyledNavLink = styled(NavLink).attrs({
@@ -147,6 +171,28 @@ const StyledNavLink = styled(NavLink).attrs({
 const StyledExternalLink = styled.a`
   ${linkStyles}
   align-items: center;
+`
+
+const StyledExternalLinkButton = styled.a`
+  ${linkStyles}
+  align-items: center;
+  background-color: var(--color-nav-link-background-hover);
+
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge`
+    font-size: 0.9rem;
+  `};
+
+  ${({ theme }) => theme.mediaWidth.mobile`
+    display: none;
+  `};
+`
+
+const StyledShowOnMobile = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaWidth.mobile`
+    display: contents;
+  `};
 `
 
 export default function Header() {
@@ -180,15 +226,27 @@ export default function Header() {
             {t('pool')}
           </StyledNavLink>
 
-          <StyledExternalLink href="https://t.me/PremiumCoffee_Bot" target="_blank">
-            <span className="name">Airdrop</span> <RiArrowRightUpLine />
+          <StyledExternalLink href="https://www.miningtaxi.com/driver" target="_blank">
+            <span className="name">Driver</span> <RiArrowRightUpLine />
           </StyledExternalLink>
-          <StyledExternalLink href="https://staking.premium.coffee" target="_blank">
-            <span className="name">Стэйкинг</span> <RiArrowRightUpLine />
+          <StyledExternalLink href="https://www.miningtaxi.com/rider" target="_blank">
+            <span className="name">Rider</span> <RiArrowRightUpLine />
           </StyledExternalLink>
-          <StyledExternalLink href="https://farming.premium.coffee" target="_blank">
-            <span className="name">Фарминг</span> <RiArrowRightUpLine />
+          <StyledExternalLink href="https://www.miningtaxi.com/community" target="_blank">
+            <span className="name">Community</span> <RiArrowRightUpLine />
           </StyledExternalLink>
+          <StyledExternalLink href="https://www.miningtaxi.com/crypto" target="_blank">
+            <span className="name">Crypto</span> <RiArrowRightUpLine />
+          </StyledExternalLink>
+
+          <StyledShowOnMobile>
+            <StyledExternalLink href="https://www.miningtaxi.com/earning" target="_blank">
+              <span className="name">Earning</span> <RiArrowRightUpLine />
+            </StyledExternalLink>
+            <StyledExternalLink href="https://www.miningtaxi.com/governance" target="_blank">
+              <span className="name">Governance</span> <RiArrowRightUpLine />
+            </StyledExternalLink>
+          </StyledShowOnMobile>
 
           {Boolean(navigationLinks.length) &&
             navigationLinks.map((item: { source: string; name: string }, index) => (
@@ -201,6 +259,12 @@ export default function Header() {
 
       <HeaderControls>
         <HeaderElement>
+          <StyledExternalLinkButton href="https://www.miningtaxi.com/earning" target="_blank">
+            Earning
+          </StyledExternalLinkButton>
+          <StyledExternalLinkButton href="https://www.miningtaxi.com/governance" target="_blank">
+            Governance
+          </StyledExternalLinkButton>
           <StyledNetworkSelectorWrapper>
             <NetworkSelector currentChainId={chainId} />
           </StyledNetworkSelectorWrapper>

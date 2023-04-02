@@ -65,6 +65,7 @@ declare module 'styled-components' {
       upToSmall: ThemedCssFunction<DefaultTheme>
       upToMedium: ThemedCssFunction<DefaultTheme>
       upToLarge: ThemedCssFunction<DefaultTheme>
+      upToExtraLarge: ThemedCssFunction<DefaultTheme>
       laptop: ThemedCssFunction<DefaultTheme>
       tabletL: ThemedCssFunction<DefaultTheme>
       tabletM: ThemedCssFunction<DefaultTheme>

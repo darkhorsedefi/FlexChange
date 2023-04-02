@@ -50,7 +50,7 @@ const StyledNetworkImg = styled.img`
 const StyledName = styled.span`
   margin-right: 0.5rem;
 
-  ${({ theme }) => theme.mediaWidth.upToLarge`
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge`
     display: none;
   `};
 `

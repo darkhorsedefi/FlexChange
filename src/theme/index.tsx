@@ -12,6 +12,7 @@ const MEDIA_WIDTHS = {
   upToSmall: 720,
   upToMedium: 960,
   upToLarge: 1280,
+  upToExtraLarge: 1390,
   // ------------
   laptop: 1024,
   tabletL: 880,

@@ -1,8 +1,8 @@
 {
   "background_color": "#fff",
   "display": "standalone",
-  "short_name": "Premium.Coffee",
-  "name": "Premium.Coffee",
+  "short_name": "Crypto | Business.BET",
+  "name": "Crypto | Business.BET",
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -18,7 +18,7 @@
     }
   ],
   "orientation": "portrait",
-  "description": "Swap or provide liquidity on the Premium.Coffee",
-  "theme_color": "#ea8636",
+  "description": "Swap or provide liquidity on the Mining.Taxi",
+  "theme_color": "#7158E8",
   "start_url": "."
 }

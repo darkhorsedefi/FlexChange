@@ -82,10 +82,10 @@
   --purple300: '#8440F2';
   --purple900: '#1C0337';
 
-  --color-brand: #ea8636;
-  --color-brand-hover: #f29952;
-  --color-brand-background: #f29a5229;
-  --color-brand-gradient-background: rgba(242, 154, 82, 0.13);
+  --color-brand: #7158e8;
+  --color-brand-hover: #7371ff;
+  --color-brand-background: #7371ff29;
+  --color-brand-gradient-background: rgba(115, 113, 255, 0.13);
   --color-gradient-background-end-light: rgba(255, 255, 255, 0);
   --color-gradient-background-end-dark: rgba(34, 30, 48, 0.655);
   --color-page-background: #fff;
@@ -137,10 +137,10 @@
 }
 
 [data-scheme='dark'] {
-  --color-brand: #ea8636;
-  --color-brand-hover: #f29952;
-  --color-brand-background: #f29a5229;
-  --color-brand-gradient-background: rgba(242, 154, 82, 0.17);
+  --color-brand: #7158e8;
+  --color-brand-hover: #7371ff;
+  --color-brand-background: #7371ff29;
+  --color-brand-gradient-background: rgba(115, 113, 255, 0.17);
   --color-brand-gradient-background-end: rgba(34, 30, 48, 0.655);
   --color-page-background: #070816;
   --color: #fff;
